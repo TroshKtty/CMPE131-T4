@@ -9,7 +9,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Default route: Landing page where users select login type */}
+        {/*KENNY WAS HERE*/}
+
+        {/* Default route: Landing page where users select login type */}   
         <Route path="/" element={<SelectLoginType />} />
 
         {/* Route for Admin/Wholesaler login */}
