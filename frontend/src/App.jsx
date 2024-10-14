@@ -4,7 +4,8 @@ import HomePage from '@/components/HomePage';  // Import your homepage component
 import SelectLoginType from '@/components/SelectLoginType';
 import AdminLogin from '@/components/AdminLogin';
 import CustomerLogin from '@/components/CustomerLogin';
-import '@/styles/LoginPage.css';
+import Tomato from '@/components/tomatopage';
+//import '@/styles/LoginPage.css';
 
 function App() {
   return (
@@ -21,6 +22,10 @@ function App() {
 
         {/* Route for Customer login */}
         <Route path="/customer-login" element={<CustomerLogin />} />
+
+        {/*Route for Tomato Individual Product Page*/}
+        <Route path="/tomatopage" element={<Tomato />} />
+
       </Routes>
     </Router>
   );
