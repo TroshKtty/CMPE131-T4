@@ -1,15 +1,13 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
-import HomePage from "@/pages/home/page";
 import AdminLoginPage from "@/pages/admin-login/page";
 import CustomerLoginPage from "@/pages/customer-login/page";
-import ProductsPage from "@/pages/products/page";
+import HomePage from "@/pages/home/page";
 import IndividualProductPage from "@/pages/products/individual/page";
+import ProductsPage from "@/pages/products/page";
 
 import NavBar from "@/components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
-
-import "./App.css";
 
 export default function App() {
   return (
