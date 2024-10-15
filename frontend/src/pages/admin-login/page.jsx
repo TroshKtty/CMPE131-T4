@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import GoogleLoginButton from '@/components/GoogleLoginButton';
-import '@/styles/AdminLogin.css';
+import GoogleLoginButton from "@/components/GoogleLoginButton";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./styles.css";
 
-const AdminLogin = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export default function AdminLoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
     // Handle admin/wholesaler login logic here, e.g., sending data to the backend API
-    console.log('Admin login:', { email, password });
+    console.log("Admin login:", { email, password });
   };
 
   const goBack = () => {
-    navigate('/');
+    navigate("/");
   };
 
   return (
     <div className="admin-login-page">
       <h1 className="company-name">OFS</h1>
-      
+
       <h2 className="login-heading">Admin/Wholesaler Login</h2>
       <form onSubmit={handleLogin} className="login-form">
         <input
@@ -40,12 +40,14 @@ const AdminLogin = () => {
           className="login-input"
           required
         />
-        <button type="submit" className="login-button">Log In</button>
+        <button type="submit" className="login-button">
+          Log In
+        </button>
         <GoogleLoginButton />
-        <button onClick={goBack} className="go-back-button">Go Back</button>
+        <button onClick={goBack} className="go-back-button">
+          Go Back
+        </button>
       </form>
     </div>
   );
-};
-
-export default AdminLogin;
+}

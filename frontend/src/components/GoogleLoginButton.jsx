@@ -1,9 +1,7 @@
-import React from 'react';
-
-const GoogleLoginButton = () => {
+export default function GoogleLoginButton() {
   const handleGoogleLogin = () => {
     // Implement Google login logic here, e.g., using Google API
-    console.log('Google login triggered');
+    console.log("Google login triggered");
   };
 
   return (
@@ -11,6 +9,4 @@ const GoogleLoginButton = () => {
       Log in with Google
     </button>
   );
-};
-
-export default GoogleLoginButton;
+}

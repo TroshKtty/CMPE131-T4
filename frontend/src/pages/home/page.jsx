@@ -1,27 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import '@/styles/HomePage.css';
+import "./styles.css";
 
-const HomePage = () => {
+export default function HomePage() {
   return (
     <div className="homepage">
       {/* Header */}
-      <header className="header">
-        <div className="logo">
-          <h1>OFS</h1>
-        </div>
-        <nav className="nav">
-          <Link to="/products">Products</Link>
-          <Link to="/cart">Cart</Link>
-          <Link to="/customer-login">Login</Link>
-        </nav>
-      </header>
-
-      {/* Banner Section */}
       <section className="banner">
         <div className="banner-text">
           <h2>Shop Fresh, Organic Products</h2>
-          <p>Everything you need for a healthy lifestyle, delivered to your door.</p>
+          <p>
+            Everything you need for a healthy lifestyle, delivered to your door.
+          </p>
           <button>Shop Now</button>
         </div>
       </section>
@@ -48,14 +36,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="footer">
-        <p>&copy; 2024 OFS. All rights reserved.</p>
-        <p>Contact us at: support@ofs.com</p>
-      </footer>
     </div>
   );
-};
-
-export default HomePage;
+}
