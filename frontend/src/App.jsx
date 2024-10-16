@@ -6,8 +6,8 @@ import HomePage from "@/pages/home/page";
 import IndividualProductPage from "@/pages/products/individual/page";
 import ProductsPage from "@/pages/products/page";
 
-import NavBar from "@/components/navbar/Navbar";
-import Footer from "./components/footer/Footer";
+import NavBar from "@/components/Navbar";
+import Footer from "@/components/footer/Footer";
 
 export default function App() {
   return (
@@ -23,7 +23,7 @@ export default function App() {
         <Route path="/customer-login" element={<CustomerLoginPage />} />
 
         {/* Route for searching products */}
-        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/search" element={<ProductsPage />} />
         {/* Route for an individual product */}
         {/* For now, this path will do but should be a query param or search param */}
         <Route
