@@ -12,26 +12,37 @@ import Footer from "@/components/footer/Footer";
 export default function App() {
   return (
     <Router>
-      <NavBar />
       <Routes>
-        {/* Root page */}
-        <Route path="/" element={<HomePage />} />
-
         {/* Route for Admin/Wholesaler login */}
         <Route path="/admin-login" element={<AdminLoginPage />} />
         {/* Route for Customer login */}
         <Route path="/customer-login" element={<CustomerLoginPage />} />
 
-        {/* Route for searching products */}
-        <Route path="/search" element={<ProductsPage />} />
-        {/* Route for an individual product */}
-        {/* For now, this path will do but should be a query param or search param */}
         <Route
-          path="/products/individual"
-          element={<IndividualProductPage />}
+          path="/*"
+          element={
+            <>
+              <NavBar />
+
+              <Routes>
+                {/* Root page */}
+                <Route path="/" element={<HomePage />} />
+
+                {/* Route for searching products */}
+                <Route path="/search" element={<ProductsPage />} />
+                {/* Route for an individual product */}
+                {/* For now, this path will do but should be a query param or search param */}
+                <Route
+                  path="/products/individual"
+                  element={<IndividualProductPage />}
+                />
+              </Routes>
+
+              <Footer />
+            </>
+          }
         />
       </Routes>
-      <Footer />
     </Router>
   );
 }
