@@ -6,7 +6,7 @@ import HomePage from "@/pages/home/page";
 import IndividualProductPage from "@/pages/products/individual/page";
 import ProductsPage from "@/pages/products/page";
 
-import NavBar from "@/components/Navbar";
+import NavBar from "@/components/NavBar";
 import Footer from "@/components/footer/Footer";
 
 export default function App() {
