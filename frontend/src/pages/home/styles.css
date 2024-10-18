@@ -37,12 +37,14 @@ body {
   font-size: 3rem;
   margin-bottom: 20px;
   letter-spacing: 1px;
+  text-shadow: 1px 1px 1px hsla(0, 0%, 0%, 0.288);
 }
 
 .banner p {
   font-size: 1.2rem;
   margin-bottom: 30px;
   letter-spacing: 0.5px;
+  text-shadow: 1px 1px 1px hsla(0, 0%, 0%, 0.205);
 }
 
 .banner button {
