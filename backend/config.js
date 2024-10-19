@@ -25,7 +25,7 @@ function getConnection() {
   return connection;
 }
 
-//test connection
+/*//test connection
 function testConnection() {
   const connection = getConnection();
   connection.query('SELECT 7 * 3 AS solution', (error, results) => {
@@ -39,3 +39,6 @@ function testConnection() {
 }
 
 testConnection();
+*/
+
+module.exports = connection;
