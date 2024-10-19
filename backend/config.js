@@ -1,10 +1,41 @@
-const { Sequelize } = require('sequelize');
+//mysql library
+const mysql = require('mysql');
 
-// Connecting to MySQL in XAMPP with the default 'root' user (no password)
-const sequelize = new Sequelize('ofsdb', 'root', '', {  // '' for no password
-  host: 'localhost',
-  dialect: 'mysql',
-  port: 3306 // Default MySQL port for XAMPP
-});
+//configure connection to db
+function getConnection() {
+  const options = {
+    host: "34.173.36.191",
+    user: "root",
+    password: "OFS@2024",
+    database: "OFS"
+  };
 
-module.exports = sequelize;
+  //connect to db
+  const connection = mysql.createConnection(options);
+
+  //error handling
+  connection.connect((error) => {
+    if (error) {
+      console.error('Error connecting to the database:', error);
+      return;
+    }
+    console.log('Connected to the database successfully.');
+  });
+
+  return connection;
+}
+
+//test connection
+function testConnection() {
+  const connection = getConnection();
+  connection.query('SELECT 7 * 3 AS solution', (error, results) => {
+    if (error) {
+      console.error('Error executing query:', error);
+      return;
+    }
+    console.log('The solution is:', results[0].solution);
+    connection.end();
+  });
+}
+
+testConnection();
