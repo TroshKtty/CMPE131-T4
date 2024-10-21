@@ -8,7 +8,7 @@ export default function BananaProductPage() {
           <img src="/bananas.jpg" alt="6 Fresh Organic Bananas" />
         </section>
         <section className="product-details">
-          <h1 className="no-wrap">6 Fresh Organic Bananas, 2 lb</h1>
+          <h1 className="no-wrap">6 Fresh Organic Bananas, 2 lbs</h1>
           <div className="section1">
             <ul>
               <h3>About this Item:</h3>

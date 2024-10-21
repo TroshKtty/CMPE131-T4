@@ -31,12 +31,18 @@ body {
 
 .tomato-image img {
   width: 90%;
-  height: 60%;
+  height: auto;
 }
 
 .banana-image img {
   width: 90%;
-  height: 70%;
+  height: auto;
+}
+
+.water-image img {
+  margin-top: 30px;
+  width: 90%;
+  height: auto;
 }
 
 .product-details {
@@ -70,6 +76,10 @@ button:hover {
 
 .section2 {
   margin-top: 30px;
+}
+
+.section3 {
+  margin-top: 20px;
 }
 
 .DescriptionProduct {

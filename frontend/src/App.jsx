@@ -6,6 +6,7 @@ import HomePage from "@/pages/home/page";
 
 import TomatoProductPage from "@/pages/products/individual/tomatopage";
 import BananaProductPage from "@/pages/products/individual/bananapage";
+import WaterProductPage from "./pages/products/individual/waterpage";
 
 import ProductsPage from "@/pages/products/page";
 
@@ -42,6 +43,10 @@ export default function App() {
                 <Route
                   path="/products/individual/banana"
                   element={<BananaProductPage />}
+                />
+                <Route
+                  path="/products/individual/water"
+                  element={<WaterProductPage />}
                 />
               </Routes>
 
