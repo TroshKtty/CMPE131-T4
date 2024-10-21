@@ -1,69 +1,55 @@
 import "./styles.css";
 
-export default function IndividualProductPage() {
+export default function BananaProductPage() {
   return (
-    <div className="tomatopage">
+    <div className="individualpage">
       <div className="product-display">
-        <section className="product-image">
-          <img src="/tomatoes.jpg" alt="4 Fresh Tomatoes" />
+        <section className="banana-image">
+          <img src="/bananas.jpg" alt="6 Fresh Organic Bananas" />
         </section>
         <section className="product-details">
-          <h1 className="no-wrap">4 Fresh Tomatoes, 1 lb</h1>
+          <h1 className="no-wrap">6 Fresh Organic Bananas, 2 lbs</h1>
           <div className="section1">
             <ul>
               <h3>About this Item:</h3>
               <li>
                 <div className="DescriptionProduct" id="Description1">
-                  Wholesome, fresh, versatile, and delicious
+                  Sweet, tropical flavor
                 </div>
               </li>
               <li>
                 <div className="DescriptionProduct" id="Description2">
-                  Ideal ingredient for a variety of dishes
+                  Good source of potassium, vitamin B6 and vitamin C and low in sodium
                 </div>
               </li>
               <li>
                 <div className="DescriptionProduct" id="Description3">
-                  Enjoy on burgers, sandwiches, and more
+                  Enjoy at breakfast, lunch, dessert, or whenever you want a snack
                 </div>
               </li>
               <li>
                 <div className="DescriptionProduct" id="Description4">
-                  Perfect for making tomato sauces
-                </div>
-              </li>
-              <li>
-                <div className="DescriptionProduct" id="Description5">
-                  Excellent for homemade salsa
-                </div>
-              </li>
-              <li>
-                <div className="DescriptionProduct" id="Description6">
-                  Create a mouthwatering salad or appetizer
+                  Make banana bread or banana pudding
                 </div>
               </li>
             </ul>
-          </div>
-        </section>
 
-        <section className="product-details">
-          <p className="price-per-pound">Price: $1.28</p>
-          <button type="button">ADD TO CART</button>
+            <section className="product-details">
           <div className="section2">
             <ul>
               <p>Specifications:</p>
               <div className="Specification" id="spec1">
                 Food Allergen Statements
               </div>
-              <div className="Description" id="glutten">
-                Glutten-Free
+              <div className="Description" id="fruit">
+                Contains Fruit
               </div>
 
               <div className="Specification" id="spec2">
-                Vegetable Type
+                Fruit Type
               </div>
               <div className="Description" id="tomato">
-                Tomato
+                Banana
               </div>
 
               <div className="Specification" id="spec3">
@@ -91,25 +77,26 @@ export default function IndividualProductPage() {
                 Container Type
               </div>
               <div className="Description" id="container">
-                No Container
+                Bag
               </div>
 
               <div className="Specification" id="spec7">
-                Retail Packaging
-              </div>
-              <div className="Description" id="pack">
-                Single Pack
-              </div>
-
-              <div className="Specification" id="spec8">
                 Nutrient Content Claims
               </div>
               <div className="Description" id="container">
-                No Artificial Ingredients
+                Organic
               </div>
             </ul>
           </div>
         </section>
+          </div>
+        </section>
+
+        <section className="product-details">
+          <p className="price-per-pound">Price: $1.80</p>
+          <button type="button">ADD TO CART</button>
+          </section>
+
       </div>
     </div>
   );
