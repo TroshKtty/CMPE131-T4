@@ -1,14 +1,14 @@
 import "./styles.css";
 
-export default function IndividualProductPage() {
+export default function TomatoProductPage() {
   return (
-    <div className="tomatopage">
+    <div className="individualpage">
       <div className="product-display">
-        <section className="product-image">
-          <img src="/tomatoes.jpg" alt="4 Fresh Tomatoes" />
+        <section className="tomato-image">
+          <img src="/tomatoes.jpg" alt="4 Fresh Organic Tomatoes" />
         </section>
         <section className="product-details">
-          <h1 className="no-wrap">4 Fresh Tomatoes, 1 lb</h1>
+          <h1 className="no-wrap">4 Fresh Organic Tomatoes, 1 lb</h1>
           <div className="section1">
             <ul>
               <h3>About this Item:</h3>
@@ -43,12 +43,8 @@ export default function IndividualProductPage() {
                 </div>
               </li>
             </ul>
-          </div>
-        </section>
-
-        <section className="product-details">
-          <p className="price-per-pound">Price: $1.28</p>
-          <button type="button">ADD TO CART</button>
+            
+            <section className="product-details">
           <div className="section2">
             <ul>
               <p>Specifications:</p>
@@ -60,7 +56,7 @@ export default function IndividualProductPage() {
               </div>
 
               <div className="Specification" id="spec2">
-                Vegetable Type
+                Fruit Type
               </div>
               <div className="Description" id="tomato">
                 Tomato
@@ -91,7 +87,7 @@ export default function IndividualProductPage() {
                 Container Type
               </div>
               <div className="Description" id="container">
-                No Container
+                Bag
               </div>
 
               <div className="Specification" id="spec7">
@@ -105,11 +101,19 @@ export default function IndividualProductPage() {
                 Nutrient Content Claims
               </div>
               <div className="Description" id="container">
-                No Artificial Ingredients
+                Organic
               </div>
             </ul>
           </div>
         </section>
+          </div>
+        </section>
+
+        <section className="product-details">
+          <p className="price-per-pound">Price: $1.28</p>
+          <button type="button">ADD TO CART</button>
+          </section>
+
       </div>
     </div>
   );

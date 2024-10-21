@@ -3,7 +3,10 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import AdminLoginPage from "@/pages/admin-login/page";
 import CustomerLoginPage from "@/pages/customer-login/page";
 import HomePage from "@/pages/home/page";
-import IndividualProductPage from "@/pages/products/individual/page";
+
+import TomatoProductPage from "@/pages/products/individual/tomatopage";
+import BananaProductPage from "@/pages/products/individual/bananapage";
+
 import ProductsPage from "@/pages/products/page";
 
 import NavBar from "@/components/NavBar";
@@ -33,8 +36,12 @@ export default function App() {
                 {/* Route for an individual product */}
                 {/* For now, this path will do but should be a query param or search param */}
                 <Route
-                  path="/products/individual"
-                  element={<IndividualProductPage />}
+                  path="/products/individual/tomato"
+                  element={<TomatoProductPage />}
+                />
+                <Route
+                  path="/products/individual/banana"
+                  element={<BananaProductPage />}
                 />
               </Routes>
 

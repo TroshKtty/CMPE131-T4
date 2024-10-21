@@ -13,7 +13,7 @@ body {
 }
 
 /* Homepage layout */
-.tomatopage {
+.individualpage {
   width: 100vw; /* Full viewport width */
   min-height: 100vh; /* Full viewport height */
   display: flex;
@@ -29,9 +29,14 @@ body {
   padding: 20px;
 }
 
-.product-image img {
+.tomato-image img {
   width: 90%;
-  height: 90%;
+  height: 60%;
+}
+
+.banana-image img {
+  width: 90%;
+  height: 70%;
 }
 
 .product-details {
@@ -45,13 +50,14 @@ body {
 }
 
 button {
-  border-radius: 30px;
+  border-radius: 100px;
   margin-top: 10px;
   background-color: #0071ce;
   color: white;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 button:hover {
@@ -59,15 +65,15 @@ button:hover {
 }
 
 .section1 {
-  margin-top: 63px;
-}
-
-.section2 {
   margin-top: 20px;
 }
 
-.DescriptionProduct {
+.section2 {
   margin-top: 30px;
+}
+
+.DescriptionProduct {
+  margin-top: 10px;
   white-space: nowrap;
 }
 
