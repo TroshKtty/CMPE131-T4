@@ -1,25 +1,37 @@
-import image1 from "/1.jpg"
-import image2 from "/2.jpg"
-import image3 from "/3.jpg"
-
+import "./styles.css";
 import PropTypes from 'prop-types'
-import {useState} from "react"
-
 import {Swiper, SwiperSlide} from 'swiper/react'
 import {Navigation, Thumbs} from 'swiper/modules'
-
-import "./styles.css";
-
-export default function Product() {
-    const [currentImage, setCurrentImage] = useState(0);
-    const productImages = [image1, image2, image3];
-    return (
-        <Swiper className="gallary" loop={true} spaceBetween={10} navigation={true} modules={[Navigation, Thumbs]} grabCursor={true}> 
-                    <img src={productImages[0]} alt="product image"/>
-                    <img src={productImages[1]} alt="product image"/>
-                    <img src={productImages[2]} alt="product image"/>
+import {useState} from 'react';
+ 
+const Product = props => {
+    const [activeThumb, setActiveThumb] = useState();
+    return <>
+        <Swiper className="gallary" loop={true} spaceBetween={10} navigation={true} modules={[Navigation, Thumbs]} grabCursor={true} thumbs={{swiper : activeThumb}}> 
+            {
+                props.images.map((item,index) => (
+                    <SwiperSlide key = {index}>
+                        <img src={item} alt="proudct images"/>
+                    </SwiperSlide>
+                ))
+            }
         </Swiper>
-
-      
-    );
+        <Swiper className="gallary-thumbs" loop={true} spaceBetween={10} slidesPerView={3} modules={[Navigation, Thumbs]}> 
+            {
+                props.images.map((item,index) => (
+                    <SwiperSlide key = {index}>
+                        <div className="gallary-thumbs-wrapper">
+                            <img src={item} alt="proudct images"/>
+                        </div>
+                    </SwiperSlide>
+                ))
+            }
+        </Swiper>
+    </>
   }
+  
+  Product.propTypes = {
+    images: PropTypes.array.isRequired
+  }
+
+  export default Product
