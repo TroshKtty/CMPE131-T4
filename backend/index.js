@@ -5,8 +5,7 @@ const connection = require('./config');
 const loginRoute = require('./routes/login_route');
 
 const app = express();
-app.use(bodyParser.json());
-
+app.use(express.json());
 
 // Use the login route under the '/api' path
 app.use('/api/login', loginRoute);
