@@ -16,9 +16,9 @@ function NavLink({ children, ...props }) {
       sx={{
         textDecoration: "none",
         color: "primary.solidColor",
-        // Underline on hover
+        // Remove underline on hover
         "&:hover": {
-          textDecoration: "underline",
+          textDecoration: "none",
         },
       }}
     >
