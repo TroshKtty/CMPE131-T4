@@ -1,0 +1,51 @@
+.gallary{
+    width: 500px;
+    position: relative;
+    .swiper {
+        width: 100%;
+        height: 100%;
+    }
+    .swiper-slide {
+        height: auto;
+    }
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0px;
+}
+
+.gallary-thumbs{
+    top: 10px;
+    max-width: 300px;
+    .swiper {
+        width: 100%;
+        height: 100%;
+    }
+    .swiper-slide{
+        cursor: pointer;
+        border: 1px solid black; 
+        height: auto;
+
+        .swiper-slide-thumb-active{
+            border-color: red;
+        }
+    }
+
+    .gallary-thumbs-wrapper{
+        width: 100%;
+        padding-top: 100%;
+        overflow: hidden;
+        position: relative;
+
+        img{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+    }
+}

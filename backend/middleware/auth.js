@@ -3,10 +3,10 @@ const jwt = require('jsonwebtoken');
 const auth = (req, res, next) => {
   const token = req.header('Authorization');
   
-  if (!token) return res.status(401).json({ message: 'Access denied' });
+  if (!token) return res.status(403).send('Access denied. No token provided');
   
   try {
-    const decoded = jwt.verify(token, 'your_jwt_secret');
+    const decoded = jwt.verify(token, 'ayoXB51iOnhddwL83jxFY97MTAyZsoD8');
     req.customer = decoded;
     next();
   } catch (ex) {

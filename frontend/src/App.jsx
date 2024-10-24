@@ -1,7 +1,9 @@
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes} from "react-router-dom";
 
-import AdminLoginPage from "@/pages/admin-login/page";
+//import AdminLoginPage from "@/pages/admin-login/page";
 import CustomerLoginPage from "@/pages/customer-login/page";
+import AdminDashboard from '@/pages/admin_dashboard';
+import EmployeeDashboard from '@/pages/employee_dashboard';
 import HomePage from "@/pages/home/page";
 import IndividualProductPage from "@/pages/products/individual/page";
 import ProductsPage from "@/pages/products/page";
@@ -13,11 +15,21 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        {/* Route for Admin/Wholesaler login */}
-        <Route path="/admin-login" element={<AdminLoginPage />} />
+        
         {/* Route for Customer login */}
         <Route path="/customer-login" element={<CustomerLoginPage />} />
+        
+        {/* Route for Admin/Wholesaler login */}
+        <Route path="/admin_dashboard" element={<AdminDashboard/>} />
 
+        {/* Route for Admin/Wholesaler login */}
+        <Route path="/employee_dashboard" element={<EmployeeDashboard/>} />
+
+        
+        
+
+        {/* Route for Admin/Wholesaler login */}
+        
         <Route
           path="/*"
           element={
@@ -45,4 +57,4 @@ export default function App() {
       </Routes>
     </Router>
   );
-}
+};

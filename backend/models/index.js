@@ -1,4 +1,4 @@
-const sequelize = require('../config');
+const sequelize = require('../config.js');
 
 // Import all models
 const Customer = require('./customer');

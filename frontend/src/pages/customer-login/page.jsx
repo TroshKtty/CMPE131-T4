@@ -1,18 +1,25 @@
 import GoogleLoginButton from "@/components/GoogleLoginButton";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 import "./styles.css";
 
 export default function CustomerLoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [otp, setOtp] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Handle customer login logic here, e.g., sending data to the backend API
-    console.log("Customer login:", { email, password, otp });
+    try {
+      const response = await axios.post('/api/login', { email, password });
+      const { redirectTo } = response.data;
+
+      // Redirect user based on the role
+      window.location.href = redirectTo;
+    } catch (error) {
+      alert(error.response?.data?.error || 'Login failed');
+    }
   };
 
   const goBack = () => {
@@ -40,13 +47,6 @@ export default function CustomerLoginPage() {
           placeholder="Password"
           className="login-input"
           required
-        />
-        <input
-          type="text"
-          value={otp}
-          onChange={(e) => setOtp(e.target.value)}
-          placeholder="OTP (if applicable)"
-          className="login-input"
         />
         <button type="submit" className="login-button">
           Log In
