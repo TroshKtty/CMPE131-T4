@@ -7,7 +7,7 @@ import {useState} from 'react';
 const Product = props => {
     const [activeThumb, setActiveThumb] = useState();
     return <>
-        <Swiper className="gallary" loop={true} spaceBetween={10} navigation={true} modules={[Navigation, Thumbs]} grabCursor={true} thumbs={{swiper : activeThumb}}> 
+        <Swiper className="gallary" loop={true} spaceBetween={10} navigation={true} modules={[Navigation, Thumbs]} grabCursor={true} thumbs={{ swiper: activeThumb && !activeThumb.destroyed ? activeThumb : null }}> 
             {
                 props.images.map((item,index) => (
                     <SwiperSlide key = {index}>
@@ -16,7 +16,7 @@ const Product = props => {
                 ))
             }
         </Swiper>
-        <Swiper className="gallary-thumbs" loop={true} spaceBetween={10} slidesPerView={3} modules={[Navigation, Thumbs]}> 
+        <Swiper className="gallary-thumbs" loop={true} spaceBetween={10} slidesPerView={props.images.length} modules={[Navigation, Thumbs]} onSwiper={setActiveThumb}> 
             {
                 props.images.map((item,index) => (
                     <SwiperSlide key = {index}>

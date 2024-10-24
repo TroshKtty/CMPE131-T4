@@ -66,6 +66,21 @@ button {
   white-space: nowrap;
 }
 
+.buttonNew{
+  border-radius: 100px;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #0071ce;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  width: 100%;
+  
+}
+
 button:hover {
   background-color: #0071ce;
 }
@@ -101,4 +116,17 @@ button:hover {
 
 .no-wrap {
   white-space: nowrap;
+}
+
+.main{
+  display: flex;
+  padding: 25px;
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.left-side{
+  float: left;
+  padding-right: 25px;
 }
