@@ -65,18 +65,20 @@ export default function LoginPage() {
               <Box
                 sx={{ display: "flex", flexDirection: "column", gap: "16px" }}
               >
-                <FormControl>
+                <FormControl required>
                   <FormLabel>Email</FormLabel>
                   <Input
                     onChange={(ev) => setEmail(ev.target.value)}
                     type="email"
+                    required
                   />
                 </FormControl>
-                <FormControl>
+                <FormControl required>
                   <FormLabel>Password</FormLabel>
                   <Input
                     onChange={(ev) => setPassword(ev.target.value)}
                     type="password"
+                    required
                   />
                 </FormControl>
                 <FormControl>
