@@ -10,13 +10,15 @@ import {
   Typography,
 } from "@mui/joy";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   // const [otp, setOtp] = useState("");
-
+  const navigate = useNavigate();
   const handleLogin = (ev) => {
     ev.preventDefault();
     console.log("form submitted with", {
@@ -131,7 +133,7 @@ export default function LoginPage() {
               <Button
                 variant="soft"
                 fullWidth
-                onClick={() => alert("hello world")}
+                onClick={() => navigate("/registration")}
               >
                 Create Account
               </Button>

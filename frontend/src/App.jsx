@@ -11,6 +11,7 @@ import ProductsPage from "@/pages/products/page";
 
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/footer/Footer";
+import RegistrationPage from "@/pages/registration/page";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
       <Routes>
         {/* Route for logging in */}
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/registration" element={<RegistrationPage/>}/>
 
         <Route
           path="/*"
