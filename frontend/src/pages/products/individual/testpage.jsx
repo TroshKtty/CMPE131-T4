@@ -31,11 +31,32 @@ export default function TestProductPage() {
             <hr/>
 
             <h3 style={{paddingTop: "5px"}}>Specifications:</h3>
-            <p style={{paddingBottom: "5px"}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                Aperiam reprehenderit ab omnis est eum, reiciendis, eius 
-                eveniet ratione consectetur, quaerat voluptates voluptatum 
-                libero. Accusantium aliquam eum debitis explicabo, ratione hic?
-            </p>
+            <table>
+                <tr>
+                    <td>Steve</td>
+                    <td>Manager</td>
+                </tr>
+
+                <tr>
+                    <td>SURAJ</td>
+                    <td>Assistant Manager</td>
+                </tr>
+
+                <tr>
+                    <td>Khushboo</td>
+                    <td>Analysist</td>
+                </tr>
+
+                <tr>
+                    <td>Kartik</td>
+                    <td>Worker</td>
+                </tr>
+
+                <tr>
+                    <td>Saksham</td>
+                    <td>Worker</td>
+                </tr>
+            </table>
         </div>
 
         <div style={{border: "1px solid rgb(165, 165, 165)", padding: "15px", width: "300px"}}>

@@ -78,11 +78,12 @@ button {
   cursor: pointer;
   white-space: nowrap;
   width: 100%;
+  font-size: 1.0em;
   
 }
 
 button:hover {
-  background-color: #0071ce;
+  background-color: #005ca7;
 }
 
 .section1 {

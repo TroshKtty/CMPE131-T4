@@ -16,7 +16,7 @@ const Product = props => {
                 ))
             }
         </Swiper>
-        <Swiper className="gallary-thumbs" loop={true} spaceBetween={10} slidesPerView={props.images.length} modules={[Navigation, Thumbs]} onSwiper={setActiveThumb}> 
+        <Swiper className="gallary-thumbs" loop={true} spaceBetween={10} slidesPerView={3} modules={[Navigation, Thumbs]} onSwiper={setActiveThumb}> 
             {
                 props.images.map((item,index) => (
                     <SwiperSlide key = {index}>
