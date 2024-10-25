@@ -2,6 +2,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 import LoginPage from "@/pages/login/page";
 import HomePage from "@/pages/home/page";
+import AdminDashboardPage from "@/pages/admin/page";
 
 import TomatoProductPage from "@/pages/products/individual/tomatopage";
 import BananaProductPage from "@/pages/products/individual/bananapage";
@@ -20,6 +21,7 @@ export default function App() {
         {/* Route for logging in */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/registration" element={<RegistrationPage/>}/>
+        <Route path="/admin" element={<AdminDashboardPage />} />
 
         <Route
           path="/*"
