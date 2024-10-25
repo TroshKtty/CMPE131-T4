@@ -16,9 +16,9 @@ function NavLink({ children, ...props }) {
       sx={{
         textDecoration: "none",
         color: "primary.solidColor",
-        // Underline on hover
+        // Remove underline on hover
         "&:hover": {
-          textDecoration: "underline",
+          textDecoration: "none",
         },
       }}
     >
@@ -94,7 +94,7 @@ export default function NavBar() {
             Cart
           </Typography>
         </NavLink>
-        <NavLink to="/customer-login">
+        <NavLink to="/login">
           <User size={18} style={{ marginRight: 8 }} />
           <Typography level="h4" fontSize="lg" textColor="common.white">
             Log In

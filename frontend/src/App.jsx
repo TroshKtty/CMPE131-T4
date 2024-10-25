@@ -1,8 +1,8 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
-import AdminLoginPage from "@/pages/admin-login/page";
-import CustomerLoginPage from "@/pages/customer-login/page";
+import LoginPage from "@/pages/login/page";
 import HomePage from "@/pages/home/page";
+import AdminDashboardPage from "@/pages/admin/page";
 
 import TomatoProductPage from "@/pages/products/individual/tomatopage";
 import BananaProductPage from "@/pages/products/individual/bananapage";
@@ -15,15 +15,16 @@ import ProductsPage from "@/pages/products/page";
 
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/footer/Footer";
+import RegistrationPage from "@/pages/registration/page";
 
 export default function App() {
   return (
     <Router>
       <Routes>
-        {/* Route for Admin/Wholesaler login */}
-        <Route path="/admin-login" element={<AdminLoginPage />} />
-        {/* Route for Customer login */}
-        <Route path="/customer-login" element={<CustomerLoginPage />} />
+        {/* Route for logging in */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/registration" element={<RegistrationPage/>}/>
+        <Route path="/admin" element={<AdminDashboardPage />} />
 
         <Route
           path="/*"
