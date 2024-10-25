@@ -55,7 +55,7 @@ import {
         >
           <Box width="50%">
             <Typography level="h2" marginBottom={2}>
-              Log In
+              Register
             </Typography>
             <Box>
               <form onSubmit={handleRegistration}>
