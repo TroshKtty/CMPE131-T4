@@ -11,7 +11,6 @@ import {
   export default function RegistrationPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [username, setUserName] = useState("");
     const [phone, setPhone] = useState("");
     // const [otp, setOtp] = useState("");
   
@@ -20,7 +19,6 @@ import {
       console.log("form submitted with", {
         email,
         password,
-        username,
         phone
       });
     };
@@ -77,14 +75,6 @@ import {
                     <Input
                       onChange={(ev) => setPassword(ev.target.value)}
                       type="password"
-                      required
-                    />
-                  </FormControl>
-                  <FormControl required>
-                    <FormLabel>Username</FormLabel>
-                    <Input
-                      onChange={(ev) => setUserName(ev.target.value)}
-                      type="text"
                       required
                     />
                   </FormControl>
