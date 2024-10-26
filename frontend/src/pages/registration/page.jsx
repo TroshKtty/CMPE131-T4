@@ -9,6 +9,7 @@ import {
   RadioGroup,
 } from "@mui/joy";
 import { useState } from "react";
+import axios from 'axios';
 
 export default function RegistrationPage() {
   const [email, setEmail] = useState("");
@@ -16,16 +17,30 @@ export default function RegistrationPage() {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState("Customer");
+  const [message, setMessage] = useState("");
   // const [otp, setOtp] = useState("");
 
-  const handleRegistration = (ev) => {
+  const handleRegistration = async(ev) => {
     ev.preventDefault();
-    console.log("form submitted with", {
-      email,
-      username,
-      password,
-      phone
-    });
+    try{
+      const response = await axios.post('http://localhost:3000/auth/register', {email, username, password, phone, role});
+      setMessage(response.data.message);
+      setEmail('');
+      setUserName('');
+      setPassword('');
+      setPhone('');
+      setRole('Customer');
+    }
+    catch(err){
+      if(err.response){
+        if(err.response.status === 409)
+            setUserName('');
+        setMessage(err.response.data.message);
+      }
+      else
+        setMessage('Something went wrong bruv');
+    }
+
   };
 
   return (
@@ -73,6 +88,7 @@ export default function RegistrationPage() {
                     onChange={(ev) => setEmail(ev.target.value)}
                     type="email"
                     required
+                    value = {email}
                   />
                 </FormControl>
                 <FormControl required>
@@ -81,6 +97,7 @@ export default function RegistrationPage() {
                     onChange={(ev) => setUserName(ev.target.value)}
                     type="text"
                     required
+                    value = {username}
                   />
                 </FormControl>
                 <FormControl required>
@@ -89,6 +106,7 @@ export default function RegistrationPage() {
                     onChange={(ev) => setPassword(ev.target.value)}
                     type="password"
                     required
+                    value = {password}
                   />
                 </FormControl>
                 <FormControl required>
@@ -97,6 +115,7 @@ export default function RegistrationPage() {
                     onChange={(ev) => setPhone(ev.target.value)}
                     type="text"
                     required
+                    value = {phone}
                   />
                 </FormControl>
                 <FormControl required>
@@ -148,6 +167,7 @@ export default function RegistrationPage() {
                 </Button>
               </Box>
             </form>
+            {message && <Typography color="primary" mt={2} fontSize={20}>{message}</Typography>}
           </Box>
         </Box>
       </Box>

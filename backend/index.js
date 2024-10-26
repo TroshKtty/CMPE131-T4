@@ -1,26 +1,25 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const { sequelize } = require('./models'); // Import Sequelize and models from 'models/index.js'
-
+const mysql = require('mysql');
+const cors = require('cors');
+const getConnection = require('./config');
+const auth_route = require('./routes/auth_routes')
+getConnection();
 const app = express();
-app.use(bodyParser.json());
 
+
+app.use(express.json());
+app.use(cors({origin: "http://localhost:5173",}));
+
+//middleware
+
+
+app.use('/auth', auth_route)
+PORT = 3000;
+//server
+app.listen(PORT, () => {
+  console.log(`Server running on Port ${PORT}`);
+})
 // Test the database connection
-sequelize.authenticate()
-  .then(() => {
-    console.log('Database connected successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
 
-// Sync the models and start the server
-sequelize.sync().then(() => {
-  app.listen(3000, () => {
-    console.log('Server is running on port 3000');
-  });
-}).catch(err => {
-  console.error('Unable to sync the database:', err);
-});
 
 

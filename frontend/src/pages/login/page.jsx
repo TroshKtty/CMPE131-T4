@@ -45,9 +45,9 @@ export default function LoginPage() {
           bgcolor: "background.surface",
         }}
       >
-        <Typography level="h1" fontWeight="bold">
-          OFS
-        </Typography>
+          <Typography level="h1" fontWeight="bold">
+            OFS
+          </Typography>
       </Box>
       <Box
         sx={{
