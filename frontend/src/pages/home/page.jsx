@@ -15,6 +15,39 @@ export default function HomePage() {
       </section>
 
       {/* Product Categories Section */}
+
+      <section class = "category" id="category">
+        <h1 class="heading">Shop by <span class="heading2">Category</span></h1>
+        <div class="box-container">
+
+            <div class="box">
+                <h3>Fruits</h3>
+                <img src="apples.jpg" alt=""></img>
+                <a href="#" class="btn">Shop Now</a>
+                
+            </div>
+            <div class="box">
+                <h3>Vegetables</h3>
+                <img src="broccoli.jpg" alt=""></img>
+                <a href="#" class="btn">Shop Now</a>
+            </div>
+            <div class="box">
+                <h3>Beverages</h3>
+                <img src="coconutwater.jpg" alt=""></img>
+                <a href="#" class="btn">Shop Now</a>
+            </div>
+            <div class="box">
+                <h3>Snacks</h3>
+                <img src="layschips.jpg" alt=""></img>
+                <a href="#" class="btn">Shop Now</a>
+            </div>
+
+        </div>
+
+      </section>
+
+
+      {/*
       <section className="categories">
         <h2>Featured Categories</h2>
         <div className="category-grid">
@@ -36,6 +69,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      */}
+      
     </div>
   );
 }
