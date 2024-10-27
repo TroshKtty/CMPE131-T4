@@ -24,7 +24,8 @@ body {
 
 /* Banner section */
 .banner {
-  background-image: url("https://via.placeholder.com/1200x400"); /* Replace with a real image */
+  /*background-image: url("https://via.placeholder.com/1200x400");  */
+  background-image: url("grocerystore.jpg");
   background-size: cover;
   background-position: center;
   color: white;

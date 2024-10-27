@@ -11,7 +11,7 @@ const Product = props => {
             {
                 props.images.map((item,index) => (
                     <SwiperSlide key = {index}>
-                        <img src={item} alt="proudct images"/>
+                        <img src={item} alt="product images"/>
                     </SwiperSlide>
                 ))
             }
@@ -21,7 +21,7 @@ const Product = props => {
                 props.images.map((item,index) => (
                     <SwiperSlide key = {index}>
                         <div className="gallary-thumbs-wrapper">
-                            <img src={item} alt="proudct images"/>
+                            <img src={item} alt="product images"/>
                         </div>
                     </SwiperSlide>
                 ))

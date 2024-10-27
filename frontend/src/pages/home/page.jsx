@@ -8,7 +8,7 @@ export default function HomePage() {
         <div className="banner-text">
           <h2>Shop Fresh, Organic Products</h2>
           <p>
-            Everything you need for a healthy lifestyle, delivered to your door.
+            <h3>Everything you need for a healthy lifestyle, delivered to your door.</h3>
           </p>
           <button>Shop Now</button>
         </div>
