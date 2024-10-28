@@ -64,14 +64,6 @@ const PRODUCTS = [
     category: "Bakery",
   },
   {
-    item: "Eggs",
-    weight: 1,
-    price: 2.0,
-    imgUrl:
-      "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/5e6be177a3fc288ec1585f4c_crop._FMwebp__SR300,300__TTD_.jpg",
-    category: "Dairy",
-  },
-  {
     item: "Rice",
     weight: 1,
     price: 1.8,
@@ -157,7 +149,7 @@ const PRODUCTS = [
     price: 1.5,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/56edaf7d55ca541100c46bd3_365_-zuccini-squash_412._FMwebp__SR300,300__TTD_.jpg",
-    category: "Grains",
+    category: "Vegetables",
   },
   {
     item: "Lentils",
