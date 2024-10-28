@@ -1,6 +1,9 @@
 import "./styles.css";
+import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
+  const navigate = useNavigate();
+
   return (
     <div className="homepage">
       {/* Header */}
@@ -8,69 +11,64 @@ export default function HomePage() {
         <div className="banner-text">
           <h2>Shop Fresh, Organic Products</h2>
           <p>
-            <h3>Everything you need for a healthy lifestyle, delivered to your door.</h3>
+            <h3>
+              Everything you need for a healthy lifestyle, delivered to your
+              door.
+            </h3>
           </p>
-          <button>Shop Now</button>
+          <button onClick={() => navigate("/search")}>Shop Now</button>
         </div>
       </section>
 
       {/* Product Categories Section */}
 
-      <section class = "category" id="category">
-        <h1 class="heading">Shop by <span class="heading2">Category</span></h1>
-        <div class="box-container">
-
-            <div class="box">
-                <h3>Fruits</h3>
-                <img src="apples.jpg" alt=""></img>
-                <a href="#" class="btn">Shop Now</a>
-                
-            </div>
-            <div class="box">
-                <h3>Vegetables</h3>
-                <img src="broccoli.jpg" alt=""></img>
-                <a href="#" class="btn">Shop Now</a>
-            </div>
-            <div class="box">
-                <h3>Beverages</h3>
-                <img src="coconutwater.jpg" alt=""></img>
-                <a href="#" class="btn">Shop Now</a>
-            </div>
-            <div class="box">
-                <h3>Snacks</h3>
-                <img src="layschips.jpg" alt=""></img>
-                <a href="#" class="btn">Shop Now</a>
-            </div>
-
-        </div>
-
-      </section>
-
-
-      {/*
-      <section className="categories">
-        <h2>Featured Categories</h2>
-        <div className="category-grid">
-          <div className="category">
-            <img src="https://via.placeholder.com/150" alt="Fruits" />
-            <p>Fresh Fruits</p>
+      <section className="category" id="category">
+        <h1 className="heading">
+          Shop by <span className="heading2">Category</span>
+        </h1>
+        <div className="box-container">
+          <div className="box">
+            <h3>Fruits</h3>
+            <img src="apples.jpg" alt=""></img>
+            <a
+              className="btn"
+              onClick={() => navigate("/search?category=fruits")}
+            >
+              Shop Now
+            </a>
           </div>
-          <div className="category">
-            <img src="https://via.placeholder.com/150" alt="Vegetables" />
-            <p>Organic Vegetables</p>
+          <div className="box">
+            <h3>Vegetables</h3>
+            <img src="broccoli.jpg" alt=""></img>
+            <a
+              className="btn"
+              onClick={() => navigate("/search?category=vegetables")}
+            >
+              Shop Now
+            </a>
           </div>
-          <div className="category">
-            <img src="https://via.placeholder.com/150" alt="Dairy" />
-            <p>Dairy Products</p>
+          <div className="box">
+            <h3>Beverages</h3>
+            <img src="coconutwater.jpg" alt=""></img>
+            <a
+              className="btn"
+              onClick={() => navigate("/search?category=beverages")}
+            >
+              Shop Now
+            </a>
           </div>
-          <div className="category">
-            <img src="https://via.placeholder.com/150" alt="Snacks" />
-            <p>Healthy Snacks</p>
+          <div className="box">
+            <h3>Snacks</h3>
+            <img src="layschips.jpg" alt=""></img>
+            <a
+              className="btn"
+              onClick={() => navigate("/search?category=snacks")}
+            >
+              Shop Now
+            </a>
           </div>
         </div>
       </section>
-      */}
-      
     </div>
   );
 }
