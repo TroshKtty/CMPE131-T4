@@ -5,7 +5,7 @@ const PRODUCTS = [
     price: 3.6,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/58d418e7996bd456166526d1_generic-pinkladyapple._FMwebp__SR300,300__TTD_.jpg",
-    category: "Fruits & Vegetables",
+    category: "Fruits",
   },
   {
     item: "Bananas",
@@ -13,7 +13,7 @@ const PRODUCTS = [
     price: 1.2,
     imgUrl:
       "https://cdn11.bigcommerce.com/s-1ly92eod7l/images/stencil/1280x1280/products/647/790/Product_Produce_Banana__90431.1700494209.jpg?c=1&imbypass=on",
-    category: "Fruits & Vegetables",
+    category: "Fruits",
   },
   {
     item: "Broccoli",
@@ -21,7 +21,7 @@ const PRODUCTS = [
     price: 2.0,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/61e73e94c2f694d317d37246_dld-0858959004101-glamor-right-2021-12-28t12-37-44-iphone-7-quality-90-1-26-2-user-5c4f16e4fc9c91accd101ce4-jjao-143094-1642544786821._FMwebp__SR600,600_.jpg",
-    category: "Fruits & Vegetables",
+    category: "Vegetables",
   },
   {
     item: "Carrots",
@@ -29,7 +29,7 @@ const PRODUCTS = [
     price: 1.5,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/57b5ee98450d2edbd4733fc8_produce-ogcarrots-bunch-1._FMwebp__SR300,300__TTD_.jpg",
-    category: "Fruits & Vegetables",
+    category: "Vegetables",
   },
   {
     item: "Whole Chicken",
@@ -37,7 +37,7 @@ const PRODUCTS = [
     price: 8.5,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/5f49863a144b13f9b96ca4c4_2020-cen-ecommerce-meat-chickenwholefryer._FMwebp__SR300,300__TTD_.jpg",
-    category: "Meat & Seafood",
+    category: "Meat",
   },
   {
     item: "Salmon Fillets",
@@ -45,7 +45,7 @@ const PRODUCTS = [
     price: 12.0,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/5ee23929bfbded247e1a8fe0_august-coho-salmon._FMwebp__SR300,300__TTD_.jpg",
-    category: "Meat & Seafood",
+    category: "Fish",
   },
   {
     item: "Almond Milk",
@@ -53,7 +53,7 @@ const PRODUCTS = [
     price: 3.0,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/62e8fd9c4c590a3e38128537_0041570056707-glamor-front-2022-03-22t15-28-57-iphone-7-quality-90-1-29-0-user-5d7652c1db2c4b51d4c666ca-85qn-886954._FMwebp__SR300,300__TTD_.jpg",
-    category: "Dairy, Eggs, & Cheese",
+    category: "Dairy Alternatives",
   },
   {
     item: "Bread",
@@ -69,7 +69,7 @@ const PRODUCTS = [
     price: 2.0,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/5e6be177a3fc288ec1585f4c_crop._FMwebp__SR300,300__TTD_.jpg",
-    category: "Dairy, Eggs, & Cheese",
+    category: "Dairy",
   },
   {
     item: "Rice",
@@ -93,7 +93,7 @@ const PRODUCTS = [
     price: 2.2,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/57d87a74faf465e394f41c7a_produce-romatomatoes-1._FMwebp__SR300,300__TTD_.JPG",
-    category: "Fruits & Vegetables",
+    category: "Vegetables",
   },
   {
     item: "Cucumbers",
@@ -101,7 +101,7 @@ const PRODUCTS = [
     price: 1.0,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/56dae08c7c3b931100975e32._FMwebp__SR300,300__TTD_.jpg",
-    category: "Fruits & Vegetables",
+    category: "Vegetables",
   },
   {
     item: "Cheddar Cheese",
@@ -109,7 +109,7 @@ const PRODUCTS = [
     price: 5.0,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/5f496275a7709dab073cf431_00256989000009-glamor-glamor3-2020-08-25t19-46-55-iphone-x-quality-90-1-21-1-user-5984ad42a967f880524de2c4-27it-270447._FMwebp__SR300,300__TTD_.jpg",
-    category: "Dairy, Eggs, & Cheese",
+    category: "Dairy",
   },
   {
     item: "Peanut Butter",
@@ -133,7 +133,7 @@ const PRODUCTS = [
     price: 2.0,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/5e7bbe4a790735db919f2a23_00033383904320-glamor-frontpackageglamor-2020-03-12t14-18-09-iphone-7-quality-90-1-21-1-user-5c4f16e4fc9c91accd101ce4-t6n8-227598._FMwebp__SR300,300__TTD_.jpg",
-    category: "Fruits & Vegetables",
+    category: "Vegetables",
   },
   {
     item: "Strawberries",
@@ -141,7 +141,7 @@ const PRODUCTS = [
     price: 4.5,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/57e058d8afb2864a1005688f_produce-genericstrawberries-md-1._FMwebp__SR300,300__TTD_.jpg",
-    category: "Fruits & Vegetables",
+    category: "Fruits",
   },
   {
     item: "Potato",
@@ -149,7 +149,7 @@ const PRODUCTS = [
     price: 1.8,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/57b1084a1ba4fe70a564328e_produce-yukongold-1._FMwebp__SR300,300__TTD_.JPG",
-    category: "Fruits & Vegetables",
+    category: "Vegetables",
   },
   {
     item: "Zucchini",
@@ -157,7 +157,7 @@ const PRODUCTS = [
     price: 1.5,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/56edaf7d55ca541100c46bd3_365_-zuccini-squash_412._FMwebp__SR300,300__TTD_.jpg",
-    category: "Fruits & Vegetables",
+    category: "Grains",
   },
   {
     item: "Lentils",
@@ -173,7 +173,7 @@ const PRODUCTS = [
     price: 3.0,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/601c092c97e3c63f5a86092f_00078783906000-glamor-frontpackageglamor-2021-01-14t13-40-24-iphone-7-quality-90-1-21-8-user-5c4f16e4fc9c91accd101ce4-0lwg-514262._FMwebp__SR300,300__TTD_.jpg",
-    category: "Fruits & Vegetables",
+    category: "Vegetables",
   },
   {
     item: "Cauliflower",
@@ -181,7 +181,7 @@ const PRODUCTS = [
     price: 2.5,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/6310d9fd9d7f481c7de8d2a6_0033383699998-glamor-front-2022-09-01t16-12-08-iphone-x-quality-100-1-31-0-user-5984ad42a967f880524de2c4-9wff-511712._FMwebp__SR300,300__TTD_.jpg",
-    category: "Fruits & Vegetables",
+    category: "Vegetables",
   },
   {
     item: "Ground Beef",
@@ -189,7 +189,7 @@ const PRODUCTS = [
     price: 10.0,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/63879d9d2b1a50216b992f0c_0850001591782-glamor-front-2022-08-31t18-36-53-iphone-x-quality-100-1-31-0-user-5984ad42a967f880524de2c4-gx22-539117._FMwebp__SR300,300__TTD_.jpg",
-    category: "Meat & Seafood",
+    category: "Meat",
   },
   {
     item: "Pork Chops",
@@ -197,7 +197,15 @@ const PRODUCTS = [
     price: 9.0,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/5f49863a144b13f9b96ca4c6_2020-cen-ecommerce-meat-porkloinboneincentercut._FMwebp__SR300,300__TTD_.jpg",
-    category: "Meat & Seafood",
+    category: "Meat",
+  },
+  {
+    item: "Tofu",
+    weight: 1,
+    price: 2.2,
+    imgUrl:
+      "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/5f95b144ee200ab2da74f677_099482409258-front._FMwebp__SR300,300__TTD_.jpg",
+    category: "Dairy Alternatives",
   },
   {
     item: "Hummus",
@@ -272,7 +280,7 @@ const PRODUCTS = [
     category: "Frozen Desserts",
   },
   {
-    item: "Mixed Vegetables",
+    item: "Frozen Mixed Vegetables",
     weight: 1,
     price: 2.8,
     imgUrl:
@@ -325,7 +333,7 @@ const PRODUCTS = [
     price: 2.5,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/56e77b57f6e8791100e7fffb_365_-green-bell-peppers.1._FMwebp__SR300,300__TTD_.jpg",
-    category: "Fruits & Vegetables",
+    category: "Vegetables",
   },
   {
     item: "Onions",
@@ -333,7 +341,7 @@ const PRODUCTS = [
     price: 1.5,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/5aa7c486fc8ae2e1a13b6faf_produce-ogyellowonion-2._FMwebp__SR300,300__TTD_.JPG",
-    category: "Fruits & Vegetables",
+    category: "Vegetables",
   },
   {
     item: "Garlic",
@@ -341,7 +349,15 @@ const PRODUCTS = [
     price: 1.0,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/56dc1363a8ced3110066fcb7._FMwebp__SR300,300__TTD_.jpg",
-    category: "Fruits & Vegetables",
+    category: "Vegetables",
+  },
+  {
+    item: "Applesauce",
+    weight: 1,
+    price: 2.2,
+    imgUrl:
+      "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/60f5b6343e2800f6df41a5c9_dld-0036192122107-glamor-front-2021-06-01t16-03-30-iphone-x-quality-90-1-25-4-user-5984ad42a967f880524de2c4-jead-061424-1626715700191._FMwebp__SR300,300__TTD_.jpg",
+    category: "Canned Goods",
   },
 ];
 
