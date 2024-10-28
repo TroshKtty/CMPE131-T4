@@ -12,6 +12,7 @@ import {
   Stack,
   Typography,
 } from "@mui/joy";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 const CATEGORIES = {};
@@ -22,18 +23,23 @@ for (const cat of [...new Set(PRODUCTS.map((product) => product.category))]) {
 
 export default function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   const query = searchParams.get("q")?.toLowerCase() || "";
   const categoryParam = searchParams.get("category")?.toLowerCase() || "";
   const category = CATEGORIES[categoryParam] || "";
 
-  const filteredProducts = PRODUCTS.filter(
-    (product) =>
-      (query === "" ||
-        product.item.toLowerCase().includes(query)) /* filter by name */ &&
-      (category === "" ||
-        product.category === category) /* filter by category */
-  );
+  useEffect(() => {
+    setFilteredProducts(
+      PRODUCTS.filter(
+        (product) =>
+          (query === "" ||
+            product.item.toLowerCase().includes(query)) /* filter by name */ &&
+          (category === "" ||
+            product.category === category) /* filter by category */
+      )
+    );
+  }, [setFilteredProducts, query, category]);
 
   const handleCategoryChange = (newCategory) => {
     if (newCategory) {
