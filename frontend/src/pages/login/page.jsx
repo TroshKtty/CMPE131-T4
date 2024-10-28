@@ -11,22 +11,56 @@ import {
 } from "@mui/joy";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import axios from 'axios';
+//import jwt_decode from 'jwt-decode';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   // const [otp, setOtp] = useState("");
   const navigate = useNavigate();
-  const handleLogin = (ev) => {
+  const handleLogin = async (ev) => {
     ev.preventDefault();
-    console.log("form submitted with", {
-      email,
-      password,
-      rememberMe,
-    });
+    
+    try {
+      // Send login request
+      const response = await axios.post("http://localhost:3000/auth/login", {
+        username,
+        password,
+      });
+
+      const token = response.data.token;
+
+      // Store token in localStorage
+      if(rememberMe)
+        localStorage.setItem("token", token);
+      else
+        sessionStorage.setItem("token", token);
+      console.log("Success");
+
+      // Call redirect function to navigate based on role
+      //redirect(token);
+    } catch (error) {
+      alert("Invalid email or password. Please try again.");
+      console.error("Login failed", error);
+    }
   };
+
+  /*const redirect = (token) => {
+    // Decode token to get user role
+    const decoded = jwt_decode(token);
+    const userRole = decoded.role;
+
+    // Redirect based on user role
+    if (userRole === "admin") {
+      navigate("/admin");
+    } else if (userRole === "employee") {
+      navigate("/");
+    } else {
+      navigate("/");
+    }
+  };*/
 
   return (
     <>
@@ -68,10 +102,10 @@ export default function LoginPage() {
                 sx={{ display: "flex", flexDirection: "column", gap: "16px" }}
               >
                 <FormControl required>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Username</FormLabel>
                   <Input
-                    onChange={(ev) => setEmail(ev.target.value)}
-                    type="email"
+                    onChange={(ev) => setUsername(ev.target.value)}
+                    type="text"
                     required
                   />
                 </FormControl>

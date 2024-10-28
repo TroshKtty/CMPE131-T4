@@ -10,6 +10,10 @@ import {
 } from "@mui/joy";
 import { useState } from "react";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+
+
+
 
 export default function RegistrationPage() {
   const [email, setEmail] = useState("");
@@ -18,7 +22,9 @@ export default function RegistrationPage() {
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState("Customer");
   const [message, setMessage] = useState("");
+  const [blurEffect, setBlurEffect] = useState(false);
   // const [otp, setOtp] = useState("");
+  const navigate = useNavigate();
 
   const handleRegistration = async(ev) => {
     ev.preventDefault();
@@ -30,6 +36,13 @@ export default function RegistrationPage() {
       setPassword('');
       setPhone('');
       setRole('Customer');
+      setBlurEffect(true);
+
+      setTimeout(() => {
+        setBlurEffect(false);
+        navigate('/login');
+      }, 4000);
+
     }
     catch(err){
       if(err.response){
@@ -71,6 +84,8 @@ export default function RegistrationPage() {
           minHeight: "100vh",
           justifyContent: "center",
           alignItems: "center",
+          filter: blurEffect ? "blur(5px)" : "none",
+          transition: "filter 0.3s ease",
         }}
       >
         <Box width="50%">

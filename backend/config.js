@@ -1,17 +1,19 @@
 //mysql library
 const mysql = require('mysql');
-
+//require('dotenv').config();
 //configure connection to db
+let connection = null;
 function getConnection() {
   const options = {
-    host: "34.173.36.191",
-    user: "root",
-    password: "OFS@2024",
-    database: "OFS"
+    host: process.env.DB_IP,
+    user: process.env.DB_user,
+    password: process.env.DB_password,
+    database: process.env.DB
   };
 
   //connect to db
-  const connection = mysql.createConnection(options);
+  if(!connection)
+    connection = mysql.createConnection(options);
 
   //error handling
   connection.connect((error) => {
@@ -38,7 +40,7 @@ function testConnection() {
   });
 }
 
-testConnection();
-*/
+testConnection();*/
+
 
 module.exports = getConnection;
