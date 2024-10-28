@@ -1,16 +1,18 @@
 const jwt = require('jsonwebtoken');
 
+const secret_key = process.env.JWT_secret;
+
 const auth = (req, res, next) => {
-  const token = req.header('Authorization');
+  const token = req.cookies.token;
   
-  if (!token) return res.status(401).json({ message: 'Access denied' });
+  if (!token) return res.status(401).json({message: 'Access denied' });
   
   try {
-    const decoded = jwt.verify(token, 'your_jwt_secret');
-    req.customer = decoded;
+    const decoded = jwt.verify(token, secret_key);
+    req.user = decoded;
     next();
   } catch (ex) {
-    res.status(400).json({ message: 'Invalid token' });
+    res.status(403).json({ message: 'Invalid token' });
   }
 };
 
