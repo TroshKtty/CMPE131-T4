@@ -31,14 +31,19 @@ export default function ProductsPage() {
             .toLowerCase()
             .includes(query.toLowerCase())) /* filter by name */ &&
         (selectedCategory === "" ||
-          product.category === selectedCategory) /* filter by category */
+          product.category.toLowerCase() ===
+            selectedCategory.toLowerCase()) /* filter by category */
     );
     setFilteredProducts(filtered);
   }, [query, selectedCategory]);
 
   useEffect(() => {
-    setQuery(searchParams.get("q") || "");
-    setSelectedCategory("");
+    // update on initial render
+    const q = searchParams.get("q");
+    const cat = searchParams.get("category");
+
+    setQuery(q?.toLowerCase() || "");
+    setSelectedCategory(cat?.toLowerCase() || "");
   }, [searchParams]);
 
   const handleCategoryChange = (category) => {
