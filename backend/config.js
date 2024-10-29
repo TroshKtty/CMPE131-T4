@@ -6,8 +6,8 @@ let connection = null;
 function getConnection() {
   const options = {
     host: process.env.DB_IP,
-    user: process.env.DB_user,
-    password: process.env.DB_password,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
     database: process.env.DB
   };
 
