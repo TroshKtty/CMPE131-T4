@@ -28,7 +28,7 @@ export default function ProductPage() {
 
   if (
     !product ||
-    !["banana", "tomato", "bottled water"].includes(product.toLowerCase())
+    !["bananas", "tomato", "bottled water"].includes(product.toLowerCase())
   ) {
     return <p>product not found</p>;
   }
