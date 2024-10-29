@@ -11,7 +11,7 @@ import {
 } from "@mui/joy";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 //import jwt_decode from 'jwt-decode';
 
 export default function LoginPage() {
@@ -22,7 +22,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const handleLogin = async (ev) => {
     ev.preventDefault();
-    
+
     try {
       // Send login request
       const response = await axios.post("http://localhost:3000/auth/login", {
@@ -33,10 +33,8 @@ export default function LoginPage() {
       const token = response.data.token;
 
       // Store token in localStorage
-      if(rememberMe)
-        localStorage.setItem("token", token);
-      else
-        sessionStorage.setItem("token", token);
+      if (rememberMe) localStorage.setItem("token", token);
+      else sessionStorage.setItem("token", token);
       console.log("Success");
 
       // Call redirect function to navigate based on role
@@ -79,9 +77,9 @@ export default function LoginPage() {
           bgcolor: "background.surface",
         }}
       >
-          <Typography level="h1" fontWeight="bold">
-            OFS
-          </Typography>
+        <Typography level="h1" fontWeight="bold">
+          OFS
+        </Typography>
       </Box>
       <Box
         sx={{
@@ -139,7 +137,11 @@ export default function LoginPage() {
                       <FormLabel>Remember me</FormLabel>
                     </Box>
                     <Box>
-                      <Link level="title-xs" textAlign="right">
+                      <Link
+                        level="title-xs"
+                        textAlign="right"
+                        sx={{ fontSize: "14px" }}
+                      >
                         Forgot password
                       </Link>
                     </Box>
