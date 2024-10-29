@@ -6,7 +6,7 @@ import {useState} from 'react';
 
 const Product = props => {
     const [activeThumb, setActiveThumb] = useState();
-    console.log("images",props.images);
+
     return <>
         <Swiper className="gallary" loop={true} spaceBetween={10} navigation={true} modules={[Navigation, Thumbs]} grabCursor={true} thumbs={{ swiper: activeThumb && !activeThumb.destroyed ? activeThumb : null }}>
             {
