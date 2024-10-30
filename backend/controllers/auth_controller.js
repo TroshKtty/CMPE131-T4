@@ -19,6 +19,7 @@ const register = async (req, res) => {
         const hashed_password = await bcrypt.hash(password, 10);
         const approved = role === 'Customer';
 
+
         await User.create({
             email,
             username,

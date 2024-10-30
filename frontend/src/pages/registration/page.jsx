@@ -21,8 +21,8 @@ export default function RegistrationPage() {
   
   // messages
   const [message, setMessage] = useState("");
-  const [username_message, setUsernameMessage] = useState("");
 
+  const [username_message, setUsernameMessage] = useState("");
   const navigate = useNavigate();
 
   const handleRegistration = async (ev) => {

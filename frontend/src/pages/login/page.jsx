@@ -11,7 +11,8 @@ import {
 } from "@mui/joy";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+
+import axios from "axios";
 //import jwt_decode from 'jwt-decode';
 
 export default function LoginPage() {
@@ -22,7 +23,9 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const handleLogin = async (ev) => {
     ev.preventDefault();
+
     axios.defaults.withCredentials = true;
+
     try {
       // Send login request
       const response = await axios.post("http://localhost:3000/auth/login", {

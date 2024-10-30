@@ -2,11 +2,14 @@
 const express = require('express');
 const sequelize = require('./config'); // Import sequelize instance
 const cors = require('cors');
-const auth_route = require('./routes/auth_routes');
 require('dotenv').config();
+const token = require('./middleware/auth');
+const auth_route = require('./routes/auth_routes');
+
 
 const app = express();
 app.use(express.json());
+
 
 app.use(cors({
   origin: "http://localhost:5173",

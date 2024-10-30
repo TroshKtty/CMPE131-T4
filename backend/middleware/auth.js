@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+const secret_key = process.env.JWT_secret;
+
 const auth = (req, res, next) => {
     const token = req.cookies.token;
     if (!token) return res.status(401).json({ message: 'Access denied' });
@@ -12,6 +14,7 @@ const auth = (req, res, next) => {
     } catch (error) {
         res.status(403).json({ message: 'Invalid token' });
     }
+
 };
 
 module.exports = auth;
