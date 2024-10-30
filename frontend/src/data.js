@@ -14,6 +14,7 @@ const PRODUCTS = [
     imgUrl:
       "https://cdn11.bigcommerce.com/s-1ly92eod7l/images/stencil/1280x1280/products/647/790/Product_Produce_Banana__90431.1700494209.jpg?c=1&imbypass=on",
     category: "Fruits",
+    images: ["/bananas.jpg"],
   },
   {
     item: "Broccoli",
@@ -64,14 +65,6 @@ const PRODUCTS = [
     category: "Bakery",
   },
   {
-    item: "Eggs",
-    weight: 1,
-    price: 2.0,
-    imgUrl:
-      "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/5e6be177a3fc288ec1585f4c_crop._FMwebp__SR300,300__TTD_.jpg",
-    category: "Dairy",
-  },
-  {
     item: "Rice",
     weight: 1,
     price: 1.8,
@@ -94,6 +87,7 @@ const PRODUCTS = [
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/57d87a74faf465e394f41c7a_produce-romatomatoes-1._FMwebp__SR300,300__TTD_.JPG",
     category: "Vegetables",
+    images: ["/tomatoes.jpg"],
   },
   {
     item: "Cucumbers",
@@ -157,7 +151,7 @@ const PRODUCTS = [
     price: 1.5,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/56edaf7d55ca541100c46bd3_365_-zuccini-squash_412._FMwebp__SR300,300__TTD_.jpg",
-    category: "Grains",
+    category: "Vegetables",
   },
   {
     item: "Lentils",
@@ -318,6 +312,14 @@ const PRODUCTS = [
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/660aba6ed0f0957ced076c88_2024-04-01_16-12-35_front.main._FMwebp__SR300,300__TTD_.jpg",
     category: "Beverages",
+  },
+  {
+    item: "Bottled Water",
+    weight: 35,
+    price: 1.28,
+    imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU03kC_x5u1oDWZrAbKDEltMkVv-H4iGBa7g&s",
+    category: "Beverages",
+    images: ["/water.jpg"],
   },
   {
     item: "Sparkling Water",

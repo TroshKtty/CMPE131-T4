@@ -71,9 +71,9 @@ export default function LoginPage() {
           bgcolor: "background.surface",
         }}
       >
-          <Typography level="h1" fontWeight="bold">
-            OFS
-          </Typography>
+        <Typography level="h1" fontWeight="bold">
+          OFS
+        </Typography>
       </Box>
       <Box
         sx={{
@@ -131,7 +131,11 @@ export default function LoginPage() {
                       <FormLabel>Remember me</FormLabel>
                     </Box>
                     <Box>
-                      <Link level="title-xs" textAlign="right">
+                      <Link
+                        level="title-xs"
+                        textAlign="right"
+                        sx={{ fontSize: "14px" }}
+                      >
                         Forgot password
                       </Link>
                     </Box>

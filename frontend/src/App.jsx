@@ -4,14 +4,8 @@ import LoginPage from "@/pages/login/page";
 import HomePage from "@/pages/home/page";
 import AdminDashboardPage from "@/pages/admin/page";
 
-import TomatoProductPage from "@/pages/products/individual/tomatopage";
-import BananaProductPage from "@/pages/products/individual/bananapage";
-import WaterProductPage from "./pages/products/individual/waterpage";
-
-import TestProductPage from "./pages/products/individual/testpage";
-
-
 import ProductsPage from "@/pages/products/page";
+import ProductPage from "@/pages/products/individual/page";
 
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/footer/Footer";
@@ -23,7 +17,7 @@ export default function App() {
       <Routes>
         {/* Route for logging in */}
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/registration" element={<RegistrationPage/>}/>
+        <Route path="/registration" element={<RegistrationPage />} />
         <Route path="/admin" element={<AdminDashboardPage />} />
 
         <Route
@@ -39,23 +33,7 @@ export default function App() {
                 {/* Route for searching products */}
                 <Route path="/search" element={<ProductsPage />} />
                 {/* Route for an individual product */}
-                {/* For now, this path will do but should be a query param or search param */}
-                <Route
-                  path="/products/individual/tomato"
-                  element={<TomatoProductPage />}
-                />
-                <Route
-                  path="/products/individual/banana"
-                  element={<BananaProductPage />}
-                />
-                <Route
-                  path="/products/individual/water"
-                  element={<WaterProductPage />}
-                />
-                <Route
-                  path="/products/individual/test"
-                  element={<TestProductPage />}
-                />
+                <Route path="/product/:product" element={<ProductPage />} />
               </Routes>
 
               <Footer />

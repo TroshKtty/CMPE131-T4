@@ -15,41 +15,41 @@ import {
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-const CATEGORIES = [...new Set(PRODUCTS.map((product) => product.category))];
+const CATEGORIES = {};
+for (const cat of [...new Set(PRODUCTS.map((product) => product.category))]) {
+  // lowercase + url-encoded category -> proper casing of category
+  CATEGORIES[encodeURI(cat.toLowerCase())] = cat;
+}
 
 export default function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [query, setQuery] = useState(searchParams.get("q") || "");
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState(PRODUCTS);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
+  const query = searchParams.get("q")?.toLowerCase() || "";
+  const categoryParam = searchParams.get("category")?.toLowerCase() || "";
+  const category = CATEGORIES[categoryParam] || "";
 
   useEffect(() => {
-    const filtered = PRODUCTS.filter(
-      (product) =>
-        (query === "" ||
-          product.item
-            .toLowerCase()
-            .includes(query.toLowerCase())) /* filter by name */ &&
-        (selectedCategory === "" ||
-          product.category === selectedCategory) /* filter by category */
+    setFilteredProducts(
+      PRODUCTS.filter(
+        (product) =>
+          (query === "" ||
+            product.item.toLowerCase().includes(query)) /* filter by name */ &&
+          (category === "" ||
+            product.category === category) /* filter by category */
+      )
     );
-    setFilteredProducts(filtered);
-  }, [query, selectedCategory]);
+  }, [setFilteredProducts, query, category]);
 
-  useEffect(() => {
-    setQuery(searchParams.get("q") || "");
-    setSelectedCategory("");
-  }, [searchParams]);
-
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
-    setQuery("");
-    setSearchParams({});
+  const handleCategoryChange = (newCategory) => {
+    if (newCategory) {
+      setSearchParams({ category: encodeURI(newCategory.toLowerCase()) });
+    } else {
+      setSearchParams({});
+    }
   };
 
   const handleAllProducts = () => {
-    setSelectedCategory("");
-    setQuery("");
     setSearchParams({});
   };
 
@@ -58,7 +58,6 @@ export default function ProductsPage() {
     alert(`${product.item} added to cart`);
   };
 
-  // TODO: separatae these components
   return (
     <Box
       sx={{ flexGrow: 1, p: 4, bgcolor: "background.body", minHeight: "100vh" }}
@@ -84,8 +83,8 @@ export default function ProductsPage() {
                 level="body1"
                 onClick={handleAllProducts}
                 sx={{
-                  fontWeight: selectedCategory === "" ? "bold" : "normal",
-                  color: selectedCategory === "" ? "primary.main" : "inherit",
+                  fontWeight: category === "" ? "bold" : "normal",
+                  color: category === "" ? "primary.main" : "inherit",
                   "&:hover": {
                     textDecoration: "none",
                   },
@@ -93,24 +92,20 @@ export default function ProductsPage() {
               >
                 All Products
               </Link>
-              {CATEGORIES.map((category) => (
+              {Object.values(CATEGORIES).map((cat, idx) => (
                 <Link
-                  key={category}
+                  key={idx}
                   level="body1"
-                  onClick={() => handleCategoryChange(category)}
+                  onClick={() => handleCategoryChange(cat)}
                   sx={{
-                    fontWeight:
-                      selectedCategory === category ? "bold" : "normal",
-                    color:
-                      selectedCategory === category
-                        ? "primary.main"
-                        : "inherit",
+                    fontWeight: category === cat ? "bold" : "normal",
+                    color: category === cat ? "primary.main" : "inherit",
                     "&:hover": {
                       textDecoration: "none",
                     },
                   }}
                 >
-                  {category}
+                  {cat}
                 </Link>
               ))}
             </Stack>
@@ -128,8 +123,8 @@ export default function ProductsPage() {
             }}
           >
             <Typography level="h2">
-              {selectedCategory
-                ? `${selectedCategory}`
+              {category
+                ? category
                 : query
                 ? `Search Results for "${query}"`
                 : "All Products"}
