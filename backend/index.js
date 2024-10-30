@@ -1,26 +1,35 @@
+// index.js or app.js
 const express = require('express');
-const mysql = require('mysql');
+const sequelize = require('./config'); // Import sequelize instance
 const cors = require('cors');
-const connection = require('./config');
+require('dotenv').config();
 const token = require('./middleware/auth');
 const auth_route = require('./routes/auth_routes');
-require('dotenv').config();
+
 
 const app = express();
-
-
 app.use(express.json());
-app.use(cors({origin: "http://localhost:5173",}));
-
-//middleware
 
 
-app.use('/auth', auth_route)
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true, // Allow credentials to be included
+}));
+
+app.use('/auth', auth_route);
+
 const PORT = 3000;
-//server
+
+// Test the database connection
+sequelize.authenticate()
+    .then(() => {
+        console.log('Connected to the database successfully.');
+    })
+    .catch((error) => {
+        console.error('Unable to connect to the database:', error);
+    });
+
+// Start server
 app.listen(PORT, () => {
-  console.log(`Server running on Port ${PORT}`);
-})
-
-
-
+    console.log(`Server running on Port ${PORT}`);
+});
