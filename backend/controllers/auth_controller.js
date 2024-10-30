@@ -1,72 +1,75 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/auth_model');
+require('dotenv').config();
 
+const register = async (req, res) => {
+    const { email, username, password, phone_no, role } = req.body;
 
-const register = async(req, res) => {
-    const {email, username, password,phone, role} = req.body;
-    try{
-        if(role!='Customer' && role!='Admin' && role!='Employee')
-            return res.status(400).json({message: 'Invalid Role entered'});
-
-        const user_check = await User.find_user(username);
-        
-        if(user_check.length != 0){
-            return res.status(409).json({message: 'Username already taken. Please select a different username.'});
+    try {
+        if (!['Customer', 'Admin', 'Employee'].includes(role)) {
+            return res.status(400).json({ message: 'Invalid role entered' });
         }
 
-        const hashed_password = await bcrypt.hash(password,10);
-        let approved = false;
-        if (role == 'Customer')
-            approved = true;
+        const existingUser = await User.findOne({ where: { username } });
+        if (existingUser) {
+            return res.status(409).json({ message: 'Username already taken. Please select a different username.' });
+        }
+
+        const hashed_password = await bcrypt.hash(password, 10);
+        const approved = role === 'Customer';
 
         await User.create({
             email,
             username,
             hashed_password,
-        phone,
+            phone_no,
             role,
-            approved
+            approved,
         });
-        if(role === 'Customer')
-            res.status(200).json({message: 'Registration Successfull. Have fun shopping!'});
-        else
-            res.status(200).json({message: 'Approval from Admin/Employee Pending. Contact proper supervisor for approval'});
-        
-    }
-    catch(err){
-        console.error(err);
-        res.json({message: 'Some shit went wrong in register_controller'});
-    }
 
+        const message = approved 
+            ? 'Registration Successful. Have fun shopping!' 
+            : 'Approval from Admin/Employee Pending. Contact proper supervisor for approval';
+
+        res.status(200).json({ message });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Something went wrong during registration' });
+    }
 };
 
-const login = async(req, res) => {
-    const {username, password} = req.body;
+const login = async (req, res) => {
+    const { username, password } = req.body;
     const secret_key = process.env.JWT_secret;
-    try{
 
-        const user_check = await User.check_credentials(username, password)
-        if(user_check == null){
-            return res.status(401).json({message: 'Username or password Invalid'})
+    try {
+        const user = await User.findOne({ where: { username } });
+        if (!user) {
+            return res.status(401).json({ message: 'Invalid username or password' });
         }
 
-        if(user_check.approved == 0)
-            return res.status(200).json({message: 'Approval from Admin/Employee Pending. Contact proper supervisor for approval'});
-        
-        const jwt_token = jwt.sign({user_id: user_check.user_id, role: user_check.role}, 
-            secret_key, 
-            {expiresIn: '1h'}
-        );
-        
-        res.cookie('token', jwt_token, { httpOnly: true, secure: true, maxAge: 3600000 });
+        const isPasswordValid = await bcrypt.compare(password, user.hashed_password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ message: 'Invalid username or password' });
+        }
 
-        res.status(200).json({message: 'Login Successful', role: user_check.role});
-    }
-    catch(err){
-        console.error(err);
-        res.status(500).json({message: 'Something went wrong in login_controller'})
+        if (!user.approved) {
+            return res.status(403).json({ message: 'Approval pending. Contact supervisor.' });
+        }
+
+        const token = jwt.sign(
+            { user_id: user.id, role: user.role },
+            secret_key,
+            { expiresIn: '1h' }
+        );
+
+        res.cookie('token', token, { httpOnly: true, secure: true, maxAge: 3600000 });
+        res.status(200).json({ message: 'Login successful', role: user.role });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Something went wrong during login' });
     }
 };
 
-module.exports = {register, login};
+module.exports = { register, login };

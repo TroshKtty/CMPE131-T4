@@ -1,54 +1,46 @@
-const getConnection = require('../config');
-const bcrypt = require('bcrypt');
-require('dotenv').config();
+// models/auth_model.js
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config'); // Import sequelize instance
 
-
-const connection = getConnection();
-
-const User = {
-    //create user
-    create({ email, username, hashed_password, phone, role, approved }) {
-        return new Promise((resolve, reject) => {
-            connection.query(
-                'INSERT INTO users (email, username, hashed_password, created_at, phone_no, role, approved) VALUES (?, ?, ?, NOW(), ?, ?, ?)',
-                [email, username, hashed_password, phone, role, approved],
-                (error, results) => {
-                    if (error) return reject(error);
-                    resolve(results);
-                }
-            );
-        });
+const User = sequelize.define('User', {
+    user_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true, // Ensure this is set if you want auto-increment
+      },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
     },
-
-    //find user
-    find_user (username) {
-        return new Promise((resolve, reject) => {
-            connection.query(
-                'SELECT * FROM users WHERE username = ?',
-                [username],
-                (error, results) => {
-                    if (error) return reject(error);
-                    resolve(results);
-                }
-            );
-        });
+    username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
     },
-
-    async check_credentials(username, password){
-        try {
-            const user = await this.find_user(username); // await the promise to resolve
-                       
-            const password_check = await bcrypt.compare(password, user[0].hashed_password); // await bcrypt comparison
-
-            if (password_check) {
-                return user;
-            } else {
-                throw error;
-            }
-        } catch (error) {
-            return null;
-        }
+    hashed_password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    phone_no: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    approved: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    },
+    created_at: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
     }
-}
+}, {
+    tableName: 'users',
+    timestamps: false
+});
 
 module.exports = User;

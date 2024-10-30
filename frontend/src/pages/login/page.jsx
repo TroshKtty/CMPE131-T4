@@ -22,25 +22,17 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const handleLogin = async (ev) => {
     ev.preventDefault();
-    
+    axios.defaults.withCredentials = true;
     try {
       // Send login request
       const response = await axios.post("http://localhost:3000/auth/login", {
         username,
         password,
       });
+      
+      alert("hello");
+      console.log(response);
 
-      const token = response.data.token;
-
-      // Store token in localStorage
-      if(rememberMe)
-        localStorage.setItem("token", token);
-      else
-        sessionStorage.setItem("token", token);
-      console.log("Success");
-
-      // Call redirect function to navigate based on role
-      //redirect(token);
     } catch (error) {
       alert("Invalid email or password. Please try again.");
       console.error("Login failed", error);
