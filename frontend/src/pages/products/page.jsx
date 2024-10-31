@@ -46,6 +46,23 @@ export default function ProductsPage() {
 //}, [setFilteredProducts, query, category]);
 
   useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/products'); //was http://34.173.36.191:3000/api/products
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+//}, [setFilteredProducts, query, category]);
+
+  /* OLD USEEFFECT
+  useEffect(() => {
     setFilteredProducts(
       PRODUCTS.filter(
         (product) =>
@@ -57,6 +74,7 @@ export default function ProductsPage() {
       );
     }, [setFilteredProducts, query, category]);
 
+  */
 
   const handleCategoryChange = (newCategory) => {
     if (newCategory) {
