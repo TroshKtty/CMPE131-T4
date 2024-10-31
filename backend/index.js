@@ -10,6 +10,8 @@ const auth_route = require('./routes/auth_routes');
 const app = express();
 app.use(express.json());
 
+const db = require('./models');
+
 
 app.use(cors({
   origin: "http://localhost:5173",
@@ -27,9 +29,23 @@ sequelize.authenticate()
     })
     .catch((error) => {
         console.error('Unable to connect to the database:', error);
-    });
+});
+
+/*
+// API endpoint to fetch products  DOESNT WORK
+app.get('/api/products', (req, res) => {
+  db.query('SELECT * FROM products', (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results);
+  });
+});
+*/
 
 // Start server
+db.sequelize.sync().then((req) => {
 app.listen(PORT, () => {
-    console.log(`Server running on Port ${PORT}`);
+        console.log(`Server running on Port ${PORT}`);
+    });
 });
