@@ -34,5 +34,4 @@ const Product = props => {
   Product.propTypes = {
     images: PropTypes.array.isRequired
   }
-
   export default Product

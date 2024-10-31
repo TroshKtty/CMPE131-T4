@@ -11,6 +11,12 @@ import NavBar from "@/components/NavBar";
 import Footer from "@/components/footer/Footer";
 import RegistrationPage from "@/pages/registration/page";
 
+import TomatoProductPage from "@/pages/products/individual/tomatopage";
+import BananaProductPage from "@/pages/products/individual/bananapage";
+import WaterProductPage from "./pages/products/individual/waterpage";
+import TestProductPage from "./pages/products/individual/testpage";
+
+
 export default function App() {
   return (
     <Router>
@@ -34,6 +40,24 @@ export default function App() {
                 <Route path="/search" element={<ProductsPage />} />
                 {/* Route for an individual product */}
                 <Route path="/product/:product" element={<ProductPage />} />
+
+                <Route
+                  path="/products/individual/tomato"
+                  element={<TomatoProductPage />}
+                />
+                <Route
+                  path="/products/individual/banana"
+                  element={<BananaProductPage />}
+                />
+                <Route
+                  path="/products/individual/water"
+                  element={<WaterProductPage />}
+                />
+                <Route
+                  path="/products/individual/test"
+                  element={<TestProductPage />}
+                />
+
               </Routes>
 
               <Footer />
