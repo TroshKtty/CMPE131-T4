@@ -29,23 +29,22 @@ export default function ProductsPage() {
   const categoryParam = searchParams.get("category")?.toLowerCase() || "";
   const category = CATEGORIES[categoryParam] || "";
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/api/products'); //was http://34.173.36.191:3000/api/products
-        const data = await response.json();
-        setProducts(data);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     try {
+  //       const response = await fetch('http://localhost:3000/api/product_test');
+  //       const data = await response.json();
+  //       setProducts(data);
+  //     } catch (error) {
+  //       console.error('Error fetching products:', error);
+  //     }
+  //   };
 
-    fetchProducts();
-  }, []);
+  //   fetchProducts();
+  // }, []);
 
 //}, [setFilteredProducts, query, category]);
 
-  /* OLD USEEFFECT
   useEffect(() => {
     setFilteredProducts(
       PRODUCTS.filter(
@@ -58,7 +57,6 @@ export default function ProductsPage() {
       );
     }, [setFilteredProducts, query, category]);
 
-  */
 
   const handleCategoryChange = (newCategory) => {
     if (newCategory) {
