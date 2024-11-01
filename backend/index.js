@@ -8,11 +8,13 @@ const pending_route = require('./routes/pending_routes');
 
 const { Product } = require('./models');
 
+const { Product } = require('./models');
+
 
 const app = express();
 app.use(express.json());
 
-const db = require('./models');
+// const db = require('./models');
 
 
 app.use(cors({
@@ -43,6 +45,13 @@ app.get('/api/products', (req, res) => {
 });
 */
 
+// // Start server (Line 15 commented out)
+// db.sequelize.sync().then((req) => {
+// app.listen(PORT, () => {
+//         console.log(`Server running on Port ${PORT}`);
+//     });
+// });
+
 app.get('/api/product_test', async (req, res) => {
   try {
     const products = await Product.findAll(); // Retrieves all products
@@ -60,3 +69,5 @@ db.sequelize.sync().then((req) => {
         console.log(`Server running on Port ${PORT}`);
   });
 });
+
+

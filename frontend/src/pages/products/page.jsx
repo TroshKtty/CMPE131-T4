@@ -58,10 +58,7 @@ export default function ProductsPage() {
 
     fetchProducts();
   }, []);
-
-//}, [setFilteredProducts, query, category]);
-
-  /* OLD USEEFFECT
+  
   useEffect(() => {
     setFilteredProducts(
       PRODUCTS.filter(
@@ -74,7 +71,6 @@ export default function ProductsPage() {
       );
     }, [setFilteredProducts, query, category]);
 
-  */
 
   const handleCategoryChange = (newCategory) => {
     if (newCategory) {
