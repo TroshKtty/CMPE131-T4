@@ -1,6 +1,4 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-
 import LoginPage from "@/pages/login/page";
 import HomePage from "@/pages/home/page";
 import AdminDashboardPage from "@/pages/admin/page";
@@ -18,33 +16,8 @@ import BananaProductPage from "@/pages/products/individual/bananapage";
 import WaterProductPage from "./pages/products/individual/waterpage";
 import TestProductPage from "./pages/products/individual/testpage";
 
-// Define the custom theme
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#5271ff", // Your primary color
-    },
-    secondary: {
-      main: "#ff9f00", // Your secondary color
-    },
-  },
-  components: {
-    // You can add hover or other style overrides here if needed
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          "&:hover": {
-            backgroundColor: "#f57c00", // Hover color for buttons
-          },
-        },
-      },
-    },
-  },
-});
-
 export default function App() {
   return (
-    <ThemeProvider theme={theme}>
       <Router>
         <Routes>
           {/* Route for logging in */}
@@ -80,6 +53,5 @@ export default function App() {
           />
         </Routes>
       </Router>
-    </ThemeProvider>
   );
 }
