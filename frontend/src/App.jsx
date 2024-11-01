@@ -1,8 +1,8 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-
 import LoginPage from "@/pages/login/page";
 import HomePage from "@/pages/home/page";
 import AdminDashboardPage from "@/pages/admin/page";
+import ApprovalRequestsPage from "@/pages/admin/ApprovalRequestsPage";
 
 import ProductsPage from "@/pages/products/page";
 import ProductPage from "@/pages/products/individual/page";
@@ -16,55 +16,42 @@ import BananaProductPage from "@/pages/products/individual/bananapage";
 import WaterProductPage from "./pages/products/individual/waterpage";
 import TestProductPage from "./pages/products/individual/testpage";
 
-
 export default function App() {
   return (
-    <Router>
-      <Routes>
-        {/* Route for logging in */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/registration" element={<RegistrationPage />} />
-        <Route path="/admin" element={<AdminDashboardPage />} />
+      <Router>
+        <Routes>
+          {/* Route for logging in */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/registration" element={<RegistrationPage />} />
+          <Route path="/admin" element={<AdminDashboardPage />} />
+          <Route path="/admin/approval-requests" element={<ApprovalRequestsPage />} />
 
-        <Route
-          path="/*"
-          element={
-            <>
-              <NavBar />
 
-              <Routes>
-                {/* Root page */}
-                <Route path="/" element={<HomePage />} />
+          <Route
+            path="/*"
+            element={
+              <>
+                <NavBar />
+                <Routes>
+                  {/* Root page */}
+                  <Route path="/" element={<HomePage />} />
 
-                {/* Route for searching products */}
-                <Route path="/search" element={<ProductsPage />} />
-                {/* Route for an individual product */}
-                <Route path="/product/:product" element={<ProductPage />} />
+                  {/* Route for searching products */}
+                  <Route path="/search" element={<ProductsPage />} />
+                  
+                  {/* Route for an individual product */}
+                  <Route path="/product/:product" element={<ProductPage />} />
 
-                <Route
-                  path="/products/individual/tomato"
-                  element={<TomatoProductPage />}
-                />
-                <Route
-                  path="/products/individual/banana"
-                  element={<BananaProductPage />}
-                />
-                <Route
-                  path="/products/individual/water"
-                  element={<WaterProductPage />}
-                />
-                <Route
-                  path="/products/individual/test"
-                  element={<TestProductPage />}
-                />
-
-              </Routes>
-
-              <Footer />
-            </>
-          }
-        />
-      </Routes>
-    </Router>
+                  <Route path="/products/individual/tomato" element={<TomatoProductPage />} />
+                  <Route path="/products/individual/banana" element={<BananaProductPage />} />
+                  <Route path="/products/individual/water" element={<WaterProductPage />} />
+                  <Route path="/products/individual/test" element={<TestProductPage />} />
+                </Routes>
+                <Footer />
+              </>
+            }
+          />
+        </Routes>
+      </Router>
   );
 }
