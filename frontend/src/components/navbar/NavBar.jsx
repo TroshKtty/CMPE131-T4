@@ -32,6 +32,12 @@ export default function NavBar() {
     navigate(encodeURI(`/search?${target}`));
   };
 
+  const log_out = () =>{
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+    alert('Logged Out Successfully!');
+    navigate('/');
+  }
   const clearSearch = () => {
     setQuery("");
   };
@@ -113,35 +119,6 @@ export default function NavBar() {
             >
               Cart
             </Button>
-            <Button
-              variant="plain"
-              color="primary"
-              startDecorator={<User size={20} />}
-              sx={{ color: "common.black" }}
-              onClick={() => navigate("/login")}
-            >
-              Log In
-            </Button>
-            <NavLink to="/cart">
-              <Button
-                variant="plain"
-                color="primary"
-                startDecorator={<ShoppingCart size={20} />}
-                sx={{ color: "common.black" }}
-              >
-                Cart
-              </Button>
-            </NavLink>
-            {/*<NavLink to="/login">
-              <Button
-                variant="plain"
-                color="primary"
-                startDecorator={<User size={20} />}
-                sx={{ color: "common.black" }}
-              >
-                Log In
-              </Button>
-            </NavLink>*/}
                     {sessionStorage.getItem("token") || localStorage.getItem("token") ? (
           <div className="navbar_menu">
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -159,12 +136,15 @@ export default function NavBar() {
             </ul>
           </div>
         ) : (
-          <NavLink to="/login">
-            <User size={18} style={{ marginRight: 8 }} />
-            <Typography level="h4" fontSize="lg" textColor="common.white">
+            <Button
+              variant="plain"
+              color="primary"
+              startDecorator={<User size={20} />}
+              sx={{ color: "common.black" }}
+              onClick={() => navigate("/login")}
+            >
               Log In
-            </Typography>
-          </NavLink>
+            </Button>
         )}
           </Box>
           <IconButton
