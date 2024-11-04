@@ -23,6 +23,7 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import "./styles.css";
 import PropTypes from "prop-types";
+import NotFound from "@/components/NotFound";
 
 function getProductSpecifications(product) {
   switch (product.toLowerCase()) {
@@ -100,7 +101,7 @@ export default function ProductPage() {
   const { product: productParam } = useParams();
   const [product, setProduct] = useState("");
   const [productImages, setProductImages] = useState([]);
-  const [productData, setProductData] = useState({});
+  const [productData, setProductData] = useState(null);
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
@@ -118,6 +119,10 @@ export default function ProductPage() {
 
   if (product === "") {
     return null;
+  }
+
+  if (!productData) {
+    return <NotFound />;
   }
 
   const handleAddToCart = (ev) => {
