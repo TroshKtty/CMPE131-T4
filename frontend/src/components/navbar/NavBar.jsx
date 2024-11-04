@@ -1,5 +1,5 @@
 import { Box, IconButton, Input, Link, Typography } from "@mui/joy";
-import { Search, ShoppingCart, User } from "lucide-react";
+import { MenuIcon, Search, ShoppingCart, User } from "lucide-react";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import {
@@ -7,6 +7,8 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
+
+import "./navbar.css";
 
 function NavLink({ children, ...props }) {
   return (
@@ -53,6 +55,12 @@ export default function NavBar() {
     navigate(encodeURI(`/search?${target}`));
   };
 
+  const log_out = () =>{
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+    alert('Logged Out Successfully!');
+    navigate('/');
+  }
   return (
     <Box
       sx={{
@@ -94,12 +102,30 @@ export default function NavBar() {
             Cart
           </Typography>
         </NavLink>
-        <NavLink to="/login">
-          <User size={18} style={{ marginRight: 8 }} />
-          <Typography level="h4" fontSize="lg" textColor="common.white">
-            Log In
-          </Typography>
-        </NavLink>
+        {sessionStorage.getItem("token") || localStorage.getItem("token") ? (
+          <div className="navbar_menu">
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <MenuIcon size={18} style={{ color: "white" }} />
+              <Typography level="h4" fontSize="lg" textColor="common.white">
+                Menu
+              </Typography>
+            </Box>
+            <ul className="navbar_dropdown">
+              <li>Account Information</li>
+              <hr />
+              <li>Order History</li>
+              <hr />
+              <li onClick={log_out}>Logout</li>
+            </ul>
+          </div>
+        ) : (
+          <NavLink to="/login">
+            <User size={18} style={{ marginRight: 8 }} />
+            <Typography level="h4" fontSize="lg" textColor="common.white">
+              Log In
+            </Typography>
+          </NavLink>
+        )}
       </Box>
     </Box>
   );
