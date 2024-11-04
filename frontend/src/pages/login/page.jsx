@@ -32,7 +32,7 @@ export default function LoginPage() {
       alert("Logged in successfully!");
       console.log(response);
     } catch (error) {
-      alert("Invalid email or password. Please try again.");
+      alert("Invalid username or password. Please try again.");
       console.error("Login failed", error);
     }
   };
