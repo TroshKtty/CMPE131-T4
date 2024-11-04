@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/joy";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 const CATEGORIES = {};
 for (const cat of [...new Set(PRODUCTS.map((product) => product.category))]) {
@@ -22,6 +22,7 @@ for (const cat of [...new Set(PRODUCTS.map((product) => product.category))]) {
 }
 
 export default function ProductsPage() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [filteredProducts, setFilteredProducts] = useState([]);
 
@@ -43,7 +44,7 @@ export default function ProductsPage() {
   //   fetchProducts();
   // }, []);
 
-//}, [setFilteredProducts, query, category]);
+  //}, [setFilteredProducts, query, category]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -63,14 +64,11 @@ export default function ProductsPage() {
     setFilteredProducts(
       PRODUCTS.filter(
         (product) =>
-          (query === "" ||
-            product.item.toLowerCase().includes(query)) &&
-            (category === "" ||
-              product.category === category) 
-        )
-      );
-    }, [setFilteredProducts, query, category]);
-
+          (query === "" || product.item.toLowerCase().includes(query)) &&
+          (category === "" || product.category === category)
+      )
+    );
+  }, [setFilteredProducts, query, category]);
 
   const handleCategoryChange = (newCategory) => {
     if (newCategory) {
@@ -87,6 +85,10 @@ export default function ProductsPage() {
   const _addToCart = (ev, product) => {
     console.log(product);
     alert(`${product.item} added to cart`);
+  };
+
+  const navigateToProductPage = (product) => {
+    navigate(`/product/${encodeURI(product.item)}`);
   };
 
   return (
@@ -176,6 +178,8 @@ export default function ProductsPage() {
                       <img
                         src={product.imgUrl ?? "https://placehold.co/300x300"}
                         alt={product.item}
+                        onClick={() => navigateToProductPage(product)}
+                        style={{ cursor: "pointer" }}
                       />
                     </AspectRatio>
                   </CardOverflow>
@@ -186,7 +190,14 @@ export default function ProductsPage() {
                         justifyContent="space-between"
                         alignItems="center"
                       >
-                        <Typography level="title-md">{product.item}</Typography>
+                        <Typography
+                          level="title-md"
+                          component="a"
+                          href={`/product/${product.item}`}
+                          sx={{ textDecoration: "none" }}
+                        >
+                          {product.item}
+                        </Typography>
                       </Box>
                     </Box>
                     <Box
