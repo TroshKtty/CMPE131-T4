@@ -12,11 +12,6 @@ import ProductPage from "@/pages/products/individual/page";
 import NavBar from "@/components/navbar/NavBar";
 import Footer from "@/components/footer/Footer";
 
-import TomatoProductPage from "@/pages/products/individual/tomatopage";
-import BananaProductPage from "@/pages/products/individual/bananapage";
-import WaterProductPage from "./pages/products/individual/waterpage";
-import TestProductPage from "./pages/products/individual/testpage";
-
 //utils
 import ProtectedRoute from "./utils/protected_routes";
 import useAuth from "./utils/auth_check";
@@ -65,10 +60,6 @@ export default function App() {
                 <Route path="/search" element={<ProductsPage />} />
                 {/* Route for an individual product */}
                 <Route path="/product/:product" element={<ProductPage />} />
-                <Route path="/products/individual/tomato" element={<TomatoProductPage />} />
-                <Route path="/products/individual/banana" element={<BananaProductPage />} />
-                <Route path="/products/individual/water" element={<WaterProductPage />} />
-                <Route path="/products/individual/test" element={<TestProductPage />} />
                 <Route path="/unauthorized" element={<UnauthorizedPage />} />
               </Routes>
               <Footer />
