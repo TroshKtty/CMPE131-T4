@@ -27,8 +27,6 @@ const useAuth = () => {
 
         return () => clearTimeout(timer);
       }
-    } else {
-      navigate("/login");
     }
   }, [navigate]);
 
