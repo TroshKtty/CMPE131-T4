@@ -42,7 +42,6 @@ app.get('/api/products', (req, res) => {
     }
     res.json(results);
   });
-});
 */
 
 // // Start server (Line 15 commented out)
@@ -52,12 +51,13 @@ app.get('/api/products', (req, res) => {
 //     });
 // });
 
-app.get('/api/product_test', async (req, res) => {
+app.get("/api/product_test", async (req, res) => {
   try {
-    const products = await Product.findAll(); // Retrieves all products
+    const products = await ProductTest.findAll();
     res.json(products);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch products' });
+    console.log("Error fetching products:", error);
+    res.status(500).json({ error: "Failed to fetch products" });
   }
 });
 
