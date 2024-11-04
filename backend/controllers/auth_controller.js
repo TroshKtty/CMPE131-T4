@@ -65,8 +65,7 @@ const login = async (req, res) => {
             { expiresIn: '1h' }
         );
 
-        res.cookie('token', token, { httpOnly: true, secure: true, maxAge: 3600000 });
-        res.status(200).json({ message: 'Login successful', role: user.role });
+        res.status(200).json({ message: 'Login successful', role: user.role, token });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Something went wrong during login' });

@@ -10,15 +10,21 @@ import {
   Link,
   Typography,
 } from "@mui/joy";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { jwtDecode } from "jwt-decode";
 export default function LoginPage() {
+  
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (sessionStorage.getItem("token") || localStorage.getItem("token"))
+      navigate("/");
+  });
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const navigate = useNavigate();
 
   const handleLogin = async (ev) => {
     ev.preventDefault();
@@ -29,8 +35,19 @@ export default function LoginPage() {
         username,
         password,
       });
+
+      if (rememberMe) localStorage.setItem("token", response.data.token);
+      else sessionStorage.setItem("token", response.data.token);
+
       alert("Logged in successfully!");
-      console.log(response);
+      const token = response.data.token;
+      console.log("token", token);
+
+      const role = jwtDecode(token).role;
+      if (role === "admin") navigate("/admin");
+      else if (role === "employee") navigate("/");
+      else navigate("/");
+    
     } catch (error) {
       alert("Invalid username or password. Please try again.");
       console.error("Login failed", error);

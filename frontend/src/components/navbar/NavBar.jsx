@@ -14,6 +14,8 @@ import {
   useSearchParams
 } from "react-router-dom";
 
+import "./navbar.css";
+
 export default function NavBar() {
   const [searchParams] = useSearchParams();
   const [query, setQuery] = useState(searchParams.get("q") || "");
@@ -35,6 +37,12 @@ export default function NavBar() {
     navigate(encodeURI(`/search?${target}`));
   };
 
+  const log_out = () =>{
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+    alert('Logged Out Successfully!');
+    navigate('/');
+  }
   const clearSearch = () => {
     setQuery("");
   };
@@ -116,6 +124,23 @@ export default function NavBar() {
             >
               Cart
             </Button>
+                    {sessionStorage.getItem("token") || localStorage.getItem("token") ? (
+          <div className="navbar_menu">
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <MenuIcon size={18} style={{ color: "white" }} />
+              <Typography level="h4" fontSize="lg" textColor="common.white">
+                Menu
+              </Typography>
+            </Box>
+            <ul className="navbar_dropdown">
+              <li>Account Information</li>
+              <hr />
+              <li>Order History</li>
+              <hr />
+              <li onClick={log_out}>Logout</li>
+            </ul>
+          </div>
+        ) : (
             <Button
               variant="plain"
               color="primary"
@@ -125,6 +150,7 @@ export default function NavBar() {
             >
               Log In
             </Button>
+        )}
           </Box>
           <IconButton
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

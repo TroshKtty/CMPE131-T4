@@ -1,0 +1,38 @@
+.navbar_menu{
+    position: relative;
+}
+
+.navbar_dropdown{
+    position: absolute;
+    display: none;
+    right: 0;
+    z-index: 1;
+}
+
+.navbar_dropdown li{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #000000;
+    font-size: medium;
+}
+
+.navbar_menu:hover .navbar_dropdown{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1.5px solid #0c6bca ;
+    width: 200px;
+
+}
+
+.navbar_dropdown li:hover{
+    color: #0c6bca;
+}
+
+
+
