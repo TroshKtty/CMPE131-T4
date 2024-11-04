@@ -18,7 +18,7 @@ export default function RegistrationPage() {
   const [password, setPassword] = useState("");
   const [phone_no, setphone_no] = useState("");
   const [role, setRole] = useState("Customer");
-  
+
   // messages
   const [message, setMessage] = useState("");
 
@@ -26,7 +26,7 @@ export default function RegistrationPage() {
   const navigate = useNavigate();
 
   const handleRegistration = async (ev) => {
-    
+
     ev.preventDefault();
     try {
       const response = await axios.post('http://localhost:3000/auth/register', { email, username, password, phone_no, role });
@@ -125,7 +125,7 @@ export default function RegistrationPage() {
                   />
                 </FormControl>
                 <FormControl required>
-                  <FormLabel>Phone No</FormLabel>
+                  <FormLabel>Phone Number</FormLabel>
                   <Input
                     onChange={(ev) => setphone_no(ev.target.value)}
                     type="text"
