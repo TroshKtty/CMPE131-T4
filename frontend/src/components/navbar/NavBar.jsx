@@ -5,34 +5,11 @@ import { useEffect, useState } from "react";
 import {
   Link as RouterLink,
   useNavigate,
+  useSearchParams
   useSearchParams,
 } from "react-router-dom";
 
 import "./navbar.css";
-
-function NavLink({ children, ...props }) {
-  return (
-    <Link
-      component={RouterLink}
-      to={props.to}
-      sx={{
-        textDecoration: "none",
-        color: "primary.600",
-        "&:hover": {
-          textDecoration: "none",
-          color: "primary.700",
-        },
-      }}
-    >
-      {children}
-    </Link>
-  );
-}
-
-NavLink.propTypes = {
-  children: PropTypes.node.isRequired,
-  to: PropTypes.string.isRequired,
-};
 
 export default function NavBar() {
   const [searchParams] = useSearchParams();
@@ -77,11 +54,16 @@ export default function NavBar() {
         sx={{ px: { xs: 2, sm: 4 }, py: 1 }}
       >
         <Grid xs={6} sm={3} display="flex" alignItems="center">
-          <NavLink to="/">
+          <Button
+            variant="plain"
+            color="primary"
+            sx={{ color: "common.black" }}
+            onClick={() => navigate("/")}
+          >
             <Typography level="h1" fontSize="xl">
               OFS
             </Typography>
-          </NavLink>
+          </Button>
         </Grid>
 
         <Grid xs={12} sm={6} md={5} lg={6} order={{ xs: 3, sm: 2 }}>
@@ -122,6 +104,24 @@ export default function NavBar() {
           justifyContent="flex-end"
         >
           <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
+            <Button
+              variant="plain"
+              color="primary"
+              startDecorator={<ShoppingCart size={20} />}
+              sx={{ color: "common.black" }}
+              onClick={() => navigate("/cart")}
+            >
+              Cart
+            </Button>
+            <Button
+              variant="plain"
+              color="primary"
+              startDecorator={<User size={20} />}
+              sx={{ color: "common.black" }}
+              onClick={() => navigate("/login")}
+            >
+              Log In
+            </Button>
             <NavLink to="/cart">
               <Button
                 variant="plain"
@@ -185,16 +185,6 @@ export default function NavBar() {
             p: 2,
           }}
         >
-          <NavLink to="/cart">
-            <Button fullWidth startDecorator={<ShoppingCart size={18} />}>
-              Cart
-            </Button>
-          </NavLink>
-          <NavLink to="/login">
-            <Button fullWidth startDecorator={<User size={18} />}>
-              Log In
-            </Button>
-          </NavLink>
         </Box>
       )}
     </Sheet>
