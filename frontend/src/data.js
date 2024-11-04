@@ -130,8 +130,6 @@ const PRODUCTS = [
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/57d87a74faf465e394f41c7a_produce-romatomatoes-1._FMwebp__SR300,300__TTD_.JPG",
     category: "Fruits",
     images: ["/tomatoes.jpg"],
-    category: "Vegetables",
-    images: ["/tomatoes.jpg", "/apples.jpg", "/broccoli.jpg", "/layschips.jpg"],
     descriptions: [
       "Wholesome, fresh, versatile, and delicious",
       "Ideal ingredient for a variety of dishes",
@@ -380,9 +378,6 @@ const PRODUCTS = [
     weight: 35,
     price: 5.74,
     imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU03kC_x5u1oDWZrAbKDEltMkVv-H4iGBa7g&s",
-    price: 1.28,
-    imgUrl:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU03kC_x5u1oDWZrAbKDEltMkVv-H4iGBa7g&s",
     category: "Beverages",
     images: ["/water.jpg"],
     descriptions: [
