@@ -7,6 +7,7 @@ import ApprovalRequestsPage from "@/pages/admin/ApprovalRequestsPage";
 import UnauthorizedPage from "./pages/unauthorized_page/unauthorized";
 
 import ProductPage from "@/pages/products/individual/page";
+import ProductsPage from "@/pages/products/page";
 
 import NavBar from "@/components/navbar/NavBar";
 import Footer from "@/components/footer/Footer";
@@ -19,34 +20,33 @@ const AuthWrapper = () => {
   useAuth();
   return null;
 };
+
 export default function App() {
-  //make sure token hasnt expired
-  
   return (
     <Router>
-      <AuthWrapper/>
+      <AuthWrapper />
       <Routes>
         {/* Route for logging in */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/registration" element={<RegistrationPage />} />
-        
+
         {/*Protected Routes - gotta find a way to make it simpler and just protect one and apply it to others*/}
-        <Route 
-          path="/admin" 
+        <Route
+          path="/admin"
           element={
             <ProtectedRoute required_role="admin">
               <AdminDashboardPage />
             </ProtectedRoute>
           }
         />
-        <Route 
-          path="/admin/approval-requests" 
+        <Route
+          path="/admin/approval-requests"
           element={
             <ProtectedRoute required_role="admin">
               <ApprovalRequestsPage />
             </ProtectedRoute>
           }
-        />        
+        />
         <Route
           path="/*"
           element={
