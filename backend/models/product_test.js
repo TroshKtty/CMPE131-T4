@@ -10,8 +10,9 @@ const ProductTest = sequelize.define(
       primaryKey: true,
     },
     name: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: false,
+      unique: true
     },
     price: {
       type: DataTypes.DECIMAL(10, 2),
@@ -22,16 +23,32 @@ const ProductTest = sequelize.define(
       allowNull: false,
     },
     category: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     // TODO: We can just store relative URLs in the database
     imgUrl: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     quantity: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    category: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    descriptions: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    nutritionInfo: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    specifications: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
     createdAt: {
@@ -44,7 +61,7 @@ const ProductTest = sequelize.define(
     },
   },
   {
-    tableName: "product_test",
+    tableName: "product_test111111111111111",
   }
 );
 
