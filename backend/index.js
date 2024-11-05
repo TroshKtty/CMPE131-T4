@@ -4,6 +4,8 @@ const cors = require('cors');
 require('dotenv').config();
 const token = require('./middleware/auth');
 const auth_route = require('./routes/auth_routes');
+const db = require("./models");
+const mysql = require("mysql");
 
 
 const app = express();
@@ -39,6 +41,11 @@ app.get('/api/product_test', async (req, res) => {
 
 
 // Start server
-app.listen(PORT, () => {
+
+//added a sync function to the database to automatically refresh tables in models
+//If changes are made to a table in models, IT WILL DELETE ALL DATA
+db.sequelize.sync().then((req) => {
+  app.listen(PORT, () => {
     console.log(`Server running on Port ${PORT}`);
+  });
 });
