@@ -1,0 +1,127 @@
+/* Navbar styling */
+.navbar {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  background-color: #ffffff;
+}
+
+.navbar-title {
+  font-weight: bold;
+  font-size: 2rem;
+  color: #333;
+}
+
+/* Login Page Container */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  padding-top: 80px; /* Adjust for fixed navbar */
+  background-color: #f9f9f9;
+}
+
+/* Login Box Styling */
+.login-box {
+  width: 100%;
+  max-width: 400px;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+.login-title {
+  margin-bottom: 24px;
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+/* Form Layout */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  color: #555;
+}
+
+/* Remember Me and Forgot Password Section */
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.forgot-password {
+  font-size: 0.875rem;
+  color: #1976d2;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+/* Divider Styling */
+.divider {
+  margin: 24px 0;
+  font-size: 0.875rem;
+  color: #888;
+  text-align: center;
+}
+
+/* Create Account Section */
+.create-account {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.no-account-text {
+  font-size: 0.875rem;
+  color: #555;
+}
+
+.create-account-button {
+  background-color: #e0e7ff;
+  color: #1976d2;
+}
+
+.create-account-button:hover {
+  background-color: #c5d4ff;
+}
+
+/* Submit Button */
+.submit-button {
+  background-color: #1976d2;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.submit-button:hover {
+  background-color: #115293;
+}
+
+  

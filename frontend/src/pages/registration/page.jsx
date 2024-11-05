@@ -8,25 +8,32 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/joy";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
 export default function RegistrationPage() {
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if(sessionStorage.getItem('token') || localStorage.getItem('token'))
+      navigate('/');
+  }
+
+  )
+
   const [email, setEmail] = useState("");
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [phone_no, setphone_no] = useState("");
   const [role, setRole] = useState("Customer");
-  
+
   // messages
   const [message, setMessage] = useState("");
-
   const [username_message, setUsernameMessage] = useState("");
-  const navigate = useNavigate();
 
   const handleRegistration = async (ev) => {
-    
+
     ev.preventDefault();
     try {
       const response = await axios.post('http://localhost:3000/auth/register', { email, username, password, phone_no, role });
@@ -125,7 +132,7 @@ export default function RegistrationPage() {
                   />
                 </FormControl>
                 <FormControl required>
-                  <FormLabel>Phone No</FormLabel>
+                  <FormLabel>Phone Number</FormLabel>
                   <Input
                     onChange={(ev) => setphone_no(ev.target.value)}
                     type="text"
