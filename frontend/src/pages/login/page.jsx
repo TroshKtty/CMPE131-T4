@@ -1,5 +1,6 @@
 import "./styles.css";
 import {
+  Alert,
   Box,
   Button,
   Checkbox,
@@ -9,14 +10,17 @@ import {
   Input,
   Link,
   Typography,
+  IconButton,
 } from "@mui/joy";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
+import { X } from "lucide-react";
+
 export default function LoginPage() {
-  
   const navigate = useNavigate();
+
   useEffect(() => {
     if (sessionStorage.getItem("token") || localStorage.getItem("token"))
       navigate("/");
@@ -25,6 +29,7 @@ export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [msg, setMsg] = useState("");
 
   const handleLogin = async (ev) => {
     ev.preventDefault();
@@ -39,18 +44,23 @@ export default function LoginPage() {
       if (rememberMe) localStorage.setItem("token", response.data.token);
       else sessionStorage.setItem("token", response.data.token);
 
-      alert("Logged in successfully!");
+      console.log("Logged in successfully!");
+
       const token = response.data.token;
-      console.log("token", token);
+      // console.log("token", token);
 
       const role = jwtDecode(token).role;
       if (role === "admin") navigate("/admin");
       else if (role === "employee") navigate("/");
       else navigate("/");
-    
     } catch (error) {
-      alert("Invalid username or password. Please try again.");
-      console.error("Login failed", error);
+      // alert("Invalid username or password. Please try again.");
+      console.log("Login failed", error);
+      if (error instanceof AxiosError && error?.response?.data?.message) {
+        setMsg(error.response.data.message);
+      } else {
+        setMsg("An error occured while logging in.");
+      }
     }
   };
 
@@ -61,6 +71,20 @@ export default function LoginPage() {
       </Box>
       <Box className="login-container">
         <Box className="login-box">
+          {msg && (
+            <Alert
+              severity="error"
+              variant="soft"
+              endDecorator={
+                <IconButton onClick={() => setMsg("")}>
+                  <X />
+                </IconButton>
+              }
+              sx={{ p: 1 }}
+            >
+              {msg}
+            </Alert>
+          )}
           <Typography className="login-title">Log In</Typography>
           <form onSubmit={handleLogin}>
             <Box className="login-form">
