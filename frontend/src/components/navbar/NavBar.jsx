@@ -5,14 +5,11 @@ import {
   IconButton,
   Input,
   Sheet,
-  Typography
+  Typography,
 } from "@mui/joy";
-import { Menu, Search, ShoppingCart, User, X } from "lucide-react";
+import { Menu, Search, ShoppingCart, User, X, MenuIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import {
-  useNavigate,
-  useSearchParams
-} from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import "./navbar.css";
 
@@ -37,12 +34,12 @@ export default function NavBar() {
     navigate(encodeURI(`/search?${target}`));
   };
 
-  const log_out = () =>{
-    localStorage.removeItem('token');
-    sessionStorage.removeItem('token');
-    alert('Logged Out Successfully!');
-    navigate('/');
-  }
+  const log_out = () => {
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
+    alert("Logged Out Successfully!");
+    navigate("/");
+  };
   const clearSearch = () => {
     setQuery("");
   };
@@ -124,33 +121,34 @@ export default function NavBar() {
             >
               Cart
             </Button>
-                    {sessionStorage.getItem("token") || localStorage.getItem("token") ? (
-          <div className="navbar_menu">
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-              <MenuIcon size={18} style={{ color: "white" }} />
-              <Typography level="h4" fontSize="lg" textColor="common.white">
-                Menu
-              </Typography>
-            </Box>
-            <ul className="navbar_dropdown">
-              <li>Account Information</li>
-              <hr />
-              <li>Order History</li>
-              <hr />
-              <li onClick={log_out}>Logout</li>
-            </ul>
-          </div>
-        ) : (
-            <Button
-              variant="plain"
-              color="primary"
-              startDecorator={<User size={20} />}
-              sx={{ color: "common.black" }}
-              onClick={() => navigate("/login")}
-            >
-              Log In
-            </Button>
-        )}
+            {sessionStorage.getItem("token") ||
+            localStorage.getItem("token") ? (
+              <div className="navbar_menu">
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <MenuIcon size={18} style={{ color: "white" }} />
+                  <Typography level="h4" fontSize="lg" textColor="common.white">
+                    Menu
+                  </Typography>
+                </Box>
+                <ul className="navbar_dropdown">
+                  <li>Account Information</li>
+                  <hr />
+                  <li>Order History</li>
+                  <hr />
+                  <li onClick={log_out}>Logout</li>
+                </ul>
+              </div>
+            ) : (
+              <Button
+                variant="plain"
+                color="primary"
+                startDecorator={<User size={20} />}
+                sx={{ color: "common.black" }}
+                onClick={() => navigate("/login")}
+              >
+                Log In
+              </Button>
+            )}
           </Box>
           <IconButton
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
