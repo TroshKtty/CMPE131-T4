@@ -2,6 +2,7 @@ import "./styles.css";
 import {
   Box,
   Button,
+  IconButton,
   Checkbox,
   Divider,
   FormControl,
@@ -10,6 +11,10 @@ import {
   Link,
   Typography,
 } from "@mui/joy";
+import { 
+  Visibility, 
+  VisibilityOff 
+} from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -20,7 +25,7 @@ export default function LoginPage() {
   useEffect(() => {
     if (sessionStorage.getItem("token") || localStorage.getItem("token"))
       navigate("/");
-  });
+  }, [navigate]);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -74,11 +79,7 @@ export default function LoginPage() {
               </FormControl>
               <FormControl required>
                 <FormLabel className="form-label">Password</FormLabel>
-                <Input
-                  onChange={(ev) => setPassword(ev.target.value)}
-                  type="password"
-                  required
-                />
+                <PasswordInput value={password} onChange={(ev) => setPassword(ev.target.value)} />
               </FormControl>
               <FormControl>
                 <Box className="remember-forgot">
@@ -113,5 +114,27 @@ export default function LoginPage() {
         </Box>
       </Box>
     </>
+  );
+}
+
+function PasswordInput({ value, onChange }) {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
+  return (
+    <FormControl required>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Input
+          type={showPassword ? 'text' : 'password'}
+          value={value}
+          onChange={onChange}
+          sx={{ flexGrow: 1 }}
+        />
+        <IconButton onClick={togglePasswordVisibility}>
+          {showPassword ? <VisibilityOff /> : <Visibility />}
+        </IconButton>
+      </Box>
+    </FormControl>
   );
 }
