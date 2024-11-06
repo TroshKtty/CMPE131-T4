@@ -1,7 +1,7 @@
 import React from "react";
-import { Box, Typography, Link, Card, CardContent } from "@mui/joy";
-import { Link as RouterLink } from "react-router-dom";
-import Chart from "react-apexcharts"; // Make sure this package is installed
+import { Box, Typography, Card, CardContent } from "@mui/joy";
+import Chart from "react-apexcharts";
+import AdminSidebar from "@/components/admin_navbar/admin_navbar"; // Import AdminSidebar component
 
 export default function AdminDashboardPage() {
   const salesData = {
@@ -26,7 +26,7 @@ export default function AdminDashboardPage() {
       markers: {
         size: 5,
       },
-      colors: ["#20E647"], // Green color
+      colors: ["#20E647"],
     },
   };
 
@@ -34,7 +34,7 @@ export default function AdminDashboardPage() {
     series: [38.8, 22.9, 23, 15.3],
     options: {
       labels: ["Fruits and Vegetables", "Snacks", "Meat and Seafood", "Others"],
-      colors: ["#FF4560", "#00E396", "#008FFB", "#775DD0"], // Example colors for categories
+      colors: ["#FF4560", "#00E396", "#008FFB", "#775DD0"],
       plotOptions: {
         pie: {
           donut: {
@@ -50,43 +50,7 @@ export default function AdminDashboardPage() {
   return (
     <Box sx={{ display: "flex", height: "100vh", bgcolor: "#f4f5f7" }}>
       {/* Sidebar */}
-      <Box
-        sx={{
-          width: 250,
-          bgcolor: "#5271ff",
-          color: "common.white",
-          padding: 2,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }}
-      >
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <Typography fontSize="1.5rem" fontWeight="bold" sx={{ color: "white" }}>
-            Dashboard
-          </Typography>
-          <Link component={RouterLink} to="/admin/inventory" sx={{ color: "white", fontSize: "1rem" }}>
-            Inventory Management
-          </Link>
-          <Link component={RouterLink} to="/admin/sales" sx={{ color: "white", fontSize: "1rem" }}>
-            Sales Reports
-          </Link>
-          <Link component={RouterLink} to="/admin/analytics" sx={{ color: "white", fontSize: "1rem" }}>
-            User Analytics
-          </Link>
-          <Link component={RouterLink} to="/admin/approval-requests" sx={{ color: "white", fontSize: "1rem" }}>
-            Approval Requests
-          </Link>
-        </Box>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <Link component={RouterLink} to="/admin/settings" sx={{ color: "white", fontSize: "1rem" }}>
-            Settings
-          </Link>
-          <Link component={RouterLink} to="/logout" sx={{ color: "white", fontSize: "1rem" }}>
-            Logout
-          </Link>
-        </Box>
-      </Box>
+      <AdminSidebar />
 
       {/* Main Content */}
       <Box sx={{ flexGrow: 1, padding: 4 }}>
@@ -94,13 +58,12 @@ export default function AdminDashboardPage() {
           fontSize="2.5rem"
           fontWeight="bold"
           align="center"
-          sx={{ color: "#5271ff" }}
+          sx={{ color: "#0c6cba" }}
         >
           OFS Admin Dashboard
         </Typography>
 
         <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>
-          {/* Info Cards */}
           <Card sx={{ flexGrow: 1, m: 1 }}>
             <CardContent>
               <Typography fontSize="1.25rem" fontWeight="medium">Orders</Typography>

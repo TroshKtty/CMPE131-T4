@@ -61,6 +61,7 @@ export default function NavBar() {
     alert('Logged Out Successfully!');
     navigate('/');
   }
+  
   return (
     <Box
       sx={{

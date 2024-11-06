@@ -238,5 +238,5 @@ const ApprovalRequestsPage = () => {
   );
 };
 
-export default ApprovalRequestsPage;
 
+export default ApprovalRequestsPage;
