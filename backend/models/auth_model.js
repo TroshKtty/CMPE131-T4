@@ -3,15 +3,19 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config'); // Import sequelize instance
 
 const User = sequelize.define('User', {
+    
     user_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true, // Ensure this is set if you want auto-increment
-      },
+        autoIncrement: true, 
+    },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
     },
     username: {
         type: DataTypes.STRING,

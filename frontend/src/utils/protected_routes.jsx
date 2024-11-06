@@ -9,7 +9,7 @@ function ProtectedRoute({ children, required_role }) { // Use camel case for com
   else if (sessionStorage.getItem('token'))
     token = sessionStorage.getItem('token');
 
-  console.log(token);
+  
 
   // Redirect to login if there's no token
   if (!token) {

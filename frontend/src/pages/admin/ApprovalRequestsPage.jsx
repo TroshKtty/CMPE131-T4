@@ -1,298 +1,242 @@
-import React, { useState } from "react";
-import { Box, Button, Typography } from "@mui/joy";
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Button,
+  Typography,
+  Tabs,
+  Tab,
+  TabPanel,
+  TabList,
+} from "@mui/joy";
 import "./styles.css";
-
-
-// const ApprovalRequestsPage = () => {
-//   const [inputValue, setInputValue] = useState("");
-//   const [approvalStatus, setApprovalStatus] = useState("pending");
-
-//   const handleInputChange = (e) => {
-//     setInputValue(e.target.value);
-//   };
-
-//   const handleApprovalChange = (e) => {
-//     setApprovalStatus(e.target.value);
-//   };
-
-//   const handleSubmit = () => {
-//     console.log("Submitted:", inputValue, approvalStatus);
-//     // Add any submit logic here
-//   };
+import AdminSidebar from "@/components/admin_navbar/admin_navbar";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 const ApprovalRequestsPage = () => {
-  const navigate = useNavigate();
-  // Initial sample data for users requesting access with request date
-  const [requests, setRequests] = useState([
-    { id: 1, name: "Sebastian Brown", requestDate: "4/9/2024" },
-    { id: 2, name: "Mike Jones", requestDate: "6/10/2024" },
-    { id: 3, name: "Hayden Bitten", requestDate: "8/10/2024" },
-  ]);
-
-  // History of approved/denied requests
+  const [requests, setRequests] = useState([]);
   const [history, setHistory] = useState([]);
+  const [tabValue, setTabValue] = useState(0);
+  const [error, setError] = useState(null);
 
-  // Get current date in MM/DD/YYYY format
   const getCurrentDate = () => {
     const today = new Date();
     return today.toISOString().split("T")[0];
   };
 
-  // Handle approval or denial of a request
-  const handleDecision = (id, decision) => {
-    const user = requests.find((request) => request.id === id);
+  useEffect(() => {
+    const fetchRequests = async () => {
+      try {
+        const response = await axios.post("http://localhost:3000/users/pendingAll", {}); 
+        //const data = await response.json();
+        setRequests(response.data.pending_users);
+      } catch(err) {
+        setError(err.message);
+        alert(error);
+      }
+    };
+
+    /*const fetchHistory = async () =>{
+      try{
+        const response = await axios.post("http://localhost:3000/users/approvedHistory", {});
+        setHistory(response.data.approved_users);
+      }catch(error){
+        setError(error.message);
+      }
+    }
+
+    fetchHistory();*/
+    fetchRequests();
+  }, []);
+
+  const handleDecision = (user_id, decision) => {
+    const user = requests.find((request) => request.user_id === user_id);
     if (user) {
-      const decisionDate = getCurrentDate();
-      setHistory([...history, { ...user, status: decision, decisionDate }]);
-      setRequests(requests.filter((request) => request.id !== id));
+      const decision_date = getCurrentDate();
+      const requester_id = user_id;
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+      const user_id_approver = jwtDecode(token).user_id;
+      axios.post("http://localhost:3000/users/decision", {requester_id, decision, decision_date, user_id_approver});
+      /*setHistory([...history, { ...user, status: decision, decisionDate }]);*/
+      setRequests(requests.filter((request) => request.user_id !== user_id));
+    }
+  };
+
+  const handleRevoke = (id) => {
+    const entry = history.find((entry) => entry.id === id);
+    if (entry) {
+      setRequests([...requests, { ...entry, requestDate: entry.decisionDate }]);
+      setHistory(history.filter((entry) => entry.id !== id));
     }
   };
 
   return (
     <>
-<Box component="nav" className="navbar">
-        <Typography
-          style={{ fontSize: '2rem', fontWeight: 'bold', color: 'black', cursor: 'pointer' }}
-          onClick={() => navigate('/admin')}
+      <Box sx={{ display: "flex", minHeight: "100vh" }}>
+        <AdminSidebar />
+        <Box
+          sx={{
+            flexGrow: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          OFS
-        </Typography>
-      </Box>
-
-<Box component="main" className="main-content">
-
-    <Box
-      sx={{
-        padding: 4,
-        maxWidth: "800px",
-        margin: "auto",
-        backgroundColor: "#f4f6f8",
-        borderRadius: "8px",
-        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-      }}
-    >
-      <Typography
-        variant="h4"
-        sx={{ textAlign: "center", mb: 3, fontWeight: "bold", color: "black" }}
-      >
-        Admin Access Requests
-      </Typography>
-
-      {/* Pending Requests */}
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold", color: "black" }}>
-          Pending Requests
-        </Typography>
-        {requests.length > 0 ? (
-          requests.map((request) => (
-            <Box
-              key={request.id}
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: 2,
-                backgroundColor: "white",
-                borderRadius: "6px",
-                mb: 2,
-                boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
-              }}
+          <Box
+            sx={{
+              padding: 4,
+              maxWidth: "800px",
+              backgroundColor: "#f4f6f8",
+              borderRadius: "8px",
+              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+              width: "100%",
+            }}
+          >
+            <Tabs
+              value={tabValue}
+              onChange={(event, newValue) => setTabValue(newValue)}
             >
               <Box>
-                <Typography variant="body1" sx={{ fontWeight: "bold", color: "black" }}>
-                  {request.name}
-                </Typography>
-                <Typography variant="body2" sx={{ color: "black" }}>
-                  Requested on: {request.requestDate}
-                </Typography>
+                <TabList>
+                  <Tab label="Pending Requests" value={0} sx={{borderRadius: "7px"}}> Pending Requests </Tab>
+                  <Tab label="Approval History" value={1} sx={{borderRadius: "7px"}}> Approval Requests </Tab>
+                </TabList>
               </Box>
-              <Box>
-                <Button
-                  variant="solid"
-                  sx={{ mr: 1, backgroundColor: "#5271ff", color: "white" }}
-                  onClick={() => handleDecision(request.id, "Approved")}
-                >
-                  Approve
-                </Button>
-                <Button
-                  variant="solid"
-                  color="danger"
-                  onClick={() => handleDecision(request.id, "Denied")}
-                >
-                  Deny
-                </Button>
-              </Box>
-            </Box>
-          ))
-        ) : (
-          <Typography variant="body2" sx={{ color: "black" }}>
-            No pending requests.
-          </Typography>
-        )}
-      </Box>
 
-      {/* Approval History */}
-      <Box>
-        <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold", color: "black" }}>
-          Approval History
-        </Typography>
-        {history.length > 0 ? (
-          history.map((entry, index) => (
-            <Box
-              key={index}
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: 2,
-                backgroundColor: "#f0f0f0",
-                borderRadius: "6px",
-                mb: 1,
-              }}
-            >
-              <Box>
-                <Typography variant="body1" sx={{ fontWeight: "bold", color: "black" }}>
-                  {entry.name}
-                </Typography>
-                <Typography variant="body2" sx={{ color: "black" }}>
-                  Requested on: {entry.requestDate}
-                </Typography>
-                <Typography variant="body2" sx={{ color: "black" }}>
-                  {entry.status} on: {entry.decisionDate}
-                </Typography>
-              </Box>
-              <Typography
-                variant="body2"
-                sx={{ fontWeight: "bold", color: entry.status === "Approved" ? "blue" : "red" }}
-              >
-                {entry.status}
-              </Typography>
-            </Box>
-          ))
-        ) : (
-          <Typography variant="body2" sx={{ color: "black" }}>
-            No history yet.
-          </Typography>
-        )}
+              <TabPanel value={0}>
+                {/* Pending Requests */}
+                <Box sx={{ mb: 4 }}>
+                  {requests.length > 0 ? (
+                    requests.map((request) => (
+                      <Box
+                        key={request.user_id}
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          padding: 2,
+                          backgroundColor: "white",
+                          borderRadius: "6px",
+                          mb: 2,
+                          boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
+                        }}
+                      >
+                        <Box>
+                          <Typography
+                            variant="body1"
+                            sx={{ fontWeight: "bold", color: "black" }}
+                          >
+                            Name: {request.name}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: "black" }}>
+                            Requested on: {request.created_at}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: "black" }}>
+                            Email: {request.email}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: "black" }}>
+                            Role: {request.role}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Button
+                            variant="solid"
+                            sx={{
+                              mr: 1,
+                              backgroundColor: "#5271ff",
+                              color: "white",
+                            }}
+                            onClick={() =>
+                              handleDecision(request.user_id, "true")
+                            }
+                          >
+                            Approve
+                          </Button>
+                          <Button
+                            variant="solid"
+                            color="danger"
+                            onClick={() => handleDecision(request.user_id, "false")}
+                          >
+                            Deny
+                          </Button>
+                        </Box>
+                      </Box>
+                    ))
+                  ) : (
+                    <Typography variant="body2" sx={{ color: "black" }}>
+                      No pending requests.
+                    </Typography>
+                  )}
+                </Box>
+              </TabPanel>
+
+              <TabPanel value={1}>
+                {/* Approval History */}
+                <Box>
+                  
+                  {history.length > 0 ? (
+                    history.map((entry, index) => (
+                      <Box
+                        key={index}
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          padding: 2,
+                          backgroundColor: "#f0f0f0",
+                          borderRadius: "6px",
+                          mb: 1,
+                        }}
+                      >
+                        <Box>
+                          <Typography
+                            variant="body1"
+                            sx={{ fontWeight: "bold", color: "black" }}
+                          >
+                            {entry.name}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: "black" }}>
+                            Requested on: {entry.requestDate}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: "black" }}>
+                            {entry.status} on: {entry.decisionDate}
+                          </Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              fontWeight: "bold",
+                              color: entry.status === "Approved" ? "blue" : "red",
+                            }}
+                          >
+                            {entry.status}
+                          </Typography>
+                          <Button
+                            variant="solid"
+                            color="danger"
+                            onClick={() => handleRevoke(entry.id)}
+                            sx={{ ml: 2 }}
+                          >
+                            Revoke
+                          </Button>
+                        </Box>
+                      </Box>
+                    ))
+                  ) : (
+                    <Typography variant="body2" sx={{ color: "black" }}>
+                      No history yet.
+                    </Typography>
+                  )}
+                </Box>
+              </TabPanel>
+            </Tabs>
+          </Box>
         </Box>
       </Box>
-    </Box>
     </>
   );
 };
+
 export default ApprovalRequestsPage;
 
-
-
-// import React, { useState } from "react";
-// import {
-//   Box,
-//   Button,
-//   FormControl,
-//   FormLabel,
-//   Input,
-//   Typography,
-//   Radio,
-//   RadioGroup,
-// } from "@mui/joy";
-
-// const ApprovalRequestsPage = () => {
-//   const [inputValue, setInputValue] = useState("");
-//   const [approvalStatus, setApprovalStatus] = useState("pending");
-
-//   const handleInputChange = (e) => {
-//     setInputValue(e.target.value);
-//   };
-
-//   const handleApprovalChange = (e) => {
-//     setApprovalStatus(e.target.value);
-//   };
-
-//   const handleSubmit = () => {
-//     console.log("Submitted:", inputValue, approvalStatus);
-//     // Add any submit logic here
-//   };
-
-
-
-//   return (
-//     <Box
-//       sx={{
-//         padding: 4,
-//         maxWidth: "600px",
-//         margin: "auto",
-//         backgroundColor: "#f4f6f8",
-//         borderRadius: "8px",
-//         boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-//       }}
-//     >
-//       <Typography
-//         variant="h4"
-//         sx={{ textAlign: "center", mb: 3, fontWeight: "bold" }}
-//       >
-//         Approval Requests
-//       </Typography>
-
-//       {/* Input Field */}
-//       <FormControl sx={{ mb: 3 }}>
-//         <FormLabel sx={{ fontWeight: "bold", color: "#333", mb: 1 }}>
-//           Enter Details:
-//         </FormLabel>
-//         <Input
-//           placeholder="Enter some data"
-//           value={inputValue}
-//           onChange={handleInputChange}
-//           sx={{
-//             padding: "10px",
-//             fontSize: "1rem",
-//             borderRadius: "6px",
-//             borderColor: "#ccc",
-//           }}
-//         />
-//       </FormControl>
-
-//       {/* Radio Group for Approval Status */}
-//       <FormControl sx={{ mb: 3 }}>
-//         <FormLabel sx={{ fontWeight: "bold", color: "#333", mb: 1 }}>
-//           Approval Status
-//         </FormLabel>
-//         <RadioGroup
-//           row
-//           value={approvalStatus}
-//           onChange={handleApprovalChange}
-//           sx={{
-//             display: "flex",
-//             justifyContent: "space-between", // Spreads out the radio buttons
-//             width: "100%", // Ensures the group takes up full width
-//           }}
-//         >
-//           <Radio value="approved" label="Approve" />
-//           <Radio value="denied" label="Deny" />
-//           <Radio value="pending" label="Pending" />
-//         </RadioGroup>
-//       </FormControl>
-
-//       {/* Submit Button */}
-//       <Button
-//         onClick={handleSubmit}
-//         sx={{
-//           display: "block",
-//           width: "100%",
-//           padding: "12px",
-//           fontSize: "1rem",
-//           fontWeight: "bold",
-//           backgroundColor: "#5271ff",
-//           color: "white",
-//           "&:hover": {
-//             backgroundColor: "#4059c1",
-//           },
-//         }}
-//       >
-//         Submit
-//       </Button>
-//     </Box>
-//   );
-// };
-
-// export default ApprovalRequestsPage;

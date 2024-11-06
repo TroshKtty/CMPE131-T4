@@ -22,6 +22,7 @@ export default function RegistrationPage() {
 
   )
 
+  const[name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -36,8 +37,9 @@ export default function RegistrationPage() {
     
     ev.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/auth/register', { email, username, password, phone_no, role });
+      const response = await axios.post('http://localhost:3000/auth/register', { name, email, username, password, phone_no, role });
       // Clear fields after successful registration
+      setName('');
       setEmail('');
       setUserName('');
       setPassword('');
@@ -68,7 +70,7 @@ export default function RegistrationPage() {
           p: 2,
           borderBottom: "1px solid",
           borderColor: "divider",
-          position: "fixed",
+          position: "relative",
           top: 0,
           width: "100%",
           zIndex: 1000,
@@ -88,8 +90,8 @@ export default function RegistrationPage() {
           minHeight: "100vh",
           justifyContent: "center",
           alignItems: "center",
-          position: "relative", // Establish positioning context for absolute children
-          zIndex: 1, // Lower z-index for the blurred container
+          position: "relative", 
+          zIndex: 1, 
         }}
       >
         <Box width="50%" sx={{zIndex:2,}}>
@@ -106,6 +108,15 @@ export default function RegistrationPage() {
                     type="email"
                     required
                     value={email}
+                  />
+                </FormControl>
+                <FormControl required>
+                  <FormLabel>Full Name</FormLabel>
+                  <Input
+                    onChange={(ev) => {setName(ev.target.value)}}
+                    type="text"
+                    required
+                    value={name}
                   />
                 </FormControl>
                 <FormControl required>
