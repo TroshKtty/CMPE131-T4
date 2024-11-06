@@ -53,6 +53,16 @@ export default function NavBar() {
     navigate(encodeURI(`/search?${target}`));
   };
 
+<<<<<<< Updated upstream:frontend/src/components/NavBar.jsx
+=======
+  const log_out = () =>{
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+    alert('Logged Out Successfully!');
+    navigate('/');
+  }
+  
+>>>>>>> Stashed changes:frontend/src/components/navbar/NavBar.jsx
   return (
     <Box
       sx={{
