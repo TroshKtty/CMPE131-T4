@@ -4,7 +4,7 @@ const User = require('../models/auth_model');
 require('dotenv').config();
 
 const register = async (req, res) => {
-    const { email, username, password, phone_no, role } = req.body;
+    const { name, email, username, password, phone_no, role } = req.body;
 
     try {
         if (!['Customer', 'Admin', 'Employee'].includes(role)) {
@@ -21,6 +21,7 @@ const register = async (req, res) => {
 
 
         await User.create({
+            name,
             email,
             username,
             hashed_password,
@@ -60,7 +61,7 @@ const login = async (req, res) => {
         }
 
         const token = jwt.sign(
-            { user_id: user.id, role: user.role },
+            { user_id: user.user_id, role: user.role },
             secret_key,
             { expiresIn: '1h' }
         );

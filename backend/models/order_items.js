@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config');
+const sequelize = require('../config.js');
 
 // Define the OrderItem model (corresponds to the 'order_items' table)
 const OrderItem = sequelize.define('OrderItem', {
