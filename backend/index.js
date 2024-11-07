@@ -5,7 +5,7 @@ require('dotenv').config();
 const token = require('./middleware/auth');
 const auth_route = require('./routes/auth_routes');
 const pending_route = require('./routes/pending_routes');
-const db = require("./models");
+// const db = require("./models");
 const mysql = require("mysql");
 
 const { Product } = require('./models');
@@ -63,7 +63,7 @@ app.get("/api/product_test", async (req, res) => {
 const PORT = 3000;
 
 // Start server
-db.sequelize.sync().then((req) => {
+sequelize.sync().then((req) => {
   app.listen(PORT, () => {
         console.log(`Server running on Port ${PORT}`);
   });
