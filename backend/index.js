@@ -4,6 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 const token = require('./middleware/auth');
 const auth_route = require('./routes/auth_routes');
+const pending_route = require('./routes/pending_routes');
 const db = require("./models");
 const mysql = require("mysql");
 
