@@ -12,15 +12,11 @@ import {
   Link,
   Typography,
 } from "@mui/joy";
-import {
-  Visibility,
-  VisibilityOff
-} from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
-import { X } from "lucide-react";
+import { EyeOff, Eye, X } from "lucide-react";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -102,7 +98,10 @@ export default function LoginPage() {
               </FormControl>
               <FormControl required>
                 <FormLabel className="form-label">Password</FormLabel>
-                <PasswordInput value={password} onChange={(ev) => setPassword(ev.target.value)} />
+                <PasswordInput
+                  value={password}
+                  onChange={(ev) => setPassword(ev.target.value)}
+                />
               </FormControl>
               <FormControl>
                 <Box className="remember-forgot">
@@ -147,15 +146,18 @@ function PasswordInput({ value, onChange }) {
 
   return (
     <FormControl required>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
         <Input
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           value={value}
           onChange={onChange}
           sx={{ flexGrow: 1 }}
         />
-        <IconButton onClick={togglePasswordVisibility}>
-          {showPassword ? <VisibilityOff /> : <Visibility />}
+        <IconButton
+          onClick={togglePasswordVisibility}
+          sx={{ marginLeft: "3px" }}
+        >
+          {showPassword ? <EyeOff /> : <Eye />}
         </IconButton>
       </Box>
     </FormControl>
