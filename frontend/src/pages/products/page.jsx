@@ -14,6 +14,7 @@ import {
 } from "@mui/joy";
 import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const CATEGORIES = {};
 for (const cat of [...new Set(PRODUCTS.map((product) => product.category))]) {
@@ -30,31 +31,31 @@ export default function ProductsPage() {
   const categoryParam = searchParams.get("category")?.toLowerCase() || "";
   const category = CATEGORIES[categoryParam] || "";
 
-  // useEffect(() => {
-  //   const fetchProducts = async () => {
-  //     try {
-  //       const response = await fetch('http://localhost:3000/api/product_test');
-  //       const data = await response.json();
-  //       setProducts(data);
-  //     } catch (error) {
-  //       console.error('Error fetching products:', error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/product/get');
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
 
-  //   fetchProducts();
-  // }, []);
+    fetchProducts();
+  }, []);
 
   //}, [setFilteredProducts, query, category]);
 
-  useEffect(() => {
-    setFilteredProducts(
-      PRODUCTS.filter(
-        (product) =>
-          (query === "" || product.item.toLowerCase().includes(query)) &&
-          (category === "" || product.category === category)
-      )
-    );
-  }, [setFilteredProducts, query, category]);
+  // useEffect(() => {
+  //   setFilteredProducts(
+  //     PRODUCTS.filter(
+  //       (product) =>
+  //         (query === "" || product.item.toLowerCase().includes(query)) &&
+  //         (category === "" || product.category === category)
+  //     )
+  //   );
+  // }, [setFilteredProducts, query, category]);
 
   const handleCategoryChange = (newCategory) => {
     if (newCategory) {
