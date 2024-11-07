@@ -4,7 +4,7 @@ import RegistrationPage from "@/pages/registration/page";
 import HomePage from "@/pages/home/page";
 import AdminDashboardPage from "@/pages/admin/page";
 import ApprovalRequestsPage from "@/pages/admin/ApprovalRequestsPage";
-import UnauthorizedPage from "./pages/unauthorized_page/unauthorized";
+import UnauthorizedPage from "@/pages/unauthorized/page";
 
 import ProductPage from "@/pages/products/individual/page";
 import ProductsPage from "@/pages/products/page";
