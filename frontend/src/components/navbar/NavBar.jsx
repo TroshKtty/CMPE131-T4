@@ -1,13 +1,18 @@
 import {
   Box,
   Button,
+  Divider,
+  Dropdown,
   Grid,
   IconButton,
   Input,
+  Menu,
+  MenuButton,
+  MenuItem,
   Sheet,
   Typography,
 } from "@mui/joy";
-import { Menu, Search, ShoppingCart, User, X, MenuIcon } from "lucide-react";
+import { Menu as MenuIcon, Search, ShoppingCart, User, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -18,31 +23,31 @@ export default function NavBar() {
   const [query, setQuery] = useState(searchParams.get("q") || "");
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     setQuery(searchParams.get("q") || "");
-  }, [searchParams, setQuery]);
+    setIsLoggedIn(
+      !!sessionStorage.getItem("token") || !!localStorage.getItem("token")
+    );
+  }, [searchParams]);
 
   const handleSearch = (ev) => {
     ev.preventDefault();
-
-    if (query.length < 3) {
-      return;
-    }
-
+    if (query.length < 3) return;
     const target = new URLSearchParams({ q: query }).toString();
     navigate(encodeURI(`/search?${target}`));
   };
 
-  const log_out = () => {
+  const handleLogout = () => {
     localStorage.removeItem("token");
     sessionStorage.removeItem("token");
-    alert("Logged Out Successfully!");
+    setIsLoggedIn(false);
+    // alert("Logged Out Successfully!");
     navigate("/");
   };
-  const clearSearch = () => {
-    setQuery("");
-  };
+
+  const clearSearch = () => setQuery("");
 
   return (
     <Sheet
@@ -51,7 +56,7 @@ export default function NavBar() {
         top: 0,
         zIndex: 1000,
         width: "100%",
-        backgroundColor: "background.level1",
+        bgcolor: "primary.solidBg",
         boxShadow: "sm",
       }}
     >
@@ -62,13 +67,8 @@ export default function NavBar() {
         sx={{ px: { xs: 2, sm: 4 }, py: 1 }}
       >
         <Grid xs={6} sm={3} display="flex" alignItems="center">
-          <Button
-            variant="plain"
-            color="primary"
-            sx={{ color: "common.black" }}
-            onClick={() => navigate("/")}
-          >
-            <Typography level="h1" fontSize="xl">
+          <Button onClick={() => navigate("/")}>
+            <Typography textColor="common.white" fontWeight="lg" fontSize="xl">
               OFS
             </Typography>
           </Button>
@@ -111,50 +111,80 @@ export default function NavBar() {
           display="flex"
           justifyContent="flex-end"
         >
-          <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              gap: 2,
+              alignItems: "center",
+            }}
+          >
             <Button
-              variant="plain"
-              color="primary"
               startDecorator={<ShoppingCart size={20} />}
-              sx={{ color: "common.black" }}
               onClick={() => navigate("/cart")}
             >
-              Cart
+              <Typography textColor="common.white">Cart</Typography>
             </Button>
-            {sessionStorage.getItem("token") ||
-            localStorage.getItem("token") ? (
-              <div className="navbar_menu">
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <MenuIcon size={18} style={{ color: "white" }} />
-                  <Typography level="h4" fontSize="lg" textColor="common.white">
-                    Menu
-                  </Typography>
-                </Box>
-                <ul className="navbar_dropdown">
-                  <li>Account Information</li>
-                  <hr />
-                  <li>Order History</li>
-                  <hr />
-                  <li onClick={log_out}>Logout</li>
-                </ul>
-              </div>
+            {/* TODO: the dropdown moves to the topleft if the page becomes too small and its already open */}
+            {isLoggedIn ? (
+              <Dropdown>
+                <MenuButton
+                  variant="plain"
+                  startDecorator={<User size={20} color="white" />}
+                >
+                  <Typography textColor="common.white">Menu</Typography>
+                </MenuButton>
+                <Menu placement="bottom-end">
+                  <MenuItem onClick={() => navigate("/account")}>
+                    <Typography
+                      sx={{
+                        "&:hover": {
+                          color: "primary.solidBg",
+                        },
+                      }}
+                    >
+                      Account Information
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate("/orders")}>
+                    <Typography
+                      sx={{
+                        "&:hover": {
+                          color: "primary.solidBg",
+                        },
+                      }}
+                    >
+                      Order History
+                    </Typography>
+                  </MenuItem>
+                  <Divider />
+                  <MenuItem
+                    onClick={handleLogout}
+                    sx={{
+                      "&:hover": {
+                        "& .MuiTypography-root": {
+                          color: "primary.solidBg",
+                        },
+                      },
+                    }}
+                  >
+                    <Typography>Logout</Typography>
+                  </MenuItem>
+                </Menu>
+              </Dropdown>
             ) : (
               <Button
-                variant="plain"
-                color="primary"
                 startDecorator={<User size={20} />}
-                sx={{ color: "common.black" }}
                 onClick={() => navigate("/login")}
               >
-                Log In
+                <Typography textColor="common.white">Log In</Typography>
               </Button>
             )}
           </Box>
           <IconButton
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            sx={{ display: { xs: "flex", md: "none" }, color: "common.black" }}
+            sx={{ display: { xs: "flex", md: "none" }, color: "common.white" }}
           >
-            <Menu />
+            <MenuIcon />
           </IconButton>
         </Grid>
       </Grid>
@@ -168,6 +198,54 @@ export default function NavBar() {
             p: 2,
           }}
         >
+          <Button
+            variant="plain"
+            color="neutral"
+            onClick={() => navigate("/cart")}
+            fullWidth
+          >
+            Cart
+          </Button>
+          {isLoggedIn ? (
+            <>
+              <Button
+                variant="plain"
+                color="neutral"
+                onClick={() => navigate("/account")}
+                fullWidth
+              >
+                <Typography textColor="common.white">
+                  Account Information
+                </Typography>
+              </Button>
+              <Button
+                variant="plain"
+                color="neutral"
+                onClick={() => navigate("/orders")}
+                fullWidth
+              >
+                <Typography textColor="common.white">Order History</Typography>
+              </Button>
+              <Button
+                variant="plain"
+                color="neutral"
+                onClick={handleLogout}
+                fullWidth
+              >
+                <Typography textColor="common.white">Logout</Typography>
+              </Button>
+            </>
+          ) : (
+            <Button
+              variant="plain"
+              color="neutral"
+              startDecorator={<User size={20} />}
+              onClick={() => navigate("/login")}
+              fullWidth
+            >
+              Log In
+            </Button>
+          )}
         </Box>
       )}
     </Sheet>
