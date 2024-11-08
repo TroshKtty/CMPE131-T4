@@ -31,19 +31,28 @@ export default function ProductsPage() {
   const categoryParam = searchParams.get("category")?.toLowerCase() || "";
   const category = CATEGORIES[categoryParam] || "";
 
+  let queryJSON;
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/product/get');
-        const data = await response.json();
-        setProducts(data);
+        const response = await axios.get('http://localhost:3000/product/getall');
+        const data = await response;
+        console.log(data.data); // DELETE//////////////////////////////////////////////////
+        
+        setFilteredProducts(
+          data.data.filter(
+            (product) =>
+              (query === "" || product.item.toLowerCase().includes(query)) &&
+              (category === "" || product.category === category)
+          ));
       } catch (error) {
         console.error('Error fetching products:', error);
       }
     };
 
     fetchProducts();
-  }, []);
+  }, [setFilteredProducts, query, category]);
 
   //}, [setFilteredProducts, query, category]);
 
@@ -193,7 +202,7 @@ export default function ProductsPage() {
                       justifyContent="space-between"
                       alignItems="center"
                     >
-                      <Typography>${product.price.toFixed(2)}</Typography>
+                      <Typography>${product.price}</Typography>
                       <Typography>{product.weight} lbs</Typography>
                     </Box>
                     <Box>

@@ -4,6 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 const token = require('./middleware/auth');
 const auth_route = require('./routes/auth_routes');
+const product_route = require('./routes/product_test_route');
 const db = require("./models");
 const mysql = require("mysql");
 
@@ -18,6 +19,8 @@ app.use(cors({
 }));
 
 app.use('/auth', auth_route);
+app.use('/product', product_route);
+
 
 const PORT = 3000;
 
@@ -30,20 +33,17 @@ sequelize.authenticate()
         console.error('Unable to connect to the database:', error);
 });
 
-app.get('/api/product_test', async (req, res) => {
-  try {
-    const products = await Product.findAll(); // Retrieves all products
-    res.json(products);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch products' });
-  }
-});
+// app.get('/api/product_test', async (req, res) => {
+//   try {
+//     const products = await Product.findAll(); // Retrieves all products
+//     res.json(products);
+//   } catch (error) {
+//     res.status(500).json({ error: 'Failed to fetch products' });
+//   }
+// });
 
 
 // Start server
-
-//added a sync function to the database to automatically refresh tables in models
-//If changes are made to a table in models, IT WILL DELETE ALL DATA
 db.sequelize.sync().then((req) => {
   app.listen(PORT, () => {
     console.log(`Server running on Port ${PORT}`);
