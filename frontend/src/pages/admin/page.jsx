@@ -65,9 +65,9 @@ export default function AdminDashboardPage() {
           <Typography fontSize="1.5rem" fontWeight="bold" sx={{ color: "white" }}>
             Dashboard
           </Typography>
-          <Link component={RouterLink} to="/admin/inventory" sx={{ color: "white", fontSize: "1rem" }}>
+          {/* <Link component={RouterLink} to="/admin/inventory" sx={{ color: "white", fontSize: "1rem" }}>
             Inventory Management
-          </Link>
+          </Link> */}
           <Link component={RouterLink} to="/admin/sales" sx={{ color: "white", fontSize: "1rem" }}>
             Sales Reports
           </Link>

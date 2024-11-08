@@ -1,8 +1,9 @@
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes, Link } from "react-router-dom";
 import LoginPage from "@/pages/login/page";
 import RegistrationPage from "@/pages/registration/page";
 import HomePage from "@/pages/home/page";
 import AdminDashboardPage from "@/pages/admin/page";
+import EmployeePage from "@/pages/employee/page";
 import ApprovalRequestsPage from "@/pages/admin/ApprovalRequestsPage";
 import UnauthorizedPage from "./pages/unauthorized_page/unauthorized";
 
@@ -53,6 +54,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />        
+        <Route path="/employee" element={<EmployeePage />} />
         <Route
           path="/*"
           element={
