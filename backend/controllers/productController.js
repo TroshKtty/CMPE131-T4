@@ -10,4 +10,15 @@ const addProduct = async (req, res) => {
   }
 };
 
-module.exports = { addProduct };
+const getInventory = async (req, res) => {
+  try {
+    console.log('getInventory function called');
+    const products = await Product.findAll();
+    res.json(products);
+  } catch (error) {
+    console.error('Error in getInventory:', error);
+    res.status(500).json({ error: 'Failed to retrieve inventory' });
+  }
+};
+
+module.exports = { addProduct, getInventory };

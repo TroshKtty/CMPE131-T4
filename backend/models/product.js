@@ -27,6 +27,8 @@ const Product = sequelize.define('Product', {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
   },
+}, {
+  tableName: 'products',  // Maps to the 'products' table in the database
 });
 
 module.exports = Product;
