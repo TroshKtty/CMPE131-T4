@@ -9,7 +9,7 @@ const ProductTest = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    name: {
+    item: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true
@@ -61,7 +61,7 @@ const ProductTest = sequelize.define(
     },
   },
   {
-    tableName: "product_test111111111111111",
+    tableName: "product_test",
   }
 );
 
