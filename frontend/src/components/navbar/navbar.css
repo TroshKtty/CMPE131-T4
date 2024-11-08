@@ -29,3 +29,14 @@
     position: relative;
 } */
 
+/* Hacky way to ensure the menu button dropdown hover bg is consistent */
+.MuiMenuButton-root:hover,
+.JoyMenuButton-root:hover {
+  background-color: var(
+    --variant-solidHoverBg,
+    var(
+      --joy-palette-primary-solidHoverBg,
+      var(--joy-palette-primary-600, #185ea5)
+    )
+  ) !important;
+}
