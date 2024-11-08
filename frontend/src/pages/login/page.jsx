@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+
 export default function LoginPage() {
   
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ export default function LoginPage() {
 
       const role = jwtDecode(token).role;
       if (role === "admin") navigate("/admin");
-      else if (role === "employee") navigate("/");
+      else if (role === "employee") navigate("/employee");
       else navigate("/");
     
     } catch (error) {

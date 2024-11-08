@@ -3,8 +3,10 @@ import LoginPage from "@/pages/login/page";
 import RegistrationPage from "@/pages/registration/page";
 import HomePage from "@/pages/home/page";
 import AdminDashboardPage from "@/pages/admin/page";
-import EmployeePage from "@/pages/employee/page";
-import ApprovalRequestsPage from "@/pages/admin/ApprovalRequestsPage";
+import EmployeeDashboardPage from "@/pages/employee/page";
+import InventoryManagementPage from "@/pages/employee/InventoryManagement";
+import EmployeeApprovalRequestsPage from "@/pages/employee/ApprovalRequestsPage";
+import AdminApprovalRequestsPage from "@/pages/admin/ApprovalRequestsPage";
 import UnauthorizedPage from "./pages/unauthorized_page/unauthorized";
 
 import ProductsPage from "@/pages/products/page";
@@ -50,11 +52,13 @@ export default function App() {
           path="/admin/approval-requests" 
           element={
             <ProtectedRoute required_role="admin">
-              <ApprovalRequestsPage />
+              <AdminApprovalRequestsPage />
             </ProtectedRoute>
           }
         />        
-        <Route path="/employee" element={<EmployeePage />} />
+        <Route path="/employee" element={<EmployeeDashboardPage />} />
+        <Route path="/employee/inventory-management" element={<InventoryManagementPage />} />
+        <Route path="/employee/approval-requests" element={<EmployeeApprovalRequestsPage />} />
         <Route
           path="/*"
           element={
