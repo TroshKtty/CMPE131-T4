@@ -1,7 +1,6 @@
 const sequelize = require('../config.js');
 
 // Import all models
-const Customer = require('./customer');
 const Product = require('./product');
 const ProductTest = require('./product_test');
 const Order = require('./order');
