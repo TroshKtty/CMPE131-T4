@@ -1,5 +1,6 @@
 /* Global Reset */
-* {
+
+*{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -36,7 +37,7 @@ body {
 .banner h2 {
   font-size: 2.5rem;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
@@ -47,7 +48,7 @@ body {
 }
 
 .banner button {
-  background-color: #ff9f00;
+  background-color: #18ac8c;
   color: white;
   border: none;
   padding: 10px 25px;
@@ -58,7 +59,7 @@ body {
 }
 
 .banner button:hover {
-  background-color: #f57c00;
+  background-color: #18ac8c;
 }
 
 /* Categories section */
@@ -66,12 +67,12 @@ body {
   text-align: center;
   color: black;
   padding: 1rem;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
 .heading2 {
-  color: #ff9f00;
+  color: #18ac8c;
 }
 
 .category .box-container {
@@ -80,7 +81,7 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   margin: 20px auto;
-  max-width: 1200px;
+  max-width: 1250px;  /*change the gap between the boxes*/
 }
 
 .category .box {
@@ -90,39 +91,94 @@ body {
   padding: 1.5rem;
   width: 250px;
   transition: transform 0.3s ease;
-  background-color: #f9f9f9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.category .box:hover {
-  transform: scale(1.05);
+  text-decoration: none;
+  color: white; /* Change text color to white */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 3rem;
 }
 
 .category .box img {
   width: 100%;
   height: 180px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 4px;
-  margin-bottom: 1rem;
+  margin-top: 0.5rem; 
+  order: 2; 
 }
+
 
 .category .box h3 {
-  font-size: 1.5rem;
-  color: black;
-  margin-bottom: 10px;
+  font-size: 1.4rem;
+  color: white; 
+  margin-bottom: 5px;
+  order: 1; 
 }
 
-.category .box .btn {
-  display: inline-block;
-  text-decoration: none;
-  background-color: #5271ff;
-  color: white;
-  padding: 0.6rem 1.2rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.category .box:hover {
+  transform: scale(1.05);
+  /*background-color: #5271ff !important; */
 }
 
-.category .box .btn:hover {
-  background-color: #405dcf;
+/* Specific background colors for each box */
+.category .box.fruits {
+  background-color: #18ac8c; 
+}
+
+.category .box.vegetables {
+  background-color: #b7ba30; 
+}
+
+.category .box.beverages {
+  background-color: #0b0b7e; 
+}
+
+.category .box.snacks {
+  background-color: #5271ff; 
+}
+
+.category .box.meat {
+  background-color: rgb(178, 63, 63);
+}
+
+.category .box.fish {
+  background-color: #b80303; 
+}
+
+.category .box.dairy-alternatives {
+  background-color: #0b0b7e; 
+}
+
+.category .box.bakery {
+  background-color: #83096a; 
+}
+
+.category .box.grains {
+  background-color: #c84313; 
+}
+
+.category .box.dairy {
+  background-color: #5271ff; 
+}
+
+.category .box.condiments {
+  background-color: #da83a2; 
+}
+
+.category .box.dips {
+  background-color: #774dc5; 
+}
+
+.category .box.frozen-desserts {
+  background-color: #5271ff; 
+}
+
+.category .box.frozen-foods {
+  background-color: #18ac8c; 
+}
+
+.category .box.canned-goods {
+  background-color: #b7ba30;
 }
