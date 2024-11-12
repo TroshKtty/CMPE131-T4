@@ -1,0 +1,52 @@
+/* src/pages/CheckoutPage.css */
+.checkout-page {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+.main-content {
+    display: grid;
+    gap: 20px;
+    flex: 2;
+}
+.card {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+.quantity-control {
+    display: flex;
+    align-items: center;
+}
+.quantity-control button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #ccc;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.quantity-control span {
+    font-weight: bold;
+}
+.remove-button {
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.edit-link {
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+}
