@@ -14,7 +14,49 @@ const PRODUCTS = [
     imgUrl:
       "https://cdn11.bigcommerce.com/s-1ly92eod7l/images/stencil/1280x1280/products/647/790/Product_Produce_Banana__90431.1700494209.jpg?c=1&imbypass=on",
     category: "Fruits",
-    images: ["/bananas.jpg"],
+    images: ["/bananas.jpg", "/apples.jpg", "/broccoli.jpg", "/layschips.jpg"],
+    descriptions: [
+      "Sweet, tropical flavor",
+      "Good source of potassium, vitamin B6 and vitamin C and low in sodium",
+      "Enjoy at breakfast, lunch, dessert, or whenever you want a snack",
+      "Make banana bread or banana pudding",
+    ],
+    specifications: [
+      ["Food Allergen Statements", "Contains Fruit"],
+      ["Fruit Type", "Banana"],
+      ["Food Condition", "Fresh"],
+      ["Food Form", "Whole"],
+      ["Flavor Notes", "Sweet"],
+      ["Container Type", "Bag"],
+      ["Nutrient Content Claims", "Organic"],
+    ],
+    nutritionInfo: {
+      calories: 90,
+      totalFat: 0,
+      saturatedFat: 0.113,
+      transFat: 0,
+      polyunsaturatedFat: 0.074,
+      monounsaturatedFat: 0.032,
+      cholesterol: 0.0,
+      sodium: 1,
+      totalCarbohydrate: 0,
+      dietaryFiber: 2.6,
+      sugars: 12.3,
+      protein: 1.1,
+      vitaminA: 65,
+      vitaminC: 8.8,
+      calcium: 5,
+      potassium: 362,
+      iron: 0.26,
+      vitaminD: 0,
+      vitaminE: 0.1,
+      vitaminK: 0.5,
+      vitaminB: 60.371,
+      vitaminB12: 0,
+      phosphorus: 22,
+      magnesium: 27,
+      zinc: 0.15,
+    },
   },
   {
     item: "Broccoli",
@@ -35,7 +77,7 @@ const PRODUCTS = [
   {
     item: "Whole Chicken",
     weight: 5,
-    price: 6.50,
+    price: 6.5,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/5f49863a144b13f9b96ca4c4_2020-cen-ecommerce-meat-chickenwholefryer._FMwebp__SR300,300__TTD_.jpg",
     category: "Meat",
@@ -59,7 +101,7 @@ const PRODUCTS = [
   {
     item: "Bread",
     weight: 1,
-    price: 10.00,
+    price: 10.0,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/65891703edf5e963b27ab911_2024-01-05_22-53-32_front.main._FMwebp__SR300,300__TTD_.jpg",
     category: "Bakery",
@@ -67,7 +109,7 @@ const PRODUCTS = [
   {
     item: "Rice",
     weight: 20,
-    price: 26.00,
+    price: 26.0,
     imgUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8NQagNMOMZOstGS-5wyGBp-eVdNYyLwXiqg&s",
     category: "Grains",
@@ -88,6 +130,24 @@ const PRODUCTS = [
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/57d87a74faf465e394f41c7a_produce-romatomatoes-1._FMwebp__SR300,300__TTD_.JPG",
     category: "Fruits",
     images: ["/tomatoes.jpg"],
+    descriptions: [
+      "Wholesome, fresh, versatile, and delicious",
+      "Ideal ingredient for a variety of dishes",
+      "Enjoy on burgers, sandwiches, and more",
+      "Perfect for making tomato sauces",
+      "Excellent for homemade salsa",
+      "Create a mouthwatering salad or appetizer",
+    ],
+    specifications: [
+      ["Food Allergen Statements", "Gluten-Free"],
+      ["Fruit Type", "Tomato"],
+      ["Food Condition", "Fresh"],
+      ["Food Form", "Whole"],
+      ["Flavor Notes", "Sweet"],
+      ["Container Type", "Bag"],
+      ["Retail Packaging", "Single Pack"],
+      ["Nutrient Content Claims", "Organic"],
+    ],
   },
   {
     item: "Cucumbers",
@@ -212,7 +272,7 @@ const PRODUCTS = [
   {
     item: "Olive Oil",
     weight: 1,
-    price: 15.40,
+    price: 15.4,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/65ba2e9ec2ab09d1bc4c0666_2024-01-31_11-27-30_front.main._FMwebp__SR300,300__TTD_.jpg",
     category: "Condiments",
@@ -228,7 +288,7 @@ const PRODUCTS = [
   {
     item: "Honey",
     weight: 1,
-    price: 10.00,
+    price: 10.0,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/5f49b552168eaebab4db7b12_00898601002024-glamor-frontpackageglamor-2020-08-26t14-45-19-iphone-x-quality-90-1-21-1-user-5984ad42a967f880524de2c4-gq20-727768._FMwebp__SR300,300__TTD_.jpg",
     category: "Condiments",
@@ -236,7 +296,7 @@ const PRODUCTS = [
   {
     item: "Maple Syrup",
     weight: 1,
-    price: 15.00,
+    price: 15.0,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/61df838dd30df14763cdeb1f_0008577000249-glamor-front-2021-12-21t18-28-24-iphone-7-quality-90-1-26-2-user-5d7652c1db2c4b51d4c666ca-8zeg-235994._FMwebp__SR300,300__TTD_.jpg",
     category: "Condiments",
@@ -292,7 +352,7 @@ const PRODUCTS = [
   {
     item: "Coffee",
     weight: 1,
-    price: 18.50,
+    price: 18.5,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/5cdd4e5b87d6d71c5c6e49f4_upc-00094922907462-glamor-frontpackageglamor-2019-04-10t18-06-48-7e65a6f1-9c02-4242-aba2-d9cf45d43e88._FMwebp__SR300,300__TTD_.jpg",
     category: "Beverages",
@@ -317,14 +377,35 @@ const PRODUCTS = [
     item: "Crystal Geyser Natural Alpine Spring Water - 32 Count",
     weight: 35,
     price: 5.74,
-    imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU03kC_x5u1oDWZrAbKDEltMkVv-H4iGBa7g&s",
+    imgUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU03kC_x5u1oDWZrAbKDEltMkVv-H4iGBa7g&s",
     category: "Beverages",
     images: ["/water.jpg"],
+    descriptions: [
+      "Wholesome, fresh, versatile, and delicious",
+      "Ideal ingredient for a variety of dishes",
+      "Enjoy on burgers, sandwiches, and more",
+      "Perfect for making tomato sauces",
+      "Excellent for homemade salsa",
+      "Create a mouthwatering salad or appetizer",
+    ],
+    specifications: [
+      ["Bottled Drinking Water Type", "Spring Waters"],
+      ["Container Material", "Plastic"],
+      ["Flavor", "Unflavored"],
+      ["Retail Packaging", "Multipack"],
+      ["Brand", "Crystal Geyser"],
+      ["Bottled Drinking Water Type", "Spring Waters"],
+      ["Container Material", "Plastic"],
+      ["Flavor", "Unflavored"],
+      ["Retail Packaging", "Multipack"],
+      ["Brand", "Crystal Geyser"],
+    ],
   },
   {
     item: "Sparkling Water",
     weight: 6,
-    price: 10.00,
+    price: 10.0,
     imgUrl:
       "https://m.media-amazon.com/images/S/assets.wholefoodsmarket.com/PIE/product/621ece1bf3d7476545d9f68b_0012993112103-glamor-front-2022-02-09t19-35-00-iphone-x-quality-90-1-26-2-user-6191b0023d41d147aed4bacb-nh6n-831545._FMwebp__SR300,300__TTD_.jpg",
     category: "Beverages",
@@ -362,13 +443,12 @@ const PRODUCTS = [
     category: "Canned Goods",
   },
   {
-     item: "Lays Potato Chips - 65% Less Fat",
+    item: "Lays Potato Chips - 65% Less Fat",
     weight: 1,
-    price: 5.20,
-    imgUrl:
-      "layschips.jpg",
+    price: 5.2,
+    imgUrl: "layschips.jpg",
     category: "Snacks",
-  }
+  },
 ];
 
 export default PRODUCTS;

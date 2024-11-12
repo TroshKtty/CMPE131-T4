@@ -5,10 +5,15 @@ require('dotenv').config();
 const token = require('./middleware/auth');
 const auth_route = require('./routes/auth_routes');
 const pending_route = require('./routes/pending_routes');
+// const db = require("./models");
+const mysql = require("mysql");
 
+const { Product } = require('./models');
 
 const app = express();
 app.use(express.json());
+
+// const db = require('./models');
 
 
 app.use(cors({
@@ -25,13 +30,43 @@ sequelize.authenticate()
     })
     .catch((error) => {
         console.error('Unable to connect to the database:', error);
-    });
+});
+
+/*
+// API endpoint to fetch products  DOESNT WORK
+app.get('/api/products', (req, res) => {
+  db.query('SELECT * FROM products', (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results);
+  });
+*/
+
+// // Start server (Line 15 commented out)
+// db.sequelize.sync().then((req) => {
+// app.listen(PORT, () => {
+//         console.log(`Server running on Port ${PORT}`);
+//     });
+// });
+
+app.get("/api/product_test", async (req, res) => {
+  try {
+    const products = await ProductTest.findAll();
+    res.json(products);
+  } catch (error) {
+    console.log("Error fetching products:", error);
+    res.status(500).json({ error: "Failed to fetch products" });
+  }
+});
 
 const PORT = 3000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on Port ${PORT}`);
-})
-
+// Start server
+sequelize.sync().then((req) => {
+  app.listen(PORT, () => {
+        console.log(`Server running on Port ${PORT}`);
+  });
+});
 
 

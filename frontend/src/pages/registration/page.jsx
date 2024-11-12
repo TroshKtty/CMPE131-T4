@@ -34,7 +34,7 @@ export default function RegistrationPage() {
   const [username_message, setUsernameMessage] = useState("");
 
   const handleRegistration = async (ev) => {
-    
+
     ev.preventDefault();
     try {
       const response = await axios.post('http://localhost:3000/auth/register', { name, email, username, password, phone_no, role });
@@ -143,7 +143,7 @@ export default function RegistrationPage() {
                   />
                 </FormControl>
                 <FormControl required>
-                  <FormLabel>Phone No</FormLabel>
+                  <FormLabel>Phone Number</FormLabel>
                   <Input
                     onChange={(ev) => setphone_no(ev.target.value)}
                     type="text"
