@@ -1,17 +1,16 @@
 /* Navbar styling */
 .navbar {
-    padding: 16px;
-    border-bottom: 1px solid #e0e0e0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    background-color: #ffffff;
-  }
-
-  .main-content {
-    padding-top: 100px; /* Adjust this value based on the height of your navbar */
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  background-color: #ffffff;
 }
- 
+
+.main-content {
+  padding-top: 100px; /* Adjust this value based on the height of your navbar */
+}

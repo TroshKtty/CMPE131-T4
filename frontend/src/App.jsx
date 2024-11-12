@@ -17,6 +17,8 @@ import BananaProductPage from "@/pages/products/individual/bananapage";
 import WaterProductPage from "./pages/products/individual/waterpage";
 import TestProductPage from "./pages/products/individual/testpage";
 
+import AccountInfoPage from "./pages/accinfo/page";
+
 //utils
 import ProtectedRoute from "./utils/protected_routes";
 import useAuth from "./utils/auth_check";
@@ -36,6 +38,8 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/registration" element={<RegistrationPage />} />
         
+        <Route path="/accinfo" element={<AccountInfoPage />} />
+
         {/*Protected Routes - gotta find a way to make it simpler and just protect one and apply it to others*/}
         <Route 
           path="/admin" 
