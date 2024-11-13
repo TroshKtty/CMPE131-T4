@@ -3,18 +3,38 @@
     display: flex;
     justify-content: space-between;
     padding: 20px;
+    background-color: #e0e0e0; /* Light gray background for the whole page */
 }
+
 .main-content {
     display: grid;
     gap: 20px;
     flex: 2;
 }
+
+/* Card style for each section (Delivery, Payment, Cart) */
 .card {
     background-color: #f5f5f5;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
 }
+
+.card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.edit-link {
+    color: #ff5722;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Styling for the cart item details */
 .cart-item {
     display: flex;
     justify-content: space-between;
@@ -22,21 +42,35 @@
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
 }
+
+.cart-item p {
+    margin: 0;
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Quantity control styles */
 .quantity-control {
     display: flex;
     align-items: center;
 }
+
 .quantity-control button {
     margin: 0 5px;
     padding: 5px 10px;
     border: none;
-    background-color: #ccc;
+    background-color: #ddd;
+    color: #333;
+    font-weight: bold;
     cursor: pointer;
     border-radius: 4px;
 }
+
 .quantity-control span {
     font-weight: bold;
+    margin: 0 5px;
 }
+
 .remove-button {
     background-color: #ff4d4f;
     color: white;
@@ -44,9 +78,4 @@
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 4px;
-}
-.edit-link {
-    color: #007bff;
-    text-decoration: underline;
-    cursor: pointer;
 }
