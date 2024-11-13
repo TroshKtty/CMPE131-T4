@@ -12,9 +12,12 @@ import ProductsPage from "@/pages/products/page";
 import NavBar from "@/components/navbar/NavBar";
 import Footer from "@/components/footer/Footer";
 
-//utils
+// utils
 import ProtectedRoute from "./utils/protected_routes";
 import useAuth from "./utils/auth_check";
+
+// Import CheckoutPage
+import CheckoutPage from "@/pages/CheckoutPage";
 
 const AuthWrapper = () => {
   useAuth();
@@ -30,7 +33,7 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/registration" element={<RegistrationPage />} />
 
-        {/*Protected Routes - gotta find a way to make it simpler and just protect one and apply it to others*/}
+        {/* Protected Routes */}
         <Route
           path="/admin"
           element={
@@ -59,6 +62,8 @@ export default function App() {
                 <Route path="/search" element={<ProductsPage />} />
                 {/* Route for an individual product */}
                 <Route path="/product/:product" element={<ProductPage />} />
+                {/* Route for checkout page */}
+                <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/unauthorized" element={<UnauthorizedPage />} />
               </Routes>
               <Footer />
@@ -68,4 +73,4 @@ export default function App() {
       </Routes>
     </Router>
   );
-};
+}
