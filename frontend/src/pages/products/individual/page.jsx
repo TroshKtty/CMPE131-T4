@@ -25,30 +25,9 @@ import PropTypes from "prop-types";
 import NotFound from "@/components/NotFound";
 import axios from "axios";
 
-// TODO:
-function getProductSpecifications(product) {
-  return [
-    ["Bottled Drinking Water Type", "Spring Waters"],
-    ["Container Material", "Plastic"],
-    ["Flavor", "Unflavored"],
-    ["Retail Packaging", "Multipack"],
-    ["Brand", "Crystal Geyser"],
-  ];
-}
-
-// TODO:
-function getNutritionalInfo(product) {
-  return [
-    ["Calories", "105"],
-    ["Total Fat", "0.4g"],
-    ["Saturated Fat", "0.1g"],
-    ["Cholesterol", "0mg"],
-    ["Sodium", "1mg"],
-    ["Total Carbohydrate", "27g"],
-    ["Dietary Fiber", "3.1g"],
-    ["Sugars", "14g"],
-    ["Protein", "1.3g"],
-  ];
+// k;v|k;v| -> [[k, v], [k, v], ...]
+function decomposeString(str) {
+  return str.split("|").map((pair) => pair.split(";"));
 }
 
 // Hacky fix for accordion wrapper to remove accordion hover bg and when it's clicked
@@ -69,6 +48,7 @@ Accordion.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
+// TODO: refactor
 export default function ProductPage() {
   const { product: productParam } = useParams();
   const [product, setProduct] = useState("");
@@ -94,7 +74,17 @@ export default function ProductPage() {
             price: Number.parseInt(resp.data.price, 10),
             weight: Number.parseInt(resp.data.weight, 10),
             descriptions: resp.data.descriptions.split(";"),
-            specifications: getProductSpecifications(resp.data),
+            specifications: decomposeString(resp.data.specifications),
+            nutritionInfo: decomposeString(resp.data.nutritionInfo),
+          });
+
+          console.log("productData", {
+            ...resp.data,
+            price: Number.parseInt(resp.data.price, 10),
+            weight: Number.parseInt(resp.data.weight, 10),
+            descriptions: resp.data.descriptions.split(";"),
+            specifications: decomposeString(resp.data.specifications),
+            nutritionInfo: decomposeString(resp.data.nutritionInfo),
           });
 
           setProductImages(resp.data.images.split(";"));
@@ -239,10 +229,7 @@ export default function ProductPage() {
                 }}
               >
                 <tbody>
-                  {(
-                    productData?.specifications ??
-                    getProductSpecifications(product)
-                  ).map(([key, value], index) => (
+                  {productData.specifications?.map(([key, value], index) => (
                     <tr key={index}>
                       <td style={{ width: "40%" }}>
                         <Typography level="body2" fontWeight="md">
@@ -275,7 +262,7 @@ export default function ProductPage() {
                 }}
               >
                 <tbody>
-                  {getNutritionalInfo(product).map(([key, value], index) => (
+                  {productData.nutritionalInfo?.map(([key, value], index) => (
                     <tr key={index}>
                       <td style={{ width: "40%" }}>
                         <Typography level="body2" fontWeight="md">
