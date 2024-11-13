@@ -1,4 +1,3 @@
-import PRODUCTS from "@/data";
 import {
   AspectRatio,
   Box,
@@ -16,47 +15,52 @@ import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const CATEGORIES = {};
-for (const cat of [...new Set(PRODUCTS.map((product) => product.category))]) {
-  // lowercase + url-encoded category -> proper casing of category
-  CATEGORIES[encodeURI(cat.toLowerCase())] = cat;
-}
-
 export default function ProductsPage() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState({});
 
   const query = searchParams.get("q")?.toLowerCase() || "";
   const categoryParam = searchParams.get("category")?.toLowerCase() || "";
-  const category = CATEGORIES[categoryParam] || "";
+  const category = categories[categoryParam] || "";
 
-  // TODO: filtering
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get("http://localhost:3000/products/all");
+        setProducts(response.data);
         setFilteredProducts(response.data);
 
+        const categoriesArr = [
+          ...new Set(response.data.map((product) => product.category)),
+        ];
+
+        const newCategories = {};
+        for (const cat of categoriesArr) {
+          newCategories[encodeURI(cat.toLowerCase())] = cat;
+        }
+        setCategories(newCategories);
+
         console.log("resp", response.data);
-
-        // const data = await response.data;
-        // console.log(data.data); // DELETE//////////////////////////////////////////////////
-
-        // setFilteredProducts(
-        //   data.data.filter(
-        //     (product) =>
-        //       (query === "" || product.name.toLowerCase().includes(query)) &&
-        //       (category === "" || product.category === category)
-        //   )
-        // );
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching all products:", error);
       }
     };
 
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    setFilteredProducts(
+      products.filter(
+        (product) =>
+          (query === "" || product.name.toLowerCase().includes(query)) &&
+          (category === "" || product.category === category)
+      )
+    );
+  }, [products, query, category]);
 
   const handleCategoryChange = (newCategory) => {
     if (newCategory) {
@@ -70,7 +74,7 @@ export default function ProductsPage() {
     setSearchParams({});
   };
 
-  const _addToCart = (ev, product) => {
+  const addToCart = (product) => {
     console.log(product);
     alert(`${product.name} added to cart`);
   };
@@ -113,7 +117,7 @@ export default function ProductsPage() {
               >
                 All Products
               </Link>
-              {Object.values(CATEGORIES).map((cat, idx) => (
+              {Object.values(categories).map((cat, idx) => (
                 <Link
                   key={idx}
                   level="body1"
@@ -164,7 +168,10 @@ export default function ProductsPage() {
                   <CardOverflow>
                     <AspectRatio ratio="1">
                       <img
-                        src={product.imgUrl ?? "https://placehold.co/300x300"}
+                        src={
+                          product.images.split(";")[0] ??
+                          "https://placehold.co/300x300"
+                        }
                         alt={product.name}
                         onClick={() => navigateToProductPage(product)}
                         style={{ cursor: "pointer" }}
@@ -207,7 +214,7 @@ export default function ProductsPage() {
                           width: "100%",
                           display: "block",
                         }}
-                        onClick={(ev) => _addToCart(ev, product)}
+                        onClick={() => addToCart(product)}
                       >
                         Add to Cart
                       </Button>
