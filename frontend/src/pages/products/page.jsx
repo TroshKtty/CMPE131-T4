@@ -31,40 +31,32 @@ export default function ProductsPage() {
   const categoryParam = searchParams.get("category")?.toLowerCase() || "";
   const category = CATEGORIES[categoryParam] || "";
 
-  let queryJSON;
-
+  // TODO: filtering
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/product/getall');
-        const data = await response;
-        console.log(data.data); // DELETE//////////////////////////////////////////////////
-        
-        setFilteredProducts(
-          data.data.filter(
-            (product) =>
-              (query === "" || product.item.toLowerCase().includes(query)) &&
-              (category === "" || product.category === category)
-          ));
+        const response = await axios.get("http://localhost:3000/products/all");
+        setFilteredProducts(response.data);
+
+        console.log("resp", response.data);
+
+        // const data = await response.data;
+        // console.log(data.data); // DELETE//////////////////////////////////////////////////
+
+        // setFilteredProducts(
+        //   data.data.filter(
+        //     (product) =>
+        //       (query === "" || product.name.toLowerCase().includes(query)) &&
+        //       (category === "" || product.category === category)
+        //   )
+        // );
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error("Error fetching products:", error);
       }
     };
 
     fetchProducts();
-  }, [setFilteredProducts, query, category]);
-
-  //}, [setFilteredProducts, query, category]);
-
-  // useEffect(() => {
-  //   setFilteredProducts(
-  //     PRODUCTS.filter(
-  //       (product) =>
-  //         (query === "" || product.item.toLowerCase().includes(query)) &&
-  //         (category === "" || product.category === category)
-  //     )
-  //   );
-  // }, [setFilteredProducts, query, category]);
+  }, []);
 
   const handleCategoryChange = (newCategory) => {
     if (newCategory) {
@@ -80,11 +72,11 @@ export default function ProductsPage() {
 
   const _addToCart = (ev, product) => {
     console.log(product);
-    alert(`${product.item} added to cart`);
+    alert(`${product.name} added to cart`);
   };
 
   const navigateToProductPage = (product) => {
-    navigate(`/product/${encodeURI(product.item)}`);
+    navigate(`/product/${encodeURI(product.name)}`);
   };
 
   return (
@@ -173,7 +165,7 @@ export default function ProductsPage() {
                     <AspectRatio ratio="1">
                       <img
                         src={product.imgUrl ?? "https://placehold.co/300x300"}
-                        alt={product.item}
+                        alt={product.name}
                         onClick={() => navigateToProductPage(product)}
                         style={{ cursor: "pointer" }}
                       />
@@ -189,10 +181,10 @@ export default function ProductsPage() {
                         <Typography
                           level="title-md"
                           component="a"
-                          href={`/product/${product.item}`}
+                          href={`/product/${product.name}`}
                           sx={{ textDecoration: "none" }}
                         >
-                          {product.item}
+                          {product.name}
                         </Typography>
                       </Box>
                     </Box>

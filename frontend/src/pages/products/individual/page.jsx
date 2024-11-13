@@ -17,66 +17,38 @@ import {
 } from "@mui/joy";
 import { ChevronDown, Plus, Minus } from "lucide-react";
 import Product from "@/components/product/Product";
-import DATA from "@/data";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import "./styles.css";
 import PropTypes from "prop-types";
 import NotFound from "@/components/NotFound";
+import axios from "axios";
 
+// TODO:
 function getProductSpecifications(product) {
-  switch (product.toLowerCase()) {
-    case "bottled water":
-      return [
-        ["Bottled Drinking Water Type", "Spring Waters"],
-        ["Container Material", "Plastic"],
-        ["Flavor", "Unflavored"],
-        ["Retail Packaging", "Multipack"],
-        ["Brand", "Crystal Geyser"],
-      ];
-    default:
-      return [];
-  }
+  return [
+    ["Bottled Drinking Water Type", "Spring Waters"],
+    ["Container Material", "Plastic"],
+    ["Flavor", "Unflavored"],
+    ["Retail Packaging", "Multipack"],
+    ["Brand", "Crystal Geyser"],
+  ];
 }
 
+// TODO:
 function getNutritionalInfo(product) {
-  switch (product.toLowerCase()) {
-    case "bananas":
-      return [
-        ["Calories", "105"],
-        ["Total Fat", "0.4g"],
-        ["Saturated Fat", "0.1g"],
-        ["Cholesterol", "0mg"],
-        ["Sodium", "1mg"],
-        ["Total Carbohydrate", "27g"],
-        ["Dietary Fiber", "3.1g"],
-        ["Sugars", "14g"],
-        ["Protein", "1.3g"],
-      ];
-    case "tomato":
-      return [
-        ["Calories", "22"],
-        ["Total Fat", "0.2g"],
-        ["Saturated Fat", "0g"],
-        ["Cholesterol", "0mg"],
-        ["Sodium", "6mg"],
-        ["Total Carbohydrate", "4.8g"],
-        ["Dietary Fiber", "1.5g"],
-        ["Sugars", "3.2g"],
-        ["Protein", "1.1g"],
-      ];
-    case "bottled water":
-      return [
-        ["Calories", "0"],
-        ["Total Fat", "0g"],
-        ["Sodium", "0mg"],
-        ["Total Carbohydrate", "0g"],
-        ["Protein", "0g"],
-      ];
-    default:
-      return [];
-  }
+  return [
+    ["Calories", "105"],
+    ["Total Fat", "0.4g"],
+    ["Saturated Fat", "0.1g"],
+    ["Cholesterol", "0mg"],
+    ["Sodium", "1mg"],
+    ["Total Carbohydrate", "27g"],
+    ["Dietary Fiber", "3.1g"],
+    ["Sugars", "14g"],
+    ["Protein", "1.3g"],
+  ];
 }
 
 // Hacky fix for accordion wrapper to remove accordion hover bg and when it's clicked
@@ -105,16 +77,32 @@ export default function ProductPage() {
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    if (productParam) {
-      setProduct(productParam);
-      const data = DATA.find(
-        (item) => item.item.toLowerCase() === productParam.toLowerCase()
-      );
-      if (data) {
-        setProductData(data);
-        setProductImages(data.images);
+    const fetchProduct = async () => {
+      if (productParam) {
+        console.log("productParam", productParam);
+
+        const resp = await axios.get(
+          `http://localhost:3000/products/name/${productParam}`
+        );
+
+        if (resp?.data) {
+          console.log("resp.data", resp.data);
+          setProduct(resp.data);
+
+          setProductData({
+            ...resp.data,
+            price: Number.parseInt(resp.data.price, 10),
+            weight: Number.parseInt(resp.data.weight, 10),
+            descriptions: resp.data.descriptions.split(";"),
+            specifications: getProductSpecifications(resp.data),
+          });
+
+          setProductImages(resp.data.images.split(";"));
+        }
       }
-    }
+    };
+
+    fetchProduct();
   }, [productParam]);
 
   if (product === "") {
@@ -127,7 +115,7 @@ export default function ProductPage() {
 
   const handleAddToCart = (ev) => {
     ev.preventDefault();
-    alert(`Added ${quantity}x ${productData.item} to cart`);
+    alert(`Added ${quantity}x ${productData.name} to cart`);
   };
 
   const handleIncrement = () => {
@@ -159,7 +147,7 @@ export default function ProductPage() {
 
           <Box sx={{ width: { xs: "100%", md: "50%" } }}>
             <Typography level="h1" component="h1" sx={{ mb: 2 }}>
-              {productData.item}
+              {productData.name}
             </Typography>
 
             <Divider />
