@@ -1,6 +1,6 @@
 /* Global Reset */
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -81,7 +81,7 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   margin: 20px auto;
-  max-width: 1250px;  /*change the gap between the boxes*/
+  max-width: 1250px; /*change the gap between the boxes*/
 }
 
 .category .box {
@@ -105,16 +105,15 @@ body {
   height: 180px;
   object-fit: contain;
   border-radius: 4px;
-  margin-top: 0.5rem; 
-  order: 2; 
+  margin-top: 0.5rem;
+  order: 2;
 }
-
 
 .category .box h3 {
   font-size: 1.4rem;
-  color: white; 
+  color: white;
   margin-bottom: 5px;
-  order: 1; 
+  order: 1;
 }
 
 .category .box:hover {
@@ -124,19 +123,19 @@ body {
 
 /* Specific background colors for each box */
 .category .box.fruits {
-  background-color: #18ac8c; 
+  background-color: #18ac8c;
 }
 
 .category .box.vegetables {
-  background-color: #b7ba30; 
+  background-color: #b7ba30;
 }
 
 .category .box.beverages {
-  background-color: #0b0b7e; 
+  background-color: #0b0b7e;
 }
 
 .category .box.snacks {
-  background-color: #5271ff; 
+  background-color: #5271ff;
 }
 
 .category .box.meat {
@@ -144,41 +143,65 @@ body {
 }
 
 .category .box.fish {
-  background-color: #b80303; 
+  background-color: #b80303;
 }
 
 .category .box.dairy-alternatives {
-  background-color: #0b0b7e; 
+  background-color: #0b0b7e;
 }
 
 .category .box.bakery {
-  background-color: #83096a; 
+  background-color: #83096a;
 }
 
 .category .box.grains {
-  background-color: #c84313; 
+  background-color: #c84313;
 }
 
 .category .box.dairy {
-  background-color: #5271ff; 
+  background-color: #5271ff;
 }
 
 .category .box.condiments {
-  background-color: #da83a2; 
+  background-color: #da83a2;
 }
 
 .category .box.dips {
-  background-color: #774dc5; 
+  background-color: #774dc5;
 }
 
 .category .box.frozen-desserts {
-  background-color: #5271ff; 
+  background-color: #5271ff;
 }
 
 .category .box.frozen-foods {
-  background-color: #18ac8c; 
+  background-color: #18ac8c;
 }
 
 .category .box.canned-goods {
   background-color: #b7ba30;
+}
+
+.swiper-container {
+  display: flex;
+  position: relative;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  position: "absolute";
+  display: "flex";
+  align-items: "center";
+  justify-content: "center";
+}
+
+/* this doesnt scale across viewports  */
+.swiper-button-prev {
+  margin-left: 8rem;
+}
+
+.swiper-button-next {
+  margin-right: 8rem;
 }
