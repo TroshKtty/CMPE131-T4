@@ -1,11 +1,15 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "./styles.css";
+
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "./styles.css";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -31,17 +35,14 @@ export default function HomePage() {
         </h1>
 
         <div className="swiper-container">
-          <button className="my-swiper-button-prev">
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-
+          <ArrowLeft className="swiper-button-prev" />
           <Swiper
             modules={[Pagination, Navigation]}
             slidesPerView={1}
             spaceBetween={15}
             navigation={{
-              nextEl: ".my-swiper-button-next",
-              prevEl: ".my-swiper-button-prev",
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
             }}
             pagination={{ clickable: true }}
             breakpoints={{
@@ -154,10 +155,7 @@ export default function HomePage() {
               </a>
             </SwiperSlide>
           </Swiper>
-
-          <button className="my-swiper-button-next">
-            <ChevronRight className="w-6 h-6" />
-          </button>
+          <ArrowRight className="swiper-button-next" />
         </div>
       </section>
     </div>
