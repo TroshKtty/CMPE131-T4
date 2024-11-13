@@ -21,6 +21,7 @@ export default function ProductsPage() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const query = searchParams.get("q")?.toLowerCase() || "";
   const categoryParam = searchParams.get("category")?.toLowerCase() || "";
@@ -46,6 +47,8 @@ export default function ProductsPage() {
         console.log("resp", response.data);
       } catch (error) {
         console.error("Error fetching all products:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -82,6 +85,11 @@ export default function ProductsPage() {
   const navigateToProductPage = (product) => {
     navigate(`/product/${encodeURI(product.name)}`);
   };
+
+  // TODO:
+  if (loading) {
+    return null;
+  }
 
   return (
     <Box
