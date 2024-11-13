@@ -229,7 +229,7 @@ export default function ProductPage() {
                 }}
               >
                 <tbody>
-                  {productData.specifications?.map(([key, value], index) => (
+                  {productData.specifications.map(([key, value], index) => (
                     <tr key={index}>
                       <td style={{ width: "40%" }}>
                         <Typography level="body2" fontWeight="md">
@@ -262,7 +262,7 @@ export default function ProductPage() {
                 }}
               >
                 <tbody>
-                  {productData.nutritionalInfo?.map(([key, value], index) => (
+                  {productData.nutritionInfo.map(([key, value], index) => (
                     <tr key={index}>
                       <td style={{ width: "40%" }}>
                         <Typography level="body2" fontWeight="md">
