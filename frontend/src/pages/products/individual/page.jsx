@@ -71,8 +71,8 @@ export default function ProductPage() {
 
           setProductData({
             ...resp.data,
-            price: Number.parseInt(resp.data.price, 10),
-            weight: Number.parseInt(resp.data.weight, 10),
+            price: Number.parseFloat(resp.data.price, 10),
+            weight: Number.parseFloat(resp.data.weight, 10),
             descriptions: resp.data.descriptions.split(";"),
             specifications: decomposeString(resp.data.specifications),
             nutritionInfo: decomposeString(resp.data.nutritionInfo),
@@ -80,8 +80,8 @@ export default function ProductPage() {
 
           console.log("productData", {
             ...resp.data,
-            price: Number.parseInt(resp.data.price, 10),
-            weight: Number.parseInt(resp.data.weight, 10),
+            price: Number.parseFloat(resp.data.price, 10),
+            weight: Number.parseFloat(resp.data.weight, 10),
             descriptions: resp.data.descriptions.split(";"),
             specifications: decomposeString(resp.data.specifications),
             nutritionInfo: decomposeString(resp.data.nutritionInfo),
