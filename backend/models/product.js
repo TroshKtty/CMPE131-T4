@@ -1,5 +1,5 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config.js');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config.js");
 
 const Product = sequelize.define(
   "Product",
@@ -12,6 +12,7 @@ const Product = sequelize.define(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     price: {
       type: DataTypes.DECIMAL(10, 2),
@@ -21,13 +22,30 @@ const Product = sequelize.define(
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
+    category: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
+    images: {
+      type: DataTypes.STRING, // delimited strings
+      allowNull: false,
+      defaultValue: "",
+    },
+    descriptions: {
+      type: DataTypes.TEXT("long"), // delimited strings
+      allowNull: false,
+    },
+    nutritionInfo: {
+      type: DataTypes.TEXT("long"), // delimited strings
+      allowNull: false,
+    },
+    specifications: {
+      type: DataTypes.TEXT("long"), // delimited strings
+      allowNull: false,
     },
   },
   { tableName: "product" }
