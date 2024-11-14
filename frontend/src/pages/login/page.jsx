@@ -111,7 +111,6 @@ export default function LoginPage() {
                     />
                     <FormLabel className="form-label">Remember me</FormLabel>
                   </Box>
-                  <Link className="forgot-password">Forgot password</Link>
                 </Box>
               </FormControl>
               <Button type="submit" fullWidth className="submit-button">
