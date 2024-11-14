@@ -43,7 +43,6 @@ export default function NavBar() {
     localStorage.removeItem("token");
     sessionStorage.removeItem("token");
     setIsLoggedIn(false);
-    // alert("Logged Out Successfully!");
     navigate("/");
   };
 
@@ -120,11 +119,10 @@ export default function NavBar() {
           >
             <Button
               startDecorator={<ShoppingCart size={20} />}
-              onClick={() => navigate("/cart")}
+              onClick={() => navigate("/checkout")} // Updated to "/checkout"
             >
               <Typography textColor="common.white">Cart</Typography>
             </Button>
-            {/* TODO: the dropdown moves to the topleft if the page becomes too small and its already open */}
             {isLoggedIn ? (
               <Dropdown>
                 <MenuButton
@@ -201,7 +199,7 @@ export default function NavBar() {
           <Button
             variant="plain"
             color="neutral"
-            onClick={() => navigate("/cart")}
+            onClick={() => navigate("/checkout")} // Updated to "/checkout"
             fullWidth
           >
             Cart
