@@ -19,16 +19,16 @@ import useAuth from "./utils/auth_check";
 import { CartProvider } from "@/providers/CartProvider";
 import CheckoutPage from "./pages/CheckoutPage";
 
-// const AuthWrapper = () => {
-//   useAuth();
-//   return null;
-// };
+const AuthWrapper = () => {
+  useAuth();
+  return null;
+};
 
 export default function App() {
   return (
     <CartProvider>
       <Router>
-        {/* <AuthWrapper /> */}
+        <AuthWrapper />
         <Routes>
           {/* Route for logging in */}
           <Route path="/login" element={<LoginPage />} />
