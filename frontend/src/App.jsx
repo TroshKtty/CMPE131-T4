@@ -16,8 +16,8 @@ import Footer from "@/components/footer/Footer";
 import ProtectedRoute from "./utils/protected_routes";
 import useAuth from "./utils/auth_check";
 
-// Import CheckoutPage
-import CheckoutPage from "@/pages/CheckoutPage";
+// Import CheckoutPage with the correct path
+import CheckoutPage from "./pages/CheckoutPage";
 
 const AuthWrapper = () => {
   useAuth();
