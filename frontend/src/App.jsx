@@ -37,8 +37,6 @@ export default function App() {
         {/* Route for logging in */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/registration" element={<RegistrationPage />} />
-        
-        <Route path="/accinfo" element={<AccountInfoPage />} />
 
         {/*Protected Routes - gotta find a way to make it simpler and just protect one and apply it to others*/}
         <Route 
@@ -74,6 +72,9 @@ export default function App() {
                 <Route path="/products/individual/water" element={<WaterProductPage />} />
                 <Route path="/products/individual/test" element={<TestProductPage />} />
                 <Route path="/unauthorized" element={<UnauthorizedPage />} />
+
+                <Route path="/accinfo" element={<AccountInfoPage />} />
+
               </Routes>
               <Footer />
             </>

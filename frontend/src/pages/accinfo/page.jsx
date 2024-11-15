@@ -1,59 +1,16 @@
+import "@/pages/accinfo/styles.css";
 import React from "react";
-import { Box, Typography, Link, Card, CardContent } from "@mui/joy";
+import { Box, Typography, Link, Card, CardContent, Divider, Button} from "@mui/joy";
 import { Link as RouterLink } from "react-router-dom";
-import Chart from "react-apexcharts"; // Make sure this package is installed
 
 export default function AccountInfoPage() {
-  const salesData = {
-    series: [
-      {
-        name: "Sales",
-        data: [4500, 6500, 8000, 7200],
-      },
-    ],
-    options: {
-      chart: {
-        type: "line",
-        height: 350,
-      },
-      stroke: {
-        width: 7,
-        curve: "smooth",
-      },
-      xaxis: {
-        categories: ["Quarter 1", "Quarter 2", "Quarter 3", "Quarter 4"],
-      },
-      markers: {
-        size: 5,
-      },
-      colors: ["#20E647"], // Green color
-    },
-  };
-
-  const categoryData = {
-    series: [38.8, 22.9, 23, 15.3],
-    options: {
-      labels: ["Fruits and Vegetables", "Snacks", "Meat and Seafood", "Others"],
-      colors: ["#FF4560", "#00E396", "#008FFB", "#775DD0"], // Example colors for categories
-      plotOptions: {
-        pie: {
-          donut: {
-            labels: {
-              show: true,
-            },
-          },
-        },
-      },
-    },
-  };
-
   return (
     <Box sx={{ display: "flex", height: "100vh", bgcolor: "#f4f5f7" }}>
       {/* Sidebar */}
       <Box
         sx={{
           width: 250,
-          bgcolor: "#5271ff",
+          bgcolor: "#f4f5f7",
           color: "common.white",
           padding: 2,
           display: "flex",
@@ -62,27 +19,21 @@ export default function AccountInfoPage() {
         }}
       >
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <Typography fontSize="1.5rem" fontWeight="bold" sx={{ color: "white" }}>
-            Dashboard
+          <Typography fontSize="1.5rem" fontWeight="bold" sx={{ color: "#5271ff" }}>
+            Your Account
           </Typography>
-          <Link component={RouterLink} to="/admin/inventory" sx={{ color: "white", fontSize: "1rem" }}>
-            Inventory Management
+          <Link component={RouterLink} to="/accinfo" sx={{ color: "black", fontSize: "1.3rem" }}>
+            Personal Information
           </Link>
-          <Link component={RouterLink} to="/admin/sales" sx={{ color: "white", fontSize: "1rem" }}>
-            Sales Reports
+          <Link component={RouterLink} to="/accinfo/payment" sx={{ color: "black", fontSize: "1.3rem" }}>
+            Billing & Payments
           </Link>
-          <Link component={RouterLink} to="/admin/analytics" sx={{ color: "white", fontSize: "1rem" }}>
-            User Analytics
-          </Link>
-          <Link component={RouterLink} to="/admin/approval-requests" sx={{ color: "white", fontSize: "1rem" }}>
-            Approval Requests
+          <Link component={RouterLink} to="/accinfo/orders" sx={{ color: "black", fontSize: "1.3rem" }}>
+            Order History
           </Link>
         </Box>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <Link component={RouterLink} to="/admin/settings" sx={{ color: "white", fontSize: "1rem" }}>
-            Settings
-          </Link>
-          <Link component={RouterLink} to="/logout" sx={{ color: "white", fontSize: "1rem" }}>
+          <Link component={RouterLink} to="/logout" sx={{ color: "black", fontSize: "1.3rem" }}>
             Logout
           </Link>
         </Box>
@@ -96,49 +47,49 @@ export default function AccountInfoPage() {
           align="center"
           sx={{ color: "#5271ff" }}
         >
-          OFS Admin Dashboard
+          Account Information
         </Typography>
 
-        <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>
+        <Divider></Divider>
+
+
+
+        <Box sx={{justifyContent: "space-between", mt: 4}}>
           {/* Info Cards */}
+        
           <Card sx={{ flexGrow: 1, m: 1 }}>
             <CardContent>
-              <Typography fontSize="1.25rem" fontWeight="medium">Orders</Typography>
-              <Typography fontSize="2rem" fontWeight="bold">663</Typography>
+                <Typography fontSize="1.3rem" fontWeight="bold">Name</Typography>
+                 <Divider/>
+                <Typography fontSize="1.25rem" level="body-sm">John Doe</Typography>
             </CardContent>
           </Card>
           <Card sx={{ flexGrow: 1, m: 1 }}>
             <CardContent>
-              <Typography fontSize="1.25rem" fontWeight="medium">Delivered</Typography>
-              <Typography fontSize="2rem" fontWeight="bold">423</Typography>
-            </CardContent>
-          </Card>
-          <Card sx={{ flexGrow: 1, m: 1 }}>
-            <CardContent>
-              <Typography fontSize="1.25rem" fontWeight="medium">Pending</Typography>
-              <Typography fontSize="2rem" fontWeight="bold">115</Typography>
-            </CardContent>
-          </Card>
-          <Card sx={{ flexGrow: 1, m: 1 }}>
-            <CardContent>
-              <Typography fontSize="1.25rem" fontWeight="medium">Refunded</Typography>
-              <Typography fontSize="2rem" fontWeight="bold">30</Typography>
+              <Typography fontSize="1.3rem" fontWeight="bold">Address</Typography>
+              <Divider/>
+              <Typography fontSize="1.25rem" fontWeight="body-sm">1 Washington Sq, San Jose, CA 95192</Typography>
             </CardContent>
           </Card>
         </Box>
 
-        {/* Charts */}
-        <Box sx={{ display: "flex", mt: 4 }}>
-          <Box sx={{ width: "70%", mr: 2 }}>
-            <Typography fontSize="1.5rem" fontWeight="medium">Sales, Expenses, and Profit</Typography>
-            <Chart options={salesData.options} series={salesData.series} type="line" height={350} />
+        <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>
+        <Card sx={{ flexGrow: 1, m: 1 }}>
+            <CardContent>
+              <Typography fontSize="1.3rem" fontWeight="bold">Pending</Typography>
+              <Typography fontSize="1.25rem" fontWeight="body-sm">115</Typography>
+            </CardContent>
+        </Card>
+        <Card sx={{ flexGrow: 1, m: 1 }}>
+            <CardContent>
+              <Typography fontSize="1.3rem" fontWeight="bold">Refunded</Typography>
+              <Typography fontSize="1.2rem" fontWeight="body-sm">30</Typography>
+            </CardContent>
+          </Card>
           </Box>
-          <Box sx={{ width: "30%" }}>
-            <Typography fontSize="1.5rem" fontWeight="medium">Sales by Category</Typography>
-            <Chart options={categoryData.options} series={categoryData.series} type="donut" />
-          </Box>
-        </Box>
       </Box>
     </Box>
+
+
   );
 }
