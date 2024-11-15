@@ -1,6 +1,7 @@
 import React from "react";
-import { Box, Typography, Card, CardContent } from "@mui/joy";
+import { Box, Typography, Link, Card, CardContent } from "@mui/joy";
 import Chart from "react-apexcharts";
+import { Link as RouterLink } from "react-router-dom";
 import AdminSidebar from "@/components/admin_navbar/admin_navbar"; // Import AdminSidebar component
 
 export default function AdminDashboardPage() {
@@ -50,7 +51,43 @@ export default function AdminDashboardPage() {
   return (
     <Box sx={{ display: "flex", height: "100vh", bgcolor: "#f4f5f7" }}>
       {/* Sidebar */}
-      <AdminSidebar />
+      <Box
+        sx={{
+          width: 250,
+          bgcolor: "#5271ff",
+          color: "common.white",
+          padding: 2,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <Typography fontSize="1.5rem" fontWeight="bold" sx={{ color: "white" }}>
+            Dashboard
+          </Typography>
+          {/* <Link component={RouterLink} to="/admin/inventory" sx={{ color: "white", fontSize: "1rem" }}>
+            Inventory Management
+          </Link> */}
+          <Link component={RouterLink} to="/admin/sales" sx={{ color: "white", fontSize: "1rem" }}>
+            Sales Reports
+          </Link>
+          <Link component={RouterLink} to="/admin/analytics" sx={{ color: "white", fontSize: "1rem" }}>
+            User Analytics
+          </Link>
+          <Link component={RouterLink} to="/admin/approval-requests" sx={{ color: "white", fontSize: "1rem" }}>
+            Approval Requests
+          </Link>
+        </Box>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <Link component={RouterLink} to="/admin/settings" sx={{ color: "white", fontSize: "1rem" }}>
+            Settings
+          </Link>
+          <Link component={RouterLink} to="/logout" sx={{ color: "white", fontSize: "1rem" }}>
+            Logout
+          </Link>
+        </Box>
+      </Box>
 
       {/* Main Content */}
       <Box sx={{ flexGrow: 1, padding: 4 }}>
