@@ -53,9 +53,13 @@ export default function App() {
           element={
             <ProtectedRoute required_role="admin">
               <AdminApprovalRequestsPage />
+              <AdminApprovalRequestsPage />
             </ProtectedRoute>
           }
         />        
+        <Route path="/employee" element={<EmployeeDashboardPage />} />
+        <Route path="/employee/inventory-management" element={<InventoryManagementPage />} />
+        <Route path="/employee/approval-requests" element={<EmployeeApprovalRequestsPage />} />
         <Route path="/employee" element={<EmployeeDashboardPage />} />
         <Route path="/employee/inventory-management" element={<InventoryManagementPage />} />
         <Route path="/employee/approval-requests" element={<EmployeeApprovalRequestsPage />} />

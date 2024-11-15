@@ -52,6 +52,7 @@ export default function LoginPage() {
       const role = jwtDecode(token).role;
       if (role === "admin") navigate("/admin");
       else if (role === "employee") navigate("/employee");
+      else if (role === "employee") navigate("/employee");
       else navigate("/");
     } catch (error) {
       // alert("Invalid username or password. Please try again.");
