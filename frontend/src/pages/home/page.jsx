@@ -1,18 +1,47 @@
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "./styles.css";
-
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import React from 'react';
 import { useNavigate } from "react-router-dom";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import { Navigation, Pagination } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import "./styles.css";
 
 export default function HomePage() {
   const navigate = useNavigate();
+
+  const responsive = {
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 1024 },
+      items: 4
+    },
+    desktop: {
+      breakpoint: { max: 1024, min: 768 },
+      items: 3
+    },
+    tablet: {
+      breakpoint: { max: 768, min: 464 },
+      items: 2
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
+  };
+
+  const categories = [
+    { name: "Fruits", image: "fruits.jpg", link: "/search?category=fruits" },
+    { name: "Bakery", image: "bread.jpg", link: "/search?category=bakery" },
+    { name: "Vegetables", image: "vegetables.jpg", link: "/search?category=vegetables" },
+    { name: "Meat", image: "meat.jpg", link: "/search?category=meat" },
+    { name: "Fish", image: "fish.jpg", link: "/search?category=fish" },
+    { name: "Beverages", image: "beverage.jpg", link: "/search?category=beverages" },
+    { name: "Snacks", image: "chips.jpg", link: "/search?category=snacks" },
+    { name: "Dairy Alternatives", image: "dairy.jpg", link: "/search?category=dairy%2520alternatives" },
+    { name: "Grains", image: "grains.jpg", link: "/search?category=grains" },
+    { name: "Dairy", image: "dairy1.jpg", link: "/search?category=dairy" },
+    { name: "Condiments", image: "honey.jpg", link: "/search?category=condiments" },
+    { name: "Dips", image: "dip.jpg", link: "/search?category=dips" },
+    { name: "Frozen Desserts", image: "icecream.jpg", link: "/search?category=frozen%2520desserts" },
+    { name: "Frozen Foods", image: "amypizza.jpg", link: "/search?category=frozen%2520foods" },
+  ];
 
   return (
     <div className="homepage">
@@ -34,128 +63,30 @@ export default function HomePage() {
           Shop by <span className="heading2">Categories</span>
         </h1>
 
-        <div className="swiper-container">
-          <ArrowLeft className="swiper-button-prev" />
-          <Swiper
-            modules={[Pagination, Navigation]}
-            slidesPerView={1}
-            spaceBetween={15}
-            navigation={{
-              nextEl: ".swiper-button-next",
-              prevEl: ".swiper-button-prev",
-            }}
-            pagination={{ clickable: true }}
-            breakpoints={{
-              640: { slidesPerView: 2 },
-              768: { slidesPerView: 3 },
-              1024: { slidesPerView: 4 },
-            }}
-            className="box-container"
+        <div className="carousel-container">
+          <Carousel
+            responsive={responsive}
+            swipeable={true}
+            draggable={true}
+            showDots={true}
+            infinite={true}
+            autoPlay={true}
+            autoPlaySpeed={3000}
+            keyBoardControl={true}
+            customTransition="all 0.5s"
+            transitionDuration={500}
+            containerClass="carousel-container"
+            removeArrowOnDeviceType={["tablet", "mobile"]}
+            dotListClass="custom-dot-list-style"
+            itemClass="carousel-item"
           >
-            <SwiperSlide>
-              <a className="box fruits" href="/search?category=fruits">
-                <h3>Fruits</h3>
-                <img src="fruits.jpg" alt="Fruits" />
+            {categories.map((category, index) => (
+              <a key={index} className={`box ${category.name.toLowerCase().replace(' ', '-')}`} href={category.link}>
+                <h3>{category.name}</h3>
+                <img src={category.image} alt={category.name} />
               </a>
-            </SwiperSlide>
-            <SwiperSlide>
-              <a className="box bakery" href="/search?category=bakery">
-                <h3>Bakery</h3>
-                <img src="bread.jpg" alt="Bakery" />
-              </a>
-            </SwiperSlide>
-            <SwiperSlide>
-              <a className="box vegetables" href="/search?category=vegetables">
-                <h3>Vegetables</h3>
-                <img src="vegetables.jpg" alt="Vegetables" />
-              </a>
-            </SwiperSlide>
-            <SwiperSlide>
-              <a className="box meat" href="/search?category=meat">
-                <h3>Meat</h3>
-                <img src="meat.jpg" alt="Meat" />
-              </a>
-            </SwiperSlide>
-            <SwiperSlide>
-              <a className="box fish" href="/search?category=fish">
-                <h3>Fish</h3>
-                <img src="fish.jpg" alt="Fish" />
-              </a>
-            </SwiperSlide>
-            <SwiperSlide>
-              <a className="box beverages" href="/search?category=beverages">
-                <h3>Beverages</h3>
-                <img src="beverage.jpg" alt="Beverages" />
-              </a>
-            </SwiperSlide>
-            <SwiperSlide>
-              <a className="box snacks" href="/search?category=snacks">
-                <h3>Snacks</h3>
-                <img src="chips.jpg" alt="Snacks" />
-              </a>
-            </SwiperSlide>
-            <SwiperSlide>
-              <a
-                className="box dairy-alternatives"
-                href="/search?category=dairy%2520alternatives"
-              >
-                <h3>Dairy Alternatives</h3>
-                <img src="dairy.jpg" alt="Dairy Alternatives" />
-              </a>
-            </SwiperSlide>
-            <SwiperSlide>
-              <a className="box grains" href="/search?category=grains">
-                <h3>Grains</h3>
-                <img src="grains.jpg" alt="Grains" />
-              </a>
-            </SwiperSlide>
-            <SwiperSlide>
-              <a className="box dairy" href="/search?category=dairy">
-                <h3>Dairy</h3>
-                <img src="dairy1.jpg" alt="Dairy" />
-              </a>
-            </SwiperSlide>
-            <SwiperSlide>
-              <a className="box condiments" href="/search?category=condiments">
-                <h3>Condiments</h3>
-                <img src="honey.jpg" alt="Condiments" />
-              </a>
-            </SwiperSlide>
-            <SwiperSlide>
-              <a className="box dips" href="/search?category=dips">
-                <h3>Dips</h3>
-                <img src="dip.jpg" alt="Dips" />
-              </a>
-            </SwiperSlide>
-            <SwiperSlide>
-              <a
-                className="box frozen-desserts"
-                href="/search?category=frozen%2520desserts"
-              >
-                <h3>Frozen Desserts</h3>
-                <img src="icecream.jpg" alt="Frozen Desserts" />
-              </a>
-            </SwiperSlide>
-            <SwiperSlide>
-              <a
-                className="box frozen-foods"
-                href="/search?category=frozen%2520foods"
-              >
-                <h3>Frozen Foods</h3>
-                <img src="amypizza.jpg" alt="Frozen Foods" />
-              </a>
-            </SwiperSlide>
-            <SwiperSlide>
-              <a
-                className="box canned-goods"
-                href="/search?category=canned%2520goods"
-              >
-                <h3>Canned Goods</h3>
-                <img src="applesauce.jpg" alt="Canned Goods" />
-              </a>
-            </SwiperSlide>
-          </Swiper>
-          <ArrowRight className="swiper-button-next" />
+            ))}
+          </Carousel>
         </div>
       </section>
     </div>
