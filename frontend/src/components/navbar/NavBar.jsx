@@ -1,132 +1,251 @@
-import { Box, IconButton, Input, Link, Typography } from "@mui/joy";
-import { MenuIcon, Search, ShoppingCart, User } from "lucide-react";
-import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
 import {
-  Link as RouterLink,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+  Box,
+  Button,
+  Divider,
+  Dropdown,
+  Grid,
+  IconButton,
+  Input,
+  Menu,
+  MenuButton,
+  MenuItem,
+  Sheet,
+  Typography,
+} from "@mui/joy";
+import { Menu as MenuIcon, Search, ShoppingCart, User, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import "./navbar.css";
-
-function NavLink({ children, ...props }) {
-  return (
-    <Link
-      component={RouterLink}
-      to={props.to}
-      sx={{
-        textDecoration: "none",
-        color: "primary.solidColor",
-        // Remove underline on hover
-        "&:hover": {
-          textDecoration: "none",
-        },
-      }}
-    >
-      {children}
-    </Link>
-  );
-}
-
-// I don't know why this is required...
-NavLink.propTypes = {
-  children: PropTypes.node.isRequired,
-  to: PropTypes.string.isRequired,
-};
 
 export default function NavBar() {
   const [searchParams] = useSearchParams();
   const [query, setQuery] = useState(searchParams.get("q") || "");
   const navigate = useNavigate();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     setQuery(searchParams.get("q") || "");
-  }, [searchParams, setQuery]);
+    setIsLoggedIn(
+      !!sessionStorage.getItem("token") || !!localStorage.getItem("token")
+    );
+  }, [searchParams]);
 
   const handleSearch = (ev) => {
     ev.preventDefault();
-
-    if (query.length < 3) {
-      return;
-    }
-
+    if (query.length < 3) return;
     const target = new URLSearchParams({ q: query }).toString();
     navigate(encodeURI(`/search?${target}`));
   };
 
-  const log_out = () =>{
-    localStorage.removeItem('token');
-    sessionStorage.removeItem('token');
-    alert('Logged Out Successfully!');
-    navigate('/');
-  }
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
+    setIsLoggedIn(false);
+    navigate("/");
+  };
+
+  const clearSearch = () => setQuery("");
+
   return (
-    <Box
+    <Sheet
       sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        px: 4,
-        py: 2,
-        backgroundColor: "primary.solidBg",
         position: "sticky",
         top: 0,
         zIndex: 1000,
+        width: "100%",
+        bgcolor: "primary.solidBg",
+        boxShadow: "sm",
       }}
     >
-      <NavLink to="/">
-        <Typography level="h2" fontSize="title-lg" textColor="common.white">
-          OFS
-        </Typography>
-      </NavLink>
-      <Box marginLeft={16}>
-        <form onSubmit={handleSearch}>
-          <Input
-            value={query}
-            placeholder="Search for products"
-            endDecorator={
-              <IconButton type="submit">
-                <Search size={16} />
-              </IconButton>
-            }
-            sx={{ width: 500 }}
-            onChange={(ev) => setQuery(ev.target.value)}
-          />
-        </form>
-      </Box>
-      <Box component="nav" sx={{ display: "flex", gap: 2 }}>
-        <NavLink to="/cart">
-          <ShoppingCart size={18} style={{ marginRight: 8 }} />
-          <Typography level="h4" fontSize="lg" textColor="common.white">
-            Cart
-          </Typography>
-        </NavLink>
-        {sessionStorage.getItem("token") || localStorage.getItem("token") ? (
-          <div className="navbar_menu">
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-              <MenuIcon size={18} style={{ color: "white" }} />
-              <Typography level="h4" fontSize="lg" textColor="common.white">
-                Menu
-              </Typography>
-            </Box>
-            <ul className="navbar_dropdown">
-              <li>Account Information</li>
-              <hr />
-              <li>Order History</li>
-              <hr />
-              <li onClick={log_out}>Logout</li>
-            </ul>
-          </div>
-        ) : (
-          <NavLink to="/login">
-            <User size={18} style={{ marginRight: 8 }} />
-            <Typography level="h4" fontSize="lg" textColor="common.white">
-              Log In
+      <Grid
+        container
+        spacing={2}
+        alignItems="center"
+        sx={{ px: { xs: 2, sm: 4 }, py: 1 }}
+      >
+        <Grid xs={6} sm={3} display="flex" alignItems="center">
+          <Button onClick={() => navigate("/")}>
+            <Typography textColor="common.white" fontWeight="lg" fontSize="xl">
+              OFS
             </Typography>
-          </NavLink>
-        )}
-      </Box>
-    </Box>
+          </Button>
+        </Grid>
+
+        <Grid xs={12} sm={6} md={5} lg={6} order={{ xs: 3, sm: 2 }}>
+          <form onSubmit={handleSearch}>
+            <Input
+              value={query}
+              placeholder="Search for products"
+              sx={{ width: "100%" }}
+              onChange={(ev) => setQuery(ev.target.value)}
+              endDecorator={
+                <>
+                  {query && (
+                    <IconButton
+                      onClick={clearSearch}
+                      size="sm"
+                      variant="plain"
+                      color="neutral"
+                    >
+                      <X size={16} />
+                    </IconButton>
+                  )}
+                  <IconButton type="submit" size="sm">
+                    <Search size={16} />
+                  </IconButton>
+                </>
+              }
+            />
+          </form>
+        </Grid>
+
+        <Grid
+          xs={6}
+          sm={3}
+          md={4}
+          lg={3}
+          order={{ xs: 2, sm: 3 }}
+          display="flex"
+          justifyContent="flex-end"
+        >
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              gap: 2,
+              alignItems: "center",
+            }}
+          >
+            <Button
+              startDecorator={<ShoppingCart size={20} />}
+              onClick={() => navigate("/checkout")} // Updated to "/checkout"
+            >
+              <Typography textColor="common.white">Cart</Typography>
+            </Button>
+            {isLoggedIn ? (
+              <Dropdown>
+                <MenuButton
+                  variant="plain"
+                  startDecorator={<User size={20} color="white" />}
+                >
+                  <Typography textColor="common.white">Menu</Typography>
+                </MenuButton>
+                <Menu placement="bottom-end">
+                  <MenuItem onClick={() => navigate("/account")}>
+                    <Typography
+                      sx={{
+                        "&:hover": {
+                          color: "primary.solidBg",
+                        },
+                      }}
+                    >
+                      Account Information
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate("/orders")}>
+                    <Typography
+                      sx={{
+                        "&:hover": {
+                          color: "primary.solidBg",
+                        },
+                      }}
+                    >
+                      Order History
+                    </Typography>
+                  </MenuItem>
+                  <Divider />
+                  <MenuItem
+                    onClick={handleLogout}
+                    sx={{
+                      "&:hover": {
+                        "& .MuiTypography-root": {
+                          color: "primary.solidBg",
+                        },
+                      },
+                    }}
+                  >
+                    <Typography>Logout</Typography>
+                  </MenuItem>
+                </Menu>
+              </Dropdown>
+            ) : (
+              <Button
+                startDecorator={<User size={20} />}
+                onClick={() => navigate("/login")}
+              >
+                <Typography textColor="common.white">Log In</Typography>
+              </Button>
+            )}
+          </Box>
+          <IconButton
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            sx={{ display: { xs: "flex", md: "none" }, color: "common.white" }}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Grid>
+      </Grid>
+
+      {mobileMenuOpen && (
+        <Box
+          sx={{
+            display: { xs: "flex", md: "none" },
+            flexDirection: "column",
+            gap: 2,
+            p: 2,
+          }}
+        >
+          <Button
+            variant="plain"
+            color="neutral"
+            onClick={() => navigate("/checkout")} // Updated to "/checkout"
+            fullWidth
+          >
+            Cart
+          </Button>
+          {isLoggedIn ? (
+            <>
+              <Button
+                variant="plain"
+                color="neutral"
+                onClick={() => navigate("/account")}
+                fullWidth
+              >
+                <Typography textColor="common.white">
+                  Account Information
+                </Typography>
+              </Button>
+              <Button
+                variant="plain"
+                color="neutral"
+                onClick={() => navigate("/orders")}
+                fullWidth
+              >
+                <Typography textColor="common.white">Order History</Typography>
+              </Button>
+              <Button
+                variant="plain"
+                color="neutral"
+                onClick={handleLogout}
+                fullWidth
+              >
+                <Typography textColor="common.white">Logout</Typography>
+              </Button>
+            </>
+          ) : (
+            <Button
+              variant="plain"
+              color="neutral"
+              startDecorator={<User size={20} />}
+              onClick={() => navigate("/login")}
+              fullWidth
+            >
+              Log In
+            </Button>
+          )}
+        </Box>
+      )}
+    </Sheet>
   );
 }

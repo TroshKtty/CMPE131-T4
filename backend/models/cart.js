@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config');
+const sequelize = require('../config.js');
 
 // Define the Cart model (corresponds to the 'cart' table)
 const Cart = sequelize.define('Cart', {

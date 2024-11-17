@@ -1,5 +1,6 @@
 import "./styles.css";
 import {
+  Alert,
   Box,
   Button,
   IconButton,
@@ -11,17 +12,15 @@ import {
   Link,
   Typography,
 } from "@mui/joy";
-import { 
-  Visibility, 
-  VisibilityOff 
-} from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
+import { EyeOff, Eye, X } from "lucide-react";
+
 export default function LoginPage() {
-  
   const navigate = useNavigate();
+
   useEffect(() => {
     if (sessionStorage.getItem("token") || localStorage.getItem("token"))
       navigate("/");
@@ -30,6 +29,7 @@ export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [msg, setMsg] = useState("");
 
   const handleLogin = async (ev) => {
     ev.preventDefault();
@@ -44,28 +44,49 @@ export default function LoginPage() {
       if (rememberMe) localStorage.setItem("token", response.data.token);
       else sessionStorage.setItem("token", response.data.token);
 
-      alert("Logged in successfully!");
+      console.log("Logged in successfully!");
+
       const token = response.data.token;
-      console.log("token", token);
+      // console.log("token", token);
 
       const role = jwtDecode(token).role;
       if (role === "admin") navigate("/admin");
       else if (role === "employee") navigate("/");
       else navigate("/");
-    
     } catch (error) {
-      alert("Invalid username or password. Please try again.");
-      console.error("Login failed", error);
+      // alert("Invalid username or password. Please try again.");
+      console.log("Login failed", error);
+      if (error instanceof AxiosError && error?.response?.data?.message) {
+        setMsg(error.response.data.message);
+      } else {
+        setMsg("An error occured while logging in.");
+      }
     }
   };
 
   return (
     <>
       <Box component="nav" className="navbar">
-        <Typography className="navbar-title">OFS</Typography>
+        <Link onClick={() =>navigate("/")} style={{ textDecoration: 'none' }}>
+          <Typography className="navbar-title">OFS</Typography>
+        </Link>
       </Box>
       <Box className="login-container">
         <Box className="login-box">
+          {msg && (
+            <Alert
+              severity="error"
+              variant="soft"
+              endDecorator={
+                <IconButton onClick={() => setMsg("")}>
+                  <X />
+                </IconButton>
+              }
+              sx={{ p: 1 }}
+            >
+              {msg}
+            </Alert>
+          )}
           <Typography className="login-title">Log In</Typography>
           <form onSubmit={handleLogin}>
             <Box className="login-form">
@@ -79,7 +100,10 @@ export default function LoginPage() {
               </FormControl>
               <FormControl required>
                 <FormLabel className="form-label">Password</FormLabel>
-                <PasswordInput value={password} onChange={(ev) => setPassword(ev.target.value)} />
+                <PasswordInput
+                  value={password}
+                  onChange={(ev) => setPassword(ev.target.value)}
+                />
               </FormControl>
               <FormControl>
                 <Box className="remember-forgot">
@@ -89,7 +113,6 @@ export default function LoginPage() {
                     />
                     <FormLabel className="form-label">Remember me</FormLabel>
                   </Box>
-                  <Link className="forgot-password">Forgot password</Link>
                 </Box>
               </FormControl>
               <Button type="submit" fullWidth className="submit-button">
@@ -124,15 +147,18 @@ function PasswordInput({ value, onChange }) {
 
   return (
     <FormControl required>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
         <Input
-          type={showPassword ? 'text' : 'password'}
+          type={showPassword ? "text" : "password"}
           value={value}
           onChange={onChange}
           sx={{ flexGrow: 1 }}
         />
-        <IconButton onClick={togglePasswordVisibility}>
-          {showPassword ? <VisibilityOff /> : <Visibility />}
+        <IconButton
+          onClick={togglePasswordVisibility}
+          sx={{ marginLeft: "3px" }}
+        >
+          {showPassword ? <EyeOff /> : <Eye />}
         </IconButton>
       </Box>
     </FormControl>

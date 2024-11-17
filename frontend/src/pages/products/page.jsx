@@ -1,4 +1,3 @@
-import PRODUCTS from "@/data";
 import {
   AspectRatio,
   Box,
@@ -13,33 +12,58 @@ import {
   Typography,
 } from "@mui/joy";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-
-const CATEGORIES = {};
-for (const cat of [...new Set(PRODUCTS.map((product) => product.category))]) {
-  // lowercase + url-encoded category -> proper casing of category
-  CATEGORIES[encodeURI(cat.toLowerCase())] = cat;
-}
+import { useSearchParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function ProductsPage() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const query = searchParams.get("q")?.toLowerCase() || "";
   const categoryParam = searchParams.get("category")?.toLowerCase() || "";
-  const category = CATEGORIES[categoryParam] || "";
+  const category = categories[categoryParam] || "";
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/products/all");
+        setProducts(response.data);
+        setFilteredProducts(response.data);
+
+        const categoriesArr = [
+          ...new Set(response.data.map((product) => product.category)),
+        ];
+
+        const newCategories = {};
+        for (const cat of categoriesArr) {
+          newCategories[encodeURI(cat.toLowerCase())] = cat;
+        }
+        setCategories(newCategories);
+
+        console.log("resp", response.data);
+      } catch (error) {
+        console.error("Error fetching all products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     setFilteredProducts(
-      PRODUCTS.filter(
+      products.filter(
         (product) =>
-          (query === "" ||
-            product.item.toLowerCase().includes(query)) /* filter by name */ &&
-          (category === "" ||
-            product.category === category) /* filter by category */
+          (query === "" || product.name.toLowerCase().includes(query)) &&
+          (category === "" || product.category === category)
       )
     );
-  }, [setFilteredProducts, query, category]);
+  }, [products, query, category]);
 
   const handleCategoryChange = (newCategory) => {
     if (newCategory) {
@@ -53,10 +77,19 @@ export default function ProductsPage() {
     setSearchParams({});
   };
 
-  const _addToCart = (ev, product) => {
+  const addToCart = (product) => {
     console.log(product);
-    alert(`${product.item} added to cart`);
+    alert(`${product.name} added to cart`);
   };
+
+  const navigateToProductPage = (product) => {
+    navigate(`/product/${encodeURI(product.name)}`);
+  };
+
+  // TODO:
+  if (loading) {
+    return null;
+  }
 
   return (
     <Box
@@ -92,7 +125,7 @@ export default function ProductsPage() {
               >
                 All Products
               </Link>
-              {Object.values(CATEGORIES).map((cat, idx) => (
+              {Object.values(categories).map((cat, idx) => (
                 <Link
                   key={idx}
                   level="body1"
@@ -143,8 +176,13 @@ export default function ProductsPage() {
                   <CardOverflow>
                     <AspectRatio ratio="1">
                       <img
-                        src={product.imgUrl ?? "https://placehold.co/300x300"}
-                        alt={product.item}
+                        src={
+                          product.images.split(";")[0] ??
+                          "https://placehold.co/300x300"
+                        }
+                        alt={product.name}
+                        onClick={() => navigateToProductPage(product)}
+                        style={{ cursor: "pointer" }}
                       />
                     </AspectRatio>
                   </CardOverflow>
@@ -155,7 +193,14 @@ export default function ProductsPage() {
                         justifyContent="space-between"
                         alignItems="center"
                       >
-                        <Typography level="title-md">{product.item}</Typography>
+                        <Typography
+                          level="title-md"
+                          component="a"
+                          href={`/product/${product.name}`}
+                          sx={{ textDecoration: "none" }}
+                        >
+                          {product.name}
+                        </Typography>
                       </Box>
                     </Box>
                     <Box
@@ -164,7 +209,7 @@ export default function ProductsPage() {
                       justifyContent="space-between"
                       alignItems="center"
                     >
-                      <Typography>${product.price.toFixed(2)}</Typography>
+                      <Typography>${product.price}</Typography>
                       <Typography>{product.weight} lbs</Typography>
                     </Box>
                     <Box>
@@ -177,7 +222,7 @@ export default function ProductsPage() {
                           width: "100%",
                           display: "block",
                         }}
-                        onClick={(ev) => _addToCart(ev, product)}
+                        onClick={() => addToCart(product)}
                       >
                         Add to Cart
                       </Button>

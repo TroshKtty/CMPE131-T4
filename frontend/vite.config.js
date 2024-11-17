@@ -9,6 +9,8 @@ export default defineConfig({
       "@": path.resolve(import.meta.dirname, "./src"),
       "@/components": path.resolve(import.meta.dirname, "./src/components"),
       "@/pages": path.resolve(import.meta.dirname, "./src/pages"),
+      "@/hooks": path.resolve(import.meta.dirname, "./src/hooks"),
+      "@/providers": path.resolve(import.meta.dirname, "./src/providers"),
     },
   },
 });
