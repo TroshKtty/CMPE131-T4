@@ -67,7 +67,9 @@ export default function LoginPage() {
   return (
     <>
       <Box component="nav" className="navbar">
-        <Typography className="navbar-title">OFS</Typography>
+        <Link onClick={() =>navigate("/")} style={{ textDecoration: 'none' }}>
+          <Typography className="navbar-title">OFS</Typography>
+        </Link>
       </Box>
       <Box className="login-container">
         <Box className="login-box">
