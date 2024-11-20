@@ -104,14 +104,14 @@ export default function NavBar() {
           </Typography>
         </NavLink>
         {sessionStorage.getItem("token") || localStorage.getItem("token") ? (
-          <div className="navbar_menu">
+          <div className="menu">
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
               <MenuIcon size={18} style={{ color: "white" }} />
               <Typography level="h4" fontSize="lg" textColor="common.white">
                 Menu
               </Typography>
             </Box>
-            <ul className="navbar_dropdown">
+            <ul className="menu_dropdown">
               <li>Account Information</li>
               <hr />
               <li>Order History</li>
