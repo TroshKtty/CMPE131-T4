@@ -40,7 +40,7 @@ export default function ProductsPage() {
 
         const newCategories = {};
         for (const cat of categoriesArr) {
-          newCategories[encodeURI(cat.toLowerCase())] = cat;
+          newCategories[encodeURIComponent(cat.toLowerCase())] = cat;
         }
         setCategories(newCategories);
 
@@ -67,7 +67,7 @@ export default function ProductsPage() {
 
   const handleCategoryChange = (newCategory) => {
     if (newCategory) {
-      setSearchParams({ category: encodeURI(newCategory.toLowerCase()) });
+      setSearchParams({ category: encodeURIComponent(newCategory.toLowerCase()) });
     } else {
       setSearchParams({});
     }
@@ -83,7 +83,7 @@ export default function ProductsPage() {
   };
 
   const navigateToProductPage = (product) => {
-    navigate(`/product/${encodeURI(product.name)}`);
+    navigate(`/product/${encodeURIComponent(product.name)}`);
   };
 
   // TODO:
