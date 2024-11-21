@@ -1,22 +1,10 @@
-import {
-  AspectRatio,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardOverflow,
-  Divider,
-  Grid,
-  Link,
-  Stack,
-  Typography,
-} from "@mui/joy";
-import { useEffect, useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import ProductCard from "@/components/product-card/product-card";
+import { Box, Divider, Grid, Link, Sheet, Stack, Typography } from "@mui/joy";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 export default function ProductsPage() {
-  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [products, setProducts] = useState([]);
@@ -65,9 +53,13 @@ export default function ProductsPage() {
     );
   }, [products, query, category]);
 
+  useEffect(() => console.log(filteredProducts.length), [filteredProducts]);
+
   const handleCategoryChange = (newCategory) => {
     if (newCategory) {
-      setSearchParams({ category: encodeURIComponent(newCategory.toLowerCase()) });
+      setSearchParams({
+        category: encodeURIComponent(newCategory.toLowerCase()),
+      });
     } else {
       setSearchParams({});
     }
@@ -77,22 +69,12 @@ export default function ProductsPage() {
     setSearchParams({});
   };
 
-  const addToCart = (product) => {
-    console.log(product);
-    alert(`${product.name} added to cart`);
-  };
-
-  const navigateToProductPage = (product) => {
-    navigate(`/product/${encodeURIComponent(product.name)}`);
-  };
-
-  // TODO:
   if (loading) {
-    return null;
+    return <p>loading...</p>;
   }
 
   return (
-    <Box
+    <Sheet
       sx={{ flexGrow: 1, p: 4, bgcolor: "background.body", minHeight: "100vh" }}
       spacing={0}
       direction="column"
@@ -166,69 +148,7 @@ export default function ProductsPage() {
           <Grid container gap={4}>
             {filteredProducts.length > 0 ? (
               filteredProducts.map((product, idx) => (
-                <Card
-                  variant="soft"
-                  color="neutral"
-                  size="lg"
-                  key={idx}
-                  sx={{ "--Card-radius": "8px", width: "256px" }}
-                >
-                  <CardOverflow>
-                    <AspectRatio ratio="1">
-                      <img
-                        src={
-                          product.images.split(";")[0] ??
-                          "https://placehold.co/300x300"
-                        }
-                        alt={product.name}
-                        onClick={() => navigateToProductPage(product)}
-                        style={{ cursor: "pointer" }}
-                      />
-                    </AspectRatio>
-                  </CardOverflow>
-                  <CardContent>
-                    <Box>
-                      <Box
-                        display="flex"
-                        justifyContent="space-between"
-                        alignItems="center"
-                      >
-                        <Typography
-                          level="title-md"
-                          component="a"
-                          href={`/product/${product.name}`}
-                          sx={{ textDecoration: "none" }}
-                        >
-                          {product.name}
-                        </Typography>
-                      </Box>
-                    </Box>
-                    <Box
-                      gap={8}
-                      display="flex"
-                      justifyContent="space-between"
-                      alignItems="center"
-                    >
-                      <Typography>${product.price}</Typography>
-                      <Typography>{product.weight} lbs</Typography>
-                    </Box>
-                    <Box>
-                      <Button
-                        size="sm"
-                        variant="solid"
-                        color="primary"
-                        sx={{
-                          "--Button-radius": "4px",
-                          width: "100%",
-                          display: "block",
-                        }}
-                        onClick={() => addToCart(product)}
-                      >
-                        Add to Cart
-                      </Button>
-                    </Box>
-                  </CardContent>
-                </Card>
+                <ProductCard key={idx} product={product} />
               ))
             ) : (
               <p>
@@ -238,6 +158,6 @@ export default function ProductsPage() {
           </Grid>
         </Grid>
       </Grid>
-    </Box>
+    </Sheet>
   );
 }
