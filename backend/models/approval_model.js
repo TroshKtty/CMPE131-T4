@@ -13,7 +13,7 @@ const Requests = sequelize.define('Requests', {
     user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        unique: true, 
+        unique: true,
     },
     name: {
         type: DataTypes.STRING,

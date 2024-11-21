@@ -1,6 +1,6 @@
 /* .menu_dropdown{
     position:absolute;
-    display:none;
+    display:none important;
     right: 0;
     padding: 1%;
     font-size: large;
@@ -12,10 +12,10 @@
     padding: 10px;
     flex-direction: column;
     gap: 10px;
-    background-color: #296cce;
+    background-color: white;
     border-radius: 3px;
     list-style: none;
-    color: white;
+    color: black;
     width: 200px;
     font-size: large;
 }
