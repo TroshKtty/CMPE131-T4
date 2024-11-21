@@ -61,9 +61,11 @@ export default function ProductPage() {
       if (productParam) {
         console.log("productParam", productParam);
 
-        const resp = await axios.get(
-          `http://localhost:3000/products/name/${productParam}`
-        );
+        const resp = await axios
+          .get(`http://localhost:3000/products/name/${productParam}`)
+          .catch(() => null);
+
+        console.log("resp", resp);
 
         if (resp?.data) {
           console.log("resp.data", resp.data);
@@ -88,6 +90,9 @@ export default function ProductPage() {
           });
 
           setProductImages(resp.data.images.split(";"));
+        } else {
+          console.log("product not found?", resp);
+          // console.log(product === "");
         }
       }
     };
@@ -95,11 +100,7 @@ export default function ProductPage() {
     fetchProduct();
   }, [productParam]);
 
-  if (product === "") {
-    return null;
-  }
-
-  if (!productData) {
+  if (product === "" | !productData) {
     return <NotFound />;
   }
 
