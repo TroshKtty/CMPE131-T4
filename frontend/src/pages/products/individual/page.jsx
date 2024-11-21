@@ -14,6 +14,7 @@ import {
   Typography,
   Sheet,
   Stack,
+  CircularProgress,
 } from "@mui/joy";
 import { ChevronDown, Plus, Minus } from "lucide-react";
 import Product from "@/components/product/Product";
@@ -55,44 +56,54 @@ export default function ProductPage() {
   const [productImages, setProductImages] = useState([]);
   const [productData, setProductData] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
+      setLoading(true);
+
       if (productParam) {
         console.log("productParam", productParam);
 
-        const resp = await axios
-          .get(`http://localhost:3000/products/name/${productParam}`)
-          .catch(() => null);
+        try {
+          const resp = await axios.get(
+            `http://localhost:3000/products/name/${productParam}`
+          );
 
-        console.log("resp", resp);
+          console.log("resp", resp);
 
-        if (resp?.data) {
-          console.log("resp.data", resp.data);
-          setProduct(resp.data);
+          if (resp?.data) {
+            console.log("resp.data", resp.data);
 
-          setProductData({
-            ...resp.data,
-            price: Number.parseFloat(resp.data.price, 10),
-            weight: Number.parseFloat(resp.data.weight, 10),
-            descriptions: resp.data.descriptions.split(";"),
-            specifications: decomposeString(resp.data.specifications),
-            nutritionInfo: decomposeString(resp.data.nutritionInfo),
-          });
+            setProduct(resp.data);
+            setProductData({
+              ...resp.data,
+              price: Number.parseFloat(resp.data.price, 10),
+              weight: Number.parseFloat(resp.data.weight, 10),
+              descriptions: resp.data.descriptions.split(";"),
+              specifications: decomposeString(resp.data.specifications),
+              nutritionInfo: decomposeString(resp.data.nutritionInfo),
+            });
 
-          console.log("productData", {
-            ...resp.data,
-            price: Number.parseFloat(resp.data.price, 10),
-            weight: Number.parseFloat(resp.data.weight, 10),
-            descriptions: resp.data.descriptions.split(";"),
-            specifications: decomposeString(resp.data.specifications),
-            nutritionInfo: decomposeString(resp.data.nutritionInfo),
-          });
+            console.log("productData", {
+              ...resp.data,
+              price: Number.parseFloat(resp.data.price, 10),
+              weight: Number.parseFloat(resp.data.weight, 10),
+              descriptions: resp.data.descriptions.split(";"),
+              specifications: decomposeString(resp.data.specifications),
+              nutritionInfo: decomposeString(resp.data.nutritionInfo),
+            });
 
-          setProductImages(resp.data.images.split(";"));
-        } else {
-          console.log("product not found?", resp);
-          // console.log(product === "");
+            setProductImages(resp.data.images.split(";"));
+          } else {
+            console.log("product not found?", resp);
+            // console.log(product === "");
+          }
+        } catch (error) {
+          console.error("an error occured while fetching product", error);
+        } finally {
+          setTimeout(() => setLoading(false), 10000);
+          // setLoading(false);
         }
       }
     };
@@ -100,7 +111,27 @@ export default function ProductPage() {
     fetchProduct();
   }, [productParam]);
 
-  if (product === "" | !productData) {
+  if (product === "" || loading) {
+    return (
+      <Sheet
+        sx={{
+          bgcolor: "background.body",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+          margin: 4,
+          gap: 4,
+        }}
+      >
+        <CircularProgress />
+        <p>Loading...</p>
+      </Sheet>
+    );
+  }
+
+  if (!productData) {
     return <NotFound />;
   }
 
