@@ -6,6 +6,7 @@ const cors = require("cors");
 
 const auth_route = require("./routes/auth_routes");
 const pending_route = require("./routes/pending_routes");
+const employeeRoutes = require('./routes/employee_routes');
 const productRoute = require("./routes/product");
 const Product = require("./models/product");
 
@@ -23,6 +24,7 @@ app.use(
 app.use("/auth", auth_route);
 app.use("/users", pending_route);
 app.use("/products", productRoute);
+app.use('/employees', employeeRoutes);
 
 async function startServer() {
   try {
