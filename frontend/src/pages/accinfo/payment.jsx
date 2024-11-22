@@ -1,6 +1,8 @@
 import "@/pages/accinfo/styles.css";
 import React from "react";
 import { Box, Typography, Link, Card, CardContent, Divider, Button} from "@mui/joy";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 import { Link as RouterLink } from "react-router-dom";
 
 export default function PaymentInfoPage() {
@@ -53,30 +55,10 @@ export default function PaymentInfoPage() {
         <Divider></Divider>
 
 
-
-        <Box sx={{justifyContent: "space-between", mt: 4}}>
-          {/* Info Cards */}
-        
-          <Card sx={{ flexGrow: 1, m: 1 }}>
-            <CardContent>
-                <Typography fontSize="1.3rem" fontWeight="bold">Billing Address</Typography>
-                 <Divider/>
-                <Typography fontSize="1.25rem" level="body-sm">1 Washington Sq, San Jose, CA 95192</Typography>
-            </CardContent>
-          </Card>
-          <Card sx={{ flexGrow: 1, m: 1 }}>
-            <CardContent>
-              <Typography fontSize="1.3rem" fontWeight="bold">Card 2</Typography>
-              <Divider/>
-              <Typography fontSize="1.25rem" fontWeight="body-sm">**** **** 123</Typography>
-            </CardContent>
-          </Card>
-        </Box>
-
         <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>
         <Card sx={{ flexGrow: 1, m: 1 }}>
             <CardContent>
-              <Typography fontSize="1.3rem" fontWeight="bold">Username</Typography>
+              <Typography fontSize="1.3rem" fontWeight="bold">Card 1</Typography>
               <Typography fontSize="1.25rem" fontWeight="body-sm">User.name123</Typography>
             </CardContent>
         </Card>
@@ -87,6 +69,7 @@ export default function PaymentInfoPage() {
             </CardContent>
           </Card>
           </Box>
+
       </Box>
     </Box>
 
