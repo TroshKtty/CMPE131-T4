@@ -3,7 +3,7 @@ import React from "react";
 import { Box, Typography, Link, Card, CardContent, Divider, Button} from "@mui/joy";
 import { Link as RouterLink } from "react-router-dom";
 
-export default function AccountInfoPage() {
+export default function OrderHistoryPage() {
   return (
     <Box sx={{ display: "flex", height: "100vh", bgcolor: "#f4f5f7" }}>
       {/* Sidebar */}
@@ -22,13 +22,13 @@ export default function AccountInfoPage() {
           <Typography fontSize="1.5rem" fontWeight="bold" sx={{ color: "#5271ff" }}>
             Your Account
           </Typography>
-          <Link component={RouterLink} to="/accinfo" sx={{ color: "#5271ff", fontSize: "1.3rem" }}>
+          <Link component={RouterLink} to="/accinfo" sx={{ color: "black", fontSize: "1.3rem" }}>
             Personal Information
           </Link>
           <Link component={RouterLink} to="/accinfo/payment" sx={{ color: "black", fontSize: "1.3rem" }}>
             Billing & Payments
           </Link>
-          <Link component={RouterLink} to="/accinfo/orders" sx={{ color: "black", fontSize: "1.3rem" }}>
+          <Link component={RouterLink} to="/accinfo/orders" sx={{ color: "#5271ff", fontSize: "1.3rem" }}>
             Order History
           </Link>
         </Box>
@@ -47,31 +47,14 @@ export default function AccountInfoPage() {
           align="left"
           sx={{ color: "#5271ff" }}
         >
-          Account Information
+          Order History
         </Typography>
 
         <Divider></Divider>
 
 
 
-        <Box sx={{justifyContent: "space-between", mt: 4}}>
-          {/* Info Cards */}
-        
-          <Card sx={{ flexGrow: 1, m: 1 }}>
-            <CardContent>
-                <Typography fontSize="1.3rem" fontWeight="bold">Name</Typography>
-                 <Divider/>
-                <Typography fontSize="1.25rem" level="body-sm">John Doe</Typography>
-            </CardContent>
-          </Card>
-          <Card sx={{ flexGrow: 1, m: 1 }}>
-            <CardContent>
-              <Typography fontSize="1.3rem" fontWeight="bold">Address</Typography>
-              <Divider/>
-              <Typography fontSize="1.25rem" fontWeight="body-sm">1 Washington Sq, San Jose, CA 95192</Typography>
-            </CardContent>
-          </Card>
-        </Box>
+
 
         <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>
         <Card sx={{ flexGrow: 1, m: 1 }}>
@@ -80,12 +63,6 @@ export default function AccountInfoPage() {
               <Typography fontSize="1.25rem" fontWeight="body-sm">User.name123</Typography>
             </CardContent>
         </Card>
-        <Card sx={{ flexGrow: 1, m: 1 }}>
-            <CardContent>
-              <Typography fontSize="1.3rem" fontWeight="bold">Password</Typography>
-              <Typography fontSize="1.2rem" fontWeight="body-sm">*******</Typography>
-            </CardContent>
-          </Card>
           </Box>
       </Box>
     </Box>

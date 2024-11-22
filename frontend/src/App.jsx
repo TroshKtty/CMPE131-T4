@@ -20,6 +20,8 @@ import { CartProvider } from "@/providers/CartProvider";
 import CheckoutPage from "./pages/CheckoutPage";
 
 import AccountInfoPage from "./pages/accinfo/page";
+import PaymentInfoPage from "./pages/accinfo/payment";
+import OrderHistoryPage from "./pages/accinfo/order";
 
 const AuthWrapper = () => {
   useAuth();
@@ -70,6 +72,8 @@ export default function App() {
                   <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
                   <Route path="/accinfo" element={<AccountInfoPage />} />
+                  <Route path="/accinfo/payment" element={<PaymentInfoPage />} />
+                  <Route path="/accinfo/orders" element={<OrderHistoryPage />} />
                 </Routes>
                 <Footer />
               </>
