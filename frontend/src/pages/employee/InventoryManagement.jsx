@@ -26,24 +26,30 @@ const InventoryManagement = () => {
     fetchData();
   }, []);
 
-  const handleAddItem = async () => {
-    try {
-      const response = await fetch('http://localhost:3000/products/add', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newItem)
-      });
-      if (!response.ok) throw new Error('Failed to add item');
-      const addedItem = await response.json();
-      setInventory([...inventory, addedItem]);
-      setNewItem({ name: '', quantity: 0, price: 0, weight: 0 }); // Reset form
-    } catch (error) {
-      console.error('Failed to add item', error);
-      setError('Failed to add item');
-    }
-  };
+  // Comment out handleAddItem function to disable add new item functionality
+  // const handleAddItem = async () => {
+  //   try {
+  //     const response = await fetch('http://localhost:3000/products/add', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         name: newItem.name,
+  //         quantity: newItem.quantity,
+  //         price: newItem.price,
+  //         weight: newItem.weight
+  //       })
+  //     });
+  //     if (!response.ok) throw new Error('Failed to add item');
+  //     const addedItem = await response.json();
+  //     setInventory([...inventory, addedItem]);
+  //     setNewItem({ name: '', quantity: 0, price: 0, weight: 0 }); // Reset form
+  //   } catch (error) {
+  //     console.error('Failed to add item', error);
+  //     setError('Failed to add item');
+  //   }
+  // };
 
   const handleEditItem = async () => {
     if (!editItem || editIndex === null) {
@@ -69,7 +75,6 @@ const InventoryManagement = () => {
       setError('Error updating item');
     }
   };
-  
 
   const handleDeleteItem = async (index) => {
     const item = inventory[index];
@@ -110,7 +115,8 @@ const InventoryManagement = () => {
       <h1 className="mb-4">Inventory Management</h1>
       {error && <div className="alert alert-danger" role="alert">{error}</div>}
       <div className="mb-4">
-        <label className="form-label">Item Name</label>
+        {/* Inputs and add button commented out to disable adding new items */}
+        {/* <label className="form-label">Item Name</label>
         <input 
           type="text" 
           className="form-control mb-2" 
@@ -142,7 +148,7 @@ const InventoryManagement = () => {
           value={newItem.weight}
           onChange={(e) => setNewItem({ ...newItem, weight: parseFloat(e.target.value) || 0 })}
         />
-        <button className="btn btn-primary" onClick={handleAddItem}>Add Item</button>
+        <button className="btn btn-primary" onClick={handleAddItem}>Add Item</button> */}
       </div>
       <table className="table table-striped">
         <thead>

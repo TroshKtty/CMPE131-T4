@@ -17,7 +17,7 @@ router.get("/:id", getProduct);  // Handles fetching by ID
 router.get("/name/:name", getProduct);  // Handles fetching by name
 
 // Route to add a new product
-router.post('/', addProduct);
+router.post('/add', addProduct);
 
 // Route to update a product
 router.put("/:id", updateProduct);
