@@ -1,87 +1,117 @@
 import {
   Box,
-  Card,
-  CardOverflow,
-  AspectRatio,
-  CardContent,
-  Typography,
   Button,
+  Card,
+  CardContent,
+  CardOverflow,
+  Tooltip,
+  Typography,
+  Divider,
 } from "@mui/joy";
-import "./product-card.css";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-
 export default function ProductCard({ product, key }) {
   const navigate = useNavigate();
 
-  const addToCart = (product) => {
+  if (!product) {
+    return null;
+  }
+
+  const addToCart = (ev) => {
+    ev.stopPropagation();
+
     console.log(product);
     alert(`${product.name} added to cart`);
   };
 
-  const navigateToProductPage = (product) => {
+  const navigateToProductPage = () => {
     navigate(`/product/${encodeURIComponent(product.name)}`);
   };
 
   return (
     <Card
-      variant="soft"
-      color="neutral"
-      size="lg"
+      variant="outlined"
+      sx={{
+        width: 320,
+        height: 400,
+        boxShadow: "lg",
+        overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
+        "--Card-radius": "8px",
+      }}
+      onClick={navigateToProductPage}
       key={key}
-      sx={{ "--Card-radius": "8px", width: "256px" }}
     >
-      <CardOverflow>
-        <AspectRatio ratio="1">
-          <img
-            src={product.images.split(";")[0] ?? "https://placehold.co/300x300"}
-            alt={product.name}
-            onClick={() => navigateToProductPage(product)}
-            style={{ cursor: "pointer" }}
-          />
-        </AspectRatio>
+      <CardOverflow sx={{ backgroundColor: "transparent" }}>
+        <img
+          src={product.images.split(";")[0] ?? "https://placehold.co/400x300"}
+          alt={product.name}
+          style={{
+            objectFit: "contain",
+            width: "100%",
+            height: "256px",
+          }}
+        />
       </CardOverflow>
-      <CardContent>
-        <Box>
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-          >
+
+      <CardContent
+        sx={{
+          gap: 1.5,
+          mt: 1,
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Divider />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          {/* TODO: this doesnt work properly */}
+          <Tooltip title={product.name} placement="top">
             <Typography
-              level="title-md"
-              component="a"
-              href={`/product/${product.name}`}
-              sx={{ textDecoration: "none" }}
+              level="title-lg"
+              sx={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                // TODO: this isnt crossplatform, apparently
+                display: "-webkit-box",
+                WebkitLineClamp: 1,
+                WebkitBoxOrient: "vertical",
+                cursor: "help",
+              }}
             >
               {product.name}
             </Typography>
-          </Box>
+          </Tooltip>
         </Box>
+
         <Box
-          gap={8}
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mt: "auto",
+          }}
         >
-          <Typography>${product.price}</Typography>
-          <Typography>{product.weight} lbs</Typography>
+          <Typography level="body-sm">${product.price}</Typography>
+          <Typography level="body-xs">{product.weight} lbs</Typography>
         </Box>
-        <Box>
-          <Button
-            size="sm"
-            variant="solid"
-            color="primary"
-            sx={{
-              "--Button-radius": "4px",
-              width: "100%",
-              display: "block",
-            }}
-            onClick={() => addToCart(product)}
-          >
-            Add to Cart
-          </Button>
-        </Box>
+
+        <Button
+          variant="solid"
+          color="primary"
+          fullWidth
+          sx={{ marginTop: -0.5 }}
+          onClick={addToCart}
+        >
+          Add to Cart
+        </Button>
       </CardContent>
     </Card>
   );
@@ -92,7 +122,7 @@ ProductCard.propTypes = {
     name: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     weight: PropTypes.number.isRequired,
-    images: PropTypes.arrayOf(PropTypes.string).isRequired,
+    images: PropTypes.string.isRequired,
   }).isRequired,
   key: PropTypes.number.isRequired,
 };

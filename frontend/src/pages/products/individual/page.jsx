@@ -102,8 +102,7 @@ export default function ProductPage() {
         } catch (error) {
           console.error("an error occured while fetching product", error);
         } finally {
-          setTimeout(() => setLoading(false), 10000);
-          // setLoading(false);
+          setLoading(false);
         }
       }
     };
