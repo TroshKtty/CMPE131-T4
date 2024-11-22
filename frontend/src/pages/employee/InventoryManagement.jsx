@@ -27,7 +27,6 @@ const InventoryManagement = () => {
   }, []);
 
   const handleAddItem = async () => {
-    console.log("Adding item:", newItem); // Debugging log
     try {
       const response = await fetch('http://localhost:3000/products/add', {
         method: 'POST',
@@ -36,22 +35,78 @@ const InventoryManagement = () => {
         },
         body: JSON.stringify(newItem)
       });
-      if (response.ok) {
-        const addedItem = await response.json();
-        console.log("Item added:", addedItem); // Debugging log
-        setInventory([...inventory, addedItem]);
-        setNewItem({ name: '', quantity: 0, price: 0, weight: 0 });
-      } else {
-        throw new Error('Failed to add item');
-      }
+      if (!response.ok) throw new Error('Failed to add item');
+      const addedItem = await response.json();
+      setInventory([...inventory, addedItem]);
+      setNewItem({ name: '', quantity: 0, price: 0, weight: 0 }); // Reset form
     } catch (error) {
       console.error('Failed to add item', error);
       setError('Failed to add item');
     }
   };
 
+  const handleEditItem = async () => {
+    if (!editItem || editIndex === null) {
+      console.error('Edit item or index is null:', editItem, editIndex);
+      return;
+    }
+    try {
+      const response = await fetch(`http://localhost:3000/products/${editItem.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editItem)
+      });
+      if (!response.ok) throw new Error(`Failed to update the item: ${response.statusText}`);
+      const updatedItem = await response.json();
+      const updatedInventory = [...inventory];
+      updatedInventory[editIndex] = updatedItem;
+      setInventory(updatedInventory);
+      setEditItem(null); // Clear edit state
+    } catch (error) {
+      console.error('Error updating item:', error);
+      setError('Error updating item');
+    }
+  };
+  
+
+  const handleDeleteItem = async (index) => {
+    const item = inventory[index];
+    if (!item.id) return; // Check for item id
+    try {
+      const response = await fetch(`http://localhost:3000/products/${item.id}`, {
+        method: 'DELETE'
+      });
+      if (!response.ok) throw new Error('Failed to delete the item');
+      setInventory(inventory.filter((_, idx) => idx !== index)); // Remove from list
+    } catch (error) {
+      console.error('Error deleting item:', error);
+      setError('Error deleting item');
+    }
+  };
+
   return (
     <div className="container mt-5">
+      <style>
+        {`
+          .table {
+              width: 100%;
+              table-layout: fixed;
+          }
+          .table th, .table td {
+              text-align: left;
+              vertical-align: middle;
+              padding: 8px;
+          }
+          .table th {
+              background-color: #f2f2f2;
+          }
+          .btn {
+              margin-right: 8px;
+          }
+        `}
+      </style>
       <h1 className="mb-4">Inventory Management</h1>
       {error && <div className="alert alert-danger" role="alert">{error}</div>}
       <div className="mb-4">
