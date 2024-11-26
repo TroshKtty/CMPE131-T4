@@ -23,7 +23,7 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import "./styles.css";
 import PropTypes from "prop-types";
-import NotFound from "@/components/NotFound";
+import NotFound from "@/components/404/not-found";
 import axios from "axios";
 
 // k;v|k;v| -> [[k, v], [k, v], ...]
