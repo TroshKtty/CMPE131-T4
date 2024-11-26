@@ -52,6 +52,7 @@ Accordion.propTypes = {
 // TODO: refactor
 export default function ProductPage() {
   const { product: productParam } = useParams();
+
   const [product, setProduct] = useState("");
   const [productImages, setProductImages] = useState([]);
   const [productData, setProductData] = useState(null);
@@ -84,23 +85,17 @@ export default function ProductPage() {
               specifications: decomposeString(resp.data.specifications),
               nutritionInfo: decomposeString(resp.data.nutritionInfo),
             });
-
-            console.log("productData", {
-              ...resp.data,
-              price: Number.parseFloat(resp.data.price, 10),
-              weight: Number.parseFloat(resp.data.weight, 10),
-              descriptions: resp.data.descriptions.split(";"),
-              specifications: decomposeString(resp.data.specifications),
-              nutritionInfo: decomposeString(resp.data.nutritionInfo),
-            });
-
             setProductImages(resp.data.images.split(";"));
           } else {
             console.log("product not found?", resp);
-            // console.log(product === "");
+						setProductData(null);
           }
         } catch (error) {
-          console.error("an error occured while fetching product", error);
+					console.log(
+						`An error occured while trying to fetch product ${productParam}:`,
+						error
+					);
+					setProductData(null);
         } finally {
           setLoading(false);
         }
@@ -110,7 +105,7 @@ export default function ProductPage() {
     fetchProduct();
   }, [productParam]);
 
-  if (product === "" || loading) {
+	if (loading) {
     return (
       <Sheet
         sx={{
@@ -130,7 +125,7 @@ export default function ProductPage() {
     );
   }
 
-  if (!productData) {
+	if (!loading && (!productData || product === "")) {
     return <NotFound />;
   }
 
