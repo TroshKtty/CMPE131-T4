@@ -19,6 +19,7 @@ import {
 } from "@mui/joy";
 import { Filter, SortDesc } from "lucide-react";
 import ProductCard from "@/components/product-card/product-card";
+import Loader from "@/components/loader/loader";
 
 const CategorySidebar = ({ onCategoryChange, activeCategory, categories }) => (
   <Stack spacing={1} sx={{ maxWidth: "fit-content" }}>
@@ -100,7 +101,7 @@ export default function ProductsPage() {
         }
         setCategories(newCategories);
       } catch (error) {
-        console.error("Error fetching all products:", error);
+        console.log("An error occurred while fetching products:", error);
       } finally {
         setLoading(false);
       }
@@ -149,18 +150,7 @@ export default function ProductsPage() {
   };
 
   if (loading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "100vh",
-        }}
-      >
-        <Typography level="h3">Loading...</Typography>
-      </Box>
-    );
+    return <Loader />;
   }
 
   return (

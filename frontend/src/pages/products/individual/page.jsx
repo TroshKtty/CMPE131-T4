@@ -14,7 +14,6 @@ import {
   Typography,
   Sheet,
   Stack,
-  CircularProgress,
 } from "@mui/joy";
 import { ChevronDown, Plus, Minus } from "lucide-react";
 import Product from "@/components/product/Product";
@@ -25,6 +24,7 @@ import "./styles.css";
 import PropTypes from "prop-types";
 import NotFound from "@/components/404/not-found";
 import axios from "axios";
+import Loader from "@/components/loader/loader";
 
 // k;v|k;v| -> [[k, v], [k, v], ...]
 function decomposeString(str) {
@@ -88,14 +88,14 @@ export default function ProductPage() {
             setProductImages(resp.data.images.split(";"));
           } else {
             console.log("product not found?", resp);
-						setProductData(null);
+            setProductData(null);
           }
         } catch (error) {
-					console.log(
-						`An error occured while trying to fetch product ${productParam}:`,
-						error
-					);
-					setProductData(null);
+          console.log(
+            `An error occured while trying to fetch product ${productParam}:`,
+            error
+          );
+          setProductData(null);
         } finally {
           setLoading(false);
         }
@@ -105,27 +105,11 @@ export default function ProductPage() {
     fetchProduct();
   }, [productParam]);
 
-	if (loading) {
-    return (
-      <Sheet
-        sx={{
-          bgcolor: "background.body",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "100vh",
-          margin: 4,
-          gap: 4,
-        }}
-      >
-        <CircularProgress />
-        <p>Loading...</p>
-      </Sheet>
-    );
+  if (loading) {
+    return <Loader />;
   }
 
-	if (!loading && (!productData || product === "")) {
+  if (!loading && (!productData || product === "")) {
     return <NotFound />;
   }
 
