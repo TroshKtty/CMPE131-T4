@@ -4,12 +4,14 @@ import {
   Card,
   CardContent,
   CardOverflow,
+  Divider,
   Tooltip,
   Typography,
-  Divider,
 } from "@mui/joy";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import "./product-card.css";
+
 export default function ProductCard({ product, key }) {
   const navigate = useNavigate();
 
@@ -25,7 +27,7 @@ export default function ProductCard({ product, key }) {
   };
 
   const navigateToProductPage = () => {
-    navigate(`/product/${encodeURIComponent(product.name)}`);
+    navigate(`/product/${encodeURIComponent(product.id)}`);
   };
 
   return (
@@ -123,6 +125,7 @@ ProductCard.propTypes = {
     price: PropTypes.number.isRequired,
     weight: PropTypes.number.isRequired,
     images: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
   }).isRequired,
   key: PropTypes.number.isRequired,
 };

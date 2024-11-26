@@ -67,7 +67,7 @@ export default function ProductPage() {
 
         try {
           const resp = await axios.get(
-            `http://localhost:3000/products/name/${productParam}`
+            `http://localhost:3000/products/${productParam}`
           );
 
           console.log("resp", resp);

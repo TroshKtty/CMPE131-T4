@@ -85,6 +85,9 @@ export default function ProductsPage() {
     const fetchProducts = async () => {
       try {
         const response = await axios.get("http://localhost:3000/products/all");
+
+        console.log("resp", response.data);
+
         setProducts(response.data);
         setFilteredProducts(response.data);
 
