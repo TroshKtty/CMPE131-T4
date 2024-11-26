@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import "./product-card.css";
 
-export default function ProductCard({ product, key }) {
+export default function ProductCard({ product }) {
   const navigate = useNavigate();
 
   if (!product) {
@@ -43,7 +43,6 @@ export default function ProductCard({ product, key }) {
         "--Card-radius": "8px",
       }}
       onClick={navigateToProductPage}
-      key={key}
     >
       <CardOverflow sx={{ backgroundColor: "transparent" }}>
         <img
@@ -122,10 +121,9 @@ export default function ProductCard({ product, key }) {
 ProductCard.propTypes = {
   product: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    weight: PropTypes.number.isRequired,
+    price: PropTypes.string.isRequired,
+    weight: PropTypes.string.isRequired,
     images: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
   }).isRequired,
-  key: PropTypes.number.isRequired,
 };

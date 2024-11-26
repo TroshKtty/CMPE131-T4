@@ -280,7 +280,7 @@ export default function ProductsPage() {
                       display: "flex",
                     }}
                   >
-                    <ProductCard product={product} key={idx} />
+                    <ProductCard product={product} />
                   </Grid>
                 ))
               ) : (
