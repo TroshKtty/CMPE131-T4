@@ -13,13 +13,13 @@ import { useNavigate } from "react-router-dom";
 import "./product-card.css";
 
 export default function ProductCard({ product }) {
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
   if (!product) {
     return null;
   }
 
-  const addToCart = (ev) => {
+	const addToCart = (ev) => {
     ev.stopPropagation();
 
     console.log(product);
@@ -30,41 +30,24 @@ export default function ProductCard({ product }) {
     navigate(`/product/${encodeURIComponent(product.id)}`);
   };
 
-  return (
+	return (
     <Card
+      className="product-card"
       variant="outlined"
       sx={{
-        width: 320,
-        height: 400,
-        boxShadow: "lg",
-        overflow: "hidden",
-        display: "flex",
-        flexDirection: "column",
         "--Card-radius": "8px",
       }}
       onClick={navigateToProductPage}
     >
       <CardOverflow sx={{ backgroundColor: "transparent" }}>
         <img
+          className="product-image"
           src={product.images.split(";")[0] ?? "https://placehold.co/400x300"}
           alt={product.name}
-          style={{
-            objectFit: "contain",
-            width: "100%",
-            height: "256px",
-          }}
         />
       </CardOverflow>
 
-      <CardContent
-        sx={{
-          gap: 1.5,
-          mt: 1,
-          flexGrow: 1,
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
+      <CardContent class="product-container">
         <Divider />
         <Box
           sx={{
