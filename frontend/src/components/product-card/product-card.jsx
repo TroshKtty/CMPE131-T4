@@ -5,21 +5,21 @@ import {
   CardContent,
   CardOverflow,
   Divider,
-  Tooltip,
   Typography,
 } from "@mui/joy";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import TextWithTooltip from "../text-with-tooltip/text-with-tooltip";
 import "./product-card.css";
 
 export default function ProductCard({ product }) {
-	const navigate = useNavigate();
+  const navigate = useNavigate();
 
   if (!product) {
     return null;
   }
 
-	const addToCart = (ev) => {
+  const addToCart = (ev) => {
     ev.stopPropagation();
 
     console.log(product);
@@ -30,7 +30,7 @@ export default function ProductCard({ product }) {
     navigate(`/product/${encodeURIComponent(product.id)}`);
   };
 
-	return (
+  return (
     <Card
       className="product-card"
       variant="outlined"
@@ -47,51 +47,25 @@ export default function ProductCard({ product }) {
         />
       </CardOverflow>
 
-      <CardContent class="product-container">
+      <CardContent className="product-container">
         <Divider />
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          {/* TODO: this doesnt work properly */}
-          <Tooltip title={product.name} placement="top">
-            <Typography
-              level="title-lg"
-              sx={{
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                // TODO: this isnt crossplatform, apparently
-                display: "-webkit-box",
-                WebkitLineClamp: 1,
-                WebkitBoxOrient: "vertical",
-                cursor: "help",
-              }}
-            >
-              {product.name}
-            </Typography>
-          </Tooltip>
+        <Box className="product-details">
+          <span onClick={navigateToProductPage}>
+            {/* 320px is the max width of the product card */}
+            <TextWithTooltip text={product.name} maxWidth={320} />
+          </span>
         </Box>
 
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            mt: "auto",
-          }}
-        >
+        <Box className="product-details">
           <Typography level="body-sm">${product.price}</Typography>
           <Typography level="body-xs">{product.weight} lbs</Typography>
         </Box>
 
         <Button
+          className="add-to-cart"
           variant="solid"
           color="primary"
           fullWidth
-          sx={{ marginTop: -0.5 }}
           onClick={addToCart}
         >
           Add to Cart
