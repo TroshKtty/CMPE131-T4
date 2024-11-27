@@ -1,75 +1,81 @@
-import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import axios from "axios";
+import Loader from "@/components/loader/loader";
+import ProductCard from "@/components/product-card/product-card";
 import {
   Box,
-  Divider,
+  Breadcrumbs,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  ChipDelete,
+  Container,
+  Drawer,
   Grid,
+  IconButton,
   Link,
+  List,
+  ListItem,
+  ListItemButton,
+  Option,
+  Select,
   Sheet,
   Stack,
   Typography,
-  Select,
-  Option,
-  FormControl,
-  FormLabel,
-  Container,
-  IconButton,
-  Drawer,
 } from "@mui/joy";
-import { Filter, SortDesc } from "lucide-react";
-import ProductCard from "@/components/product-card/product-card";
-import Loader from "@/components/loader/loader";
+import axios from "axios";
+import {
+  ChevronRight,
+  Filter,
+  Home,
+  SortDesc,
+  SlidersHorizontalIcon,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import "./styles.css";
+
+const SORT_OPTIONS = [
+  { value: "price_asc", label: "Price: Low to High" },
+  { value: "price_desc", label: "Price: High to Low" },
+  { value: "weight_asc", label: "Weight: Low to High" },
+  { value: "weight_desc", label: "Weight: High to Low" },
+];
 
 const CategorySidebar = ({ onCategoryChange, activeCategory, categories }) => (
-  <Stack spacing={1} sx={{ maxWidth: "fit-content" }}>
-    <Typography level="h2" sx={{ mb: 1 }}>
-      Categories
-    </Typography>
-    <Divider />
-    <Stack spacing={0.5}>
-      <Link
-        component="button"
+  <List
+    sx={{
+      "--List-decorator-size": "32px",
+      "--List-item-paddingLeft": "8px",
+      "--List-item-paddingY": "6px",
+    }}
+  >
+    <ListItem>
+      <Typography level="h4" sx={{ mb: 1 }}>
+        Categories
+      </Typography>
+    </ListItem>
+    <ListItem>
+      <ListItemButton
+        selected={activeCategory === ""}
         onClick={() => onCategoryChange("")}
-        sx={{
-          p: 1,
-          borderRadius: "sm",
-          fontWeight: activeCategory === "" ? "lg" : "md",
-          bgcolor: activeCategory === "" ? "primary.softBg" : "transparent",
-          color: activeCategory === "" ? "primary.plainColor" : "inherit",
-          "&:hover": {
-            bgcolor: "primary.softHoverBg",
-            textDecoration: "none",
-          },
-        }}
       >
         All Products
-      </Link>
-      {Object.values(categories).map((cat) => (
-        <Link
-          key={cat}
-          component="button"
-          onClick={() => onCategoryChange(cat)}
-          sx={{
-            p: 1,
-            borderRadius: "sm",
-            fontWeight: activeCategory === cat ? "lg" : "md",
-            bgcolor: activeCategory === cat ? "primary.softBg" : "transparent",
-            color: activeCategory === cat ? "primary.plainColor" : "inherit",
-            "&:hover": {
-              bgcolor: "primary.softHoverBg",
-              textDecoration: "none",
-            },
-          }}
+      </ListItemButton>
+    </ListItem>
+    {Object.entries(categories).map(([key, value]) => (
+      <ListItem key={key}>
+        <ListItemButton
+          selected={activeCategory === value}
+          onClick={() => onCategoryChange(value)}
         >
-          {cat}
-        </Link>
-      ))}
-    </Stack>
-  </Stack>
+          {value}
+        </ListItemButton>
+      </ListItem>
+    ))}
+  </List>
 );
 
-export default function ProductsPage() {
+export default function ProductSearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [products, setProducts] = useState([]);
@@ -86,9 +92,6 @@ export default function ProductsPage() {
     const fetchProducts = async () => {
       try {
         const response = await axios.get("http://localhost:3000/products/all");
-
-        console.log("resp", response.data);
-
         setProducts(response.data);
         setFilteredProducts(response.data);
 
@@ -101,7 +104,7 @@ export default function ProductsPage() {
         }
         setCategories(newCategories);
       } catch (error) {
-        console.log("An error occurred while fetching products:", error);
+        console.error("An error occurred while fetching products:", error);
       } finally {
         setLoading(false);
       }
@@ -155,146 +158,88 @@ export default function ProductsPage() {
 
   return (
     <Sheet sx={{ bgcolor: "background.body", minHeight: "100vh" }}>
-      <Container maxWidth="xl" sx={{ py: { xs: 2, sm: 3, md: 4 } }}>
-        <Grid container spacing={3}>
-          {/* Mobile Header */}
-          <Grid xs={12} sx={{ display: { sm: "none" }, mb: 2 }}>
+      <Container maxWidth="xl" sx={{ padding: 4 }}>
+        <Sheet sx={{ bgcolor: "background.paper" }}>
+          <Sheet
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: 2,
+            }}
+          >
+            <Typography level="body-md" noWrap>
+              {category || query
+                ? `Search Results for "${query}"`
+                : "All Products"}
+            </Typography>
+
+            {/* On larger screens, we can display the typical select menu */}
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "space-between",
+                flexDirection: "row",
                 alignItems: "center",
-                gap: 1,
+                gap: 2,
               }}
             >
-              <Typography level="h2" sx={{ flex: 1 }}>
-                {category
-                  ? category
-                  : query
-                  ? `Results: "${query}"`
-                  : "All Products"}
-              </Typography>
-              <IconButton
-                variant="outlined"
-                onClick={() => setDrawerOpen(true)}
-                sx={{ p: 1 }}
+              {/* <Typography
+                level="body-md"
+                sx={{
+                  textWrap: "nowrap",
+                  display: { xs: "none", sm: "inline-flex" },
+                }}
               >
-                <Filter size={20} />
-              </IconButton>
-              <FormControl size="sm" sx={{ minWidth: "auto" }}>
-                <Select
-                  value={sortBy}
-                  onChange={(_, value) => setSortBy(value)}
-                  startDecorator={<SortDesc size={16} />}
-                  sx={{ minWidth: 100 }}
-                >
-                  <Option value="price_asc">Price ↑</Option>
-                  <Option value="price_desc">Price ↓</Option>
-                  <Option value="weight_asc">Weight ↑</Option>
-                  <Option value="weight_desc">Weight ↓</Option>
-                </Select>
-              </FormControl>
+                Sort
+              </Typography> */}
+              <Select
+                value={sortBy}
+                onChange={(_, value) => setSortBy(value)}
+                size="sm"
+                sx={{ display: { xs: "none", sm: "inline-flex" } }}
+              >
+                {SORT_OPTIONS.map((option) => (
+                  <Option key={option.value} value={option.value}>
+                    {option.label}
+                  </Option>
+                ))}
+              </Select>
             </Box>
-          </Grid>
 
-          {/* Desktop Sidebar */}
-          <Grid xs={0} sm={3} sx={{ display: { xs: "none", sm: "block" } }}>
-            <CategorySidebar
-              onCategoryChange={handleCategoryChange}
-              activeCategory={category}
-              categories={categories}
-            />
-          </Grid>
-
-          {/* Mobile Drawer */}
-          <Drawer
-            anchor="left"
-            open={drawerOpen}
-            onClose={() => setDrawerOpen(false)}
-            sx={{ display: { sm: "none" } }}
-          >
-            <Box sx={{ width: 280, p: 2 }}>
-              <CategorySidebar
-                onCategoryChange={handleCategoryChange}
-                activeCategory={category}
-                categories={categories}
-              />
-            </Box>
-          </Drawer>
-
-          {/* Main Content */}
-          <Grid xs={12} sm={9}>
-            {/* Desktop Header */}
+            {/* Otherwise, on smaller screens, a button will suffice */}
             <Box
               sx={{
-                display: { xs: "none", sm: "flex" },
-                justifyContent: "space-between",
-                alignItems: "flex-start",
-                gap: 1,
+                display: { xs: "flex", sm: "none" },
+                flexDirection: { xs: "row", sm: "unset" },
+                justifyContent: { xs: "center", sm: "normal" },
+                alignItems: "center",
               }}
             >
-              <Typography level="h2">
-                {category
-                  ? category
-                  : query
-                  ? `Search Results for "${query}"`
-                  : "All Products"}
-              </Typography>
-              <FormControl size="sm">
-                <FormLabel>Sort by</FormLabel>
-                <Select
-                  value={sortBy}
-                  onChange={(_, value) => setSortBy(value)}
-                  startDecorator={<SortDesc size={16} />}
-                  sx={{ minWidth: 180 }}
-                >
-                  <Option value="price_asc">Price: Low to High</Option>
-                  <Option value="price_desc">Price: High to Low</Option>
-                  <Option value="weight_asc">Weight: Low to High</Option>
-                  <Option value="weight_desc">Weight: High to Low</Option>
-                </Select>
-              </FormControl>
+              <IconButton
+                onClick={() => setDrawerOpen(true)}
+                sx={{ display: { sm: "none" } }}
+              >
+                <SlidersHorizontalIcon />
+              </IconButton>
             </Box>
-
-            {/* Products Grid */}
-            <Grid container spacing={2}>
-              {filteredProducts.length > 0 ? (
-                filteredProducts.map((product, idx) => (
-                  <Grid
-                    key={idx}
-                    xs={12}
-                    sm={6}
-                    md={4}
-                    lg={3}
-                    sx={{
-                      display: "flex",
-                    }}
-                  >
-                    <ProductCard product={product} />
-                  </Grid>
-                ))
-              ) : (
-                <Grid xs={12}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      p: 4,
-                      bgcolor: "background.level1",
-                      borderRadius: "sm",
-                    }}
-                  >
-                    <Typography level="body1">
-                      No products found matching your criteria.
-                    </Typography>
-                  </Box>
-                </Grid>
-              )}
-            </Grid>
-          </Grid>
-        </Grid>
+          </Sheet>
+        </Sheet>
       </Container>
+
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        sx={{ display: { sm: "none" } }}
+      >
+        <Box sx={{ width: 280, p: 2 }}>
+          <CategorySidebar
+            onCategoryChange={handleCategoryChange}
+            activeCategory={category}
+            categories={categories}
+          />
+        </Box>
+      </Drawer>
     </Sheet>
   );
 }
