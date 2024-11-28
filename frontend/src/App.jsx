@@ -29,6 +29,7 @@ export default function App() {
     <CartProvider>
       <Router>
         <AuthWrapper />
+        <NavBar />  {/* Move NavBar outside of the routes to prevent re-rendering on every page */}
         <Routes>
           {/* Route for logging in */}
           <Route path="/login" element={<LoginPage />} />
@@ -51,27 +52,15 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/*"
-            element={
-              <>
-                <NavBar />
-                <Routes>
-                  {/* Root page */}
-                  <Route path="/" element={<HomePage />} />
-                  {/* Route for searching products */}
-                  <Route path="/search" element={<ProductsPage />} />
-                  {/* Route for an individual product */}
-                  <Route path="/product/:product" element={<ProductPage />} />
-                  {/* Route for checkout page */}
-                  <Route path="/checkout" element={<CheckoutPage />} />
-                  <Route path="/unauthorized" element={<UnauthorizedPage />} />
-                </Routes>
-                <Footer />
-              </>
-            }
-          />
+
+          {/* Public Routes */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/search" element={<ProductsPage />} />
+          <Route path="/product/:product" element={<ProductPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/unauthorized" element={<UnauthorizedPage />} />
         </Routes>
+        <Footer />  {/* Move Footer outside of the routes to prevent re-rendering on every page */}
       </Router>
     </CartProvider>
   );
