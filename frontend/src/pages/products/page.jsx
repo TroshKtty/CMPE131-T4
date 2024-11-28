@@ -1,35 +1,20 @@
 import Loader from "@/components/loader/loader";
-import ProductCard from "@/components/product-card/product-card";
+import ProductGrid from "@/components/product-grid/product-grid";
 import {
   Box,
-  Breadcrumbs,
-  Button,
-  Card,
-  CardContent,
-  Chip,
-  ChipDelete,
   Container,
   Drawer,
-  Grid,
   IconButton,
-  Link,
   List,
   ListItem,
   ListItemButton,
   Option,
   Select,
   Sheet,
-  Stack,
   Typography,
 } from "@mui/joy";
 import axios from "axios";
-import {
-  ChevronRight,
-  Filter,
-  Home,
-  SortDesc,
-  SlidersHorizontalIcon,
-} from "lucide-react";
+import { SlidersHorizontalIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import "./styles.css";
@@ -104,7 +89,7 @@ export default function ProductSearchPage() {
         }
         setCategories(newCategories);
       } catch (error) {
-        console.error("An error occurred while fetching products:", error);
+        console.error("An error occurred while fetching all products:", error);
       } finally {
         setLoading(false);
       }
@@ -158,32 +143,35 @@ export default function ProductSearchPage() {
 
   return (
     <Sheet sx={{ bgcolor: "background.body", minHeight: "100vh" }}>
-      <Container maxWidth="xl" sx={{ padding: 4 }}>
-        <Sheet sx={{ bgcolor: "background.paper" }}>
-          <Sheet
+      <Container sx={{ padding: 4, minWidth: "100vw" }}>
+        {/* Upper section */}
+        <Sheet
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: 2,
+            bgcolor: "background.paper",
+          }}
+        >
+          <Typography level="body-md" noWrap>
+            {query === ""
+              ? category !== ""
+                ? category
+                : "All Products"
+              : `Search results for "${query}"`}
+          </Typography>
+
+          {/* On larger screens, we can display the typical select menu */}
+          <Box
             sx={{
               display: "flex",
-              justifyContent: "space-between",
+              flexDirection: "row",
               alignItems: "center",
-              padding: 2,
+              gap: 2,
             }}
           >
-            <Typography level="body-md" noWrap>
-              {category || query
-                ? `Search Results for "${query}"`
-                : "All Products"}
-            </Typography>
-
-            {/* On larger screens, we can display the typical select menu */}
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 2,
-              }}
-            >
-              {/* <Typography
+            {/* <Typography
                 level="body-md"
                 sx={{
                   textWrap: "nowrap",
@@ -192,42 +180,59 @@ export default function ProductSearchPage() {
               >
                 Sort
               </Typography> */}
-              <Select
-                value={sortBy}
-                onChange={(_, value) => setSortBy(value)}
-                size="sm"
-                sx={{ display: { xs: "none", sm: "inline-flex" } }}
-              >
-                {SORT_OPTIONS.map((option) => (
-                  <Option key={option.value} value={option.value}>
-                    {option.label}
-                  </Option>
-                ))}
-              </Select>
-            </Box>
-
-            {/* Otherwise, on smaller screens, a button will suffice */}
-            <Box
-              sx={{
-                display: { xs: "flex", sm: "none" },
-                flexDirection: { xs: "row", sm: "unset" },
-                justifyContent: { xs: "center", sm: "normal" },
-                alignItems: "center",
-              }}
+            <Select
+              value={sortBy}
+              onChange={(_, value) => setSortBy(value)}
+              size="sm"
+              sx={{ display: { xs: "none", sm: "inline-flex" } }}
             >
-              <IconButton
-                onClick={() => setDrawerOpen(true)}
-                sx={{ display: { sm: "none" } }}
-              >
-                <SlidersHorizontalIcon />
-              </IconButton>
-            </Box>
-          </Sheet>
+              {SORT_OPTIONS.map((option) => (
+                <Option key={option.value} value={option.value}>
+                  {option.label}
+                </Option>
+              ))}
+            </Select>
+          </Box>
+
+          {/* Otherwise, on smaller screens, a button will suffice */}
+          <Box
+            sx={{
+              display: { xs: "flex", sm: "none" },
+              flexDirection: { xs: "row", sm: "unset" },
+              justifyContent: { xs: "center", sm: "normal" },
+              alignItems: "center",
+            }}
+          >
+            <IconButton
+              onClick={() => setDrawerOpen(true)}
+              sx={{ display: { sm: "none" } }}
+            >
+              <SlidersHorizontalIcon />
+            </IconButton>
+          </Box>
         </Sheet>
+
+        {/* main content */}
+        <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
+          <Box sx={{ display: { xs: "none", sm: "block" } }}>
+            <CategorySidebar
+              onCategoryChange={handleCategoryChange}
+              activeCategory={category}
+              categories={categories}
+            />
+          </Box>
+
+          <Box sx={{ flex: 1 }}>
+            {filteredProducts.length > 0 && (
+              <ProductGrid products={filteredProducts} />
+            )}
+            {filteredProducts.length === 0 && <p>Uh oh!</p>}
+          </Box>
+        </Box>
       </Container>
 
+      {/* sidebar menu for selecting category & sorting on smaller viewports */}
       <Drawer
-        anchor="left"
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         sx={{ display: { sm: "none" } }}
