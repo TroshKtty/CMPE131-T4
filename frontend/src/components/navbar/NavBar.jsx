@@ -36,7 +36,7 @@ export default function NavBar() {
     ev.preventDefault();
     if (query.length < 3) return;
     const target = new URLSearchParams({ q: query }).toString();
-    navigate(encodeURIComponent(`/search?${target}`));
+    navigate(`/search?${target}`);
   };
 
   const handleLogout = () => {
