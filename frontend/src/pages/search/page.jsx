@@ -1,21 +1,23 @@
-import CategorySidebar from "@/category-sidebar/category-sidebar";
-import Loader from "@/components/loader/loader";
-import ProductGrid from "@/components/product-grid/product-grid";
 import {
   Box,
   Container,
   Drawer,
+  Grid,
   IconButton,
   Option,
   Select,
   Sheet,
-  Typography
+  Typography,
 } from "@mui/joy";
 import axios from "axios";
 import { SlidersHorizontalIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import "./styles.css";
+
+import CategorySidebar from "@/category-sidebar/category-sidebar";
+import Loader from "@/components/loader/loader";
+import ProductGrid from "@/components/product-grid/product-grid";
 
 const SORT_OPTIONS = [
   { value: "price_asc", label: "Price: Low to High" },
@@ -107,99 +109,83 @@ export default function SearchPage() {
 
   return (
     <Sheet sx={{ bgcolor: "background.body", minHeight: "100vh" }}>
-      <Container sx={{ padding: 4, minWidth: "100vw" }}>
-        {/* Upper section */}
-        <Sheet
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: 2,
-            bgcolor: "background.paper",
-          }}
-        >
-          <Typography level="body-md" noWrap>
-            {query === ""
-              ? category !== ""
-                ? category
-                : "All Products"
-              : `Search results for "${query}"`}
-          </Typography>
-
-          {/* On larger screens, we can display the typical select menu */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 2,
-            }}
+      <Container maxWidth="xl" sx={{ py: 4 }}>
+        <Grid container spacing={3}>
+          {/* Sidebar for larger screens */}
+          <Grid
+            item
+            xs={12}
+            md={3}
+            sx={{ display: { xs: "none", md: "block" } }}
           >
-            {/* <Typography
-                level="body-md"
-                sx={{
-                  textWrap: "nowrap",
-                  display: { xs: "none", sm: "inline-flex" },
-                }}
-              >
-                Sort
-              </Typography> */}
-            <Select
-              value={sortBy}
-              onChange={(_, value) => setSortBy(value)}
-              size="sm"
-              sx={{ display: { xs: "none", sm: "inline-flex" } }}
-            >
-              {SORT_OPTIONS.map((option) => (
-                <Option key={option.value} value={option.value}>
-                  {option.label}
-                </Option>
-              ))}
-            </Select>
-          </Box>
-
-          {/* Otherwise, on smaller screens, a button will suffice */}
-          <Box
-            sx={{
-              display: { xs: "flex", sm: "none" },
-              flexDirection: { xs: "row", sm: "unset" },
-              justifyContent: { xs: "center", sm: "normal" },
-              alignItems: "center",
-            }}
-          >
-            <IconButton
-              onClick={() => setDrawerOpen(true)}
-              sx={{ display: { sm: "none" } }}
-            >
-              <SlidersHorizontalIcon />
-            </IconButton>
-          </Box>
-        </Sheet>
-
-        {/* main content */}
-        <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
-          <Box sx={{ display: { xs: "none", sm: "block" } }}>
             <CategorySidebar
               onCategoryChange={handleCategoryChange}
               activeCategory={category}
               categories={categories}
             />
-          </Box>
+          </Grid>
 
-          <Box sx={{ flex: 1 }}>
-            {filteredProducts.length > 0 && (
+          {/* Main content area */}
+          <Grid item xs={12} md={9}>
+            {/* Upper section */}
+            <Sheet
+              variant="outlined"
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                p: 2,
+                mb: 3,
+                borderRadius: "sm",
+              }}
+            >
+              <Typography level="h2">
+                {query === ""
+                  ? category !== ""
+                    ? category
+                    : "All Products"
+                  : `Search results for "${query}"`}
+              </Typography>
+
+              <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                <Select
+                  value={sortBy}
+                  onChange={(_, value) => setSortBy(value)}
+                  size="sm"
+                  sx={{ display: { xs: "none", sm: "inline-flex" } }}
+                >
+                  {SORT_OPTIONS.map((option) => (
+                    <Option key={option.value} value={option.value}>
+                      {option.label}
+                    </Option>
+                  ))}
+                </Select>
+                <IconButton
+                  onClick={() => setDrawerOpen(true)}
+                  sx={{ display: { sm: "none" } }}
+                >
+                  <SlidersHorizontalIcon />
+                </IconButton>
+              </Box>
+            </Sheet>
+
+            {/* Product grid */}
+            {filteredProducts.length > 0 ? (
               <ProductGrid products={filteredProducts} />
+            ) : (
+              <Typography level="h3" sx={{ textAlign: "center", mt: 4 }}>
+                No products found
+              </Typography>
             )}
-            {filteredProducts.length === 0 && <p>Uh oh!</p>}
-          </Box>
-        </Box>
+          </Grid>
+        </Grid>
       </Container>
 
-      {/* sidebar menu for selecting category & sorting on smaller viewports */}
+      {/* Drawer for mobile category selection */}
       <Drawer
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        sx={{ display: { sm: "none" } }}
+        sx={{ display: { md: "none" } }}
       >
         <Box sx={{ width: 280, p: 2 }}>
           <CategorySidebar

@@ -1,6 +1,5 @@
-import { List, ListItem, ListItemButton, Typography, Divider } from "@mui/joy";
+import { List, ListItem, ListItemButton, Sheet, Typography } from "@mui/joy";
 import PropTypes from "prop-types";
-import "./category-sidebar.css";
 
 export default function CategorySidebar({
   onCategoryChange,
@@ -8,21 +7,29 @@ export default function CategorySidebar({
   categories,
 }) {
   return (
-    <div className="list">
-      <List>
-        <ListItem>
-          <Typography level="h4" sx={{ mb: 1 }}>
-            Categories
-          </Typography>
-        </ListItem>
-
-        <Divider className="divider" />
-
+    <Sheet
+      variant="outlined"
+      sx={{
+        borderRadius: "sm",
+        p: 2,
+      }}
+    >
+      <Typography level="h2" sx={{ mb: 2 }}>
+        Categories
+      </Typography>
+      <List
+        sx={{
+          "--List-gap": "8px",
+          "--ListItem-radius": "8px",
+        }}
+      >
         <ListItem>
           <ListItemButton
             selected={activeCategory === ""}
             onClick={() => onCategoryChange("")}
-            className="list-item-button"
+            sx={{
+              fontWeight: activeCategory === "" ? "bold" : "normal",
+            }}
           >
             All Products
           </ListItemButton>
@@ -32,14 +39,16 @@ export default function CategorySidebar({
             <ListItemButton
               selected={activeCategory === value}
               onClick={() => onCategoryChange(value)}
-              className="list-item-button"
+              sx={{
+                fontWeight: activeCategory === value ? "bold" : "normal",
+              }}
             >
               {value}
             </ListItemButton>
           </ListItem>
         ))}
       </List>
-    </div>
+    </Sheet>
   );
 }
 

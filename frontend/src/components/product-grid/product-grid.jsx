@@ -7,16 +7,13 @@ export default function ProductGrid({ products }) {
     <Grid
       container
       spacing={2}
-      columns={{ xs: 4, md: 8, lg: 12 }} // 2 cols -> 4 cols -> 3 cols
       sx={{
-        width: "100%",
-        maxWidth: "1200px",
-        margin: "0 auto",
-        padding: { xs: 2, md: 3 },
+        "--Grid-columnSpacing": "16px",
+        "--Grid-rowSpacing": "24px",
       }}
     >
-      {products.map((product, index) => (
-        <Grid key={String(product.id ?? index)} xs={4} sm={4} md={4}>
+      {products.map((product) => (
+        <Grid key={product.id} xs={12} sm={6} md={4}>
           <ProductCard product={product} />
         </Grid>
       ))}
@@ -25,5 +22,13 @@ export default function ProductGrid({ products }) {
 }
 
 ProductGrid.propTypes = {
-  products: PropTypes.array.isRequired,
+  products: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+      weight: PropTypes.number.isRequired,
+      images: PropTypes.string.isRequired,
+    }).isRequired
+  ).isRequired,
 };
