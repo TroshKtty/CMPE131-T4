@@ -1,8 +1,15 @@
 import { AspectRatio, Button, Card, CardContent, Typography } from "@mui/joy";
 import PropTypes from "prop-types";
 import styles from "./product-card.module.css";
+import { useCart } from "@/hooks/useCart";
 
 export default function ProductCard({ product }) {
+  const { cart, addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart(product);
+  };
+
   return (
     <Card className={styles.productCard}>
       <AspectRatio className={styles.productCardImgContainer} ratio="1">
@@ -20,7 +27,12 @@ export default function ProductCard({ product }) {
         <Typography level="title-lg" sx={{ color: "primary.500" }}>
           ${product.price}
         </Typography>
-        <Button fullWidth variant="solid" sx={{ mt: 1 }}>
+        <Button
+          fullWidth
+          variant="solid"
+          sx={{ mt: 1 }}
+          onClick={handleAddToCart}
+        >
           Add to Cart
         </Button>
       </CardContent>

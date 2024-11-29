@@ -1,25 +1,57 @@
 import PropTypes from "prop-types";
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
+  useEffect(() => {
+    const cartData = localStorage.getItem("cart");
+    if (cartData) {
+      try {
+        const cartJson = JSON.parse(cartData);
+        if (Array.isArray(cartJson)) {
+          setCart(cartJson);
+        } else {
+          console.log("Cart was in a bad state, restoring");
+          localStorage.setItem("cart", JSON.stringify([]));
+        }
+      } catch (error) {
+        console.error(
+          "An error occured while trying to restore cart state",
+          error
+        );
+        localStorage.setItem("cart", JSON.stringify([]));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log("cart", cart);
+    if (cart.length > 0) {
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+  }, [cart]);
+
   // Add item to the cart
   const addToCart = (item) => {
+    console.log("item to add", item);
     setCart((prevCart) => {
       const existingItem = prevCart.find((cartItem) => cartItem.id === item.id);
       if (existingItem) {
+        // console.log(`updated quantity of ${item.name}`);
         // Update quantity if the item already exists in the cart
         return prevCart.map((cartItem) =>
           cartItem.id === item.id
-            ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
+            ? { ...cartItem, quantity: cartItem.quantity + 1 } // Changed from item.quantity to 1
             : cartItem
         );
       } else {
+        // console.log(`${item.name} was added to cart`);
         // Add new item to the cart
-        return [...prevCart, item];
+        return [...prevCart, { ...item, quantity: 1 }];
       }
     });
   };
