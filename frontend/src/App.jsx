@@ -7,8 +7,8 @@ import AdminDashboardPage from "@/pages/admin/page";
 import ApprovalRequestsPage from "@/pages/admin/ApprovalRequestsPage";
 import UnauthorizedPage from "@/pages/unauthorized/page";
 
-import ProductPage from "@/pages/products/individual/page";
-import ProductsPage from "@/pages/products/page";
+import ProductPage from "@/pages/product/page";
+import ProductsPage from "@/pages/search/page";
 
 import NavBar from "@/components/navbar/NavBar";
 import Footer from "@/components/footer/Footer";
