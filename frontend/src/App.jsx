@@ -8,7 +8,7 @@ import ApprovalRequestsPage from "@/pages/admin/ApprovalRequestsPage";
 import UnauthorizedPage from "@/pages/unauthorized/page";
 
 import ProductPage from "@/pages/product/page";
-import ProductsPage from "@/pages/search/page";
+import SearchPage from "@/pages/search/page";
 
 import NavBar from "@/components/navbar/NavBar";
 import Footer from "@/components/footer/Footer";
@@ -63,7 +63,7 @@ export default function App() {
                   {/* Root page */}
                   <Route path="/" element={<HomePage />} />
                   {/* Route for searching products */}
-                  <Route path="/search" element={<ProductsPage />} />
+                  <Route path="/search" element={<SearchPage />} />
                   {/* Route for an individual product */}
                   <Route path="/product/:product" element={<ProductPage />} />
                   {/* Route for checkout page */}

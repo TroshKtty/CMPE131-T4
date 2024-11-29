@@ -1,3 +1,4 @@
+import CategorySidebar from "@/category-sidebar/category-sidebar";
 import Loader from "@/components/loader/loader";
 import ProductGrid from "@/components/product-grid/product-grid";
 import {
@@ -5,13 +6,10 @@ import {
   Container,
   Drawer,
   IconButton,
-  List,
-  ListItem,
-  ListItemButton,
   Option,
   Select,
   Sheet,
-  Typography,
+  Typography
 } from "@mui/joy";
 import axios from "axios";
 import { SlidersHorizontalIcon } from "lucide-react";
@@ -26,41 +24,7 @@ const SORT_OPTIONS = [
   { value: "weight_desc", label: "Weight: High to Low" },
 ];
 
-const CategorySidebar = ({ onCategoryChange, activeCategory, categories }) => (
-  <List
-    sx={{
-      "--List-decorator-size": "32px",
-      "--List-item-paddingLeft": "8px",
-      "--List-item-paddingY": "6px",
-    }}
-  >
-    <ListItem>
-      <Typography level="h4" sx={{ mb: 1 }}>
-        Categories
-      </Typography>
-    </ListItem>
-    <ListItem>
-      <ListItemButton
-        selected={activeCategory === ""}
-        onClick={() => onCategoryChange("")}
-      >
-        All Products
-      </ListItemButton>
-    </ListItem>
-    {Object.entries(categories).map(([key, value]) => (
-      <ListItem key={key}>
-        <ListItemButton
-          selected={activeCategory === value}
-          onClick={() => onCategoryChange(value)}
-        >
-          {value}
-        </ListItemButton>
-      </ListItem>
-    ))}
-  </List>
-);
-
-export default function ProductSearchPage() {
+export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [products, setProducts] = useState([]);
