@@ -21,3 +21,21 @@
   flex: 1;
   gap: 1px;
 }
+
+.productCardInCartButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.inputContainer {
+  width: 60px;
+}
+
+.cartQuantityButton {
+  border-radius: 50px;
+  width: 32px;
+  height: 32px;
+}
