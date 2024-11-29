@@ -22,8 +22,9 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import "./styles.css";
 import PropTypes from "prop-types";
-import NotFound from "@/components/NotFound";
+import NotFound from "@/components/404/not-found";
 import axios from "axios";
+import Loader from "@/components/loader/loader";
 
 // k;v|k;v| -> [[k, v], [k, v], ...]
 function decomposeString(str) {
@@ -51,43 +52,52 @@ Accordion.propTypes = {
 // TODO: refactor
 export default function ProductPage() {
   const { product: productParam } = useParams();
+
   const [product, setProduct] = useState("");
   const [productImages, setProductImages] = useState([]);
   const [productData, setProductData] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
+      setLoading(true);
+
       if (productParam) {
         console.log("productParam", productParam);
 
-        const resp = await axios.get(
-          `http://localhost:3000/products/name/${productParam}`
-        );
+        try {
+          const resp = await axios.get(
+            `http://localhost:3000/products/${productParam}`
+          );
 
-        if (resp?.data) {
-          console.log("resp.data", resp.data);
-          setProduct(resp.data);
+          console.log("resp", resp);
 
-          setProductData({
-            ...resp.data,
-            price: Number.parseFloat(resp.data.price, 10),
-            weight: Number.parseFloat(resp.data.weight, 10),
-            descriptions: resp.data.descriptions.split(";"),
-            specifications: decomposeString(resp.data.specifications),
-            nutritionInfo: decomposeString(resp.data.nutritionInfo),
-          });
+          if (resp?.data) {
+            console.log("resp.data", resp.data);
 
-          console.log("productData", {
-            ...resp.data,
-            price: Number.parseFloat(resp.data.price, 10),
-            weight: Number.parseFloat(resp.data.weight, 10),
-            descriptions: resp.data.descriptions.split(";"),
-            specifications: decomposeString(resp.data.specifications),
-            nutritionInfo: decomposeString(resp.data.nutritionInfo),
-          });
-
-          setProductImages(resp.data.images.split(";"));
+            setProduct(resp.data);
+            setProductData({
+              ...resp.data,
+              price: Number.parseFloat(resp.data.price, 10),
+              weight: Number.parseFloat(resp.data.weight, 10),
+              descriptions: resp.data.descriptions.split(";"),
+              specifications: decomposeString(resp.data.specifications),
+              nutritionInfo: decomposeString(resp.data.nutritionInfo),
+            });
+            setProductImages(resp.data.images.split(";"));
+          } else {
+            console.log("product not found?", resp);
+            setProductData(null);
+          }
+        } catch (error) {
+          console.log(
+            `An error occured while trying to fetch product ${productParam}:`,
+            error
+          );
+          setProductData(null);
+        } finally {
+          setLoading(false);
         }
       }
     };
@@ -95,11 +105,11 @@ export default function ProductPage() {
     fetchProduct();
   }, [productParam]);
 
-  if (product === "") {
-    return null;
+  if (loading) {
+    return <Loader />;
   }
 
-  if (!productData) {
+  if (!loading && (!productData || product === "")) {
     return <NotFound />;
   }
 

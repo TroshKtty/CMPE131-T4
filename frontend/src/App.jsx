@@ -7,11 +7,13 @@ import AdminDashboardPage from "@/pages/admin/page";
 import ApprovalRequestsPage from "@/pages/admin/ApprovalRequestsPage";
 import UnauthorizedPage from "@/pages/unauthorized/page";
 
-import ProductPage from "@/pages/products/individual/page";
-import ProductsPage from "@/pages/products/page";
+import ProductPage from "@/pages/product/page";
+import SearchPage from "@/pages/search/page";
 
 import NavBar from "@/components/navbar/NavBar";
 import Footer from "@/components/footer/Footer";
+import ScrollToTopButton from "@/components/scroll-to-top/scroll-to-top";
+import NotFound from "./components/404/not-found";
 
 import ProtectedRoute from "./utils/protected_routes";
 import useAuth from "./utils/auth_check";
@@ -20,16 +22,15 @@ import { CartProvider } from "@/providers/CartProvider";
 import CheckoutPage from "./pages/CheckoutPage";
 
 const AuthWrapper = () => {
-  useAuth();
-  return null;
+	useAuth();
+	return null;
 };
 
 export default function App() {
-  return (
+	return (
     <CartProvider>
       <Router>
         <AuthWrapper />
-        <NavBar />  {/* Move NavBar outside of the routes to prevent re-rendering on every page */}
         <Routes>
           {/* Route for logging in */}
           <Route path="/login" element={<LoginPage />} />
@@ -52,15 +53,30 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-
-          {/* Public Routes */}
-          <Route path="/" element={<HomePage />} />
-          <Route path="/search" element={<ProductsPage />} />
-          <Route path="/product/:product" element={<ProductPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/unauthorized" element={<UnauthorizedPage />} />
+          <Route
+            path="/*"
+            element={
+              <>
+                <NavBar />
+                <Routes>
+                  <Route path="*" element={<NotFound />} />
+                  {/* Root page */}
+                  <Route path="/" element={<HomePage />} />
+                  {/* Route for searching products */}
+                  <Route path="/search" element={<SearchPage />} />
+                  {/* Route for an individual product */}
+                  <Route path="/product/:product" element={<ProductPage />} />
+                  {/* Route for checkout page */}
+                  <Route path="/checkout" element={<CheckoutPage />} />
+                  <Route path="/unauthorized" element={<UnauthorizedPage />} />
+                </Routes>
+                <Footer />
+              </>
+            }
+          />
         </Routes>
-        <Footer />  {/* Move Footer outside of the routes to prevent re-rendering on every page */}
+
+        <ScrollToTopButton />
       </Router>
     </CartProvider>
   );

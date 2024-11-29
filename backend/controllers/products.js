@@ -15,7 +15,7 @@ const getAllProducts = async (_, res) => {
   try {
     const products = await Product.findAll({
       // Only include relevant columns
-      attributes: ["name", "price", "weight", "category", "images"],
+      attributes: ["name", "price", "weight", "category", "images", "id"],
     });
     res.status(200).json(products);
   } catch {

@@ -1,0 +1,38 @@
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.8;
+  }
+}
+
+.scrollToTop {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  opacity: 0.8;
+  z-index: 1000;
+  padding: 0px !important; /* this style gets inherited from other styles elsewhere */
+  animation: fade-in 0.3s ease-in-out;
+}
+
+.scrollToTop:hover,
+.scrollToTop:focus {
+  background-color: #0056b3;
+  opacity: 1;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.scrollToTop:active {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
