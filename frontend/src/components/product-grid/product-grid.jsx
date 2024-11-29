@@ -26,8 +26,8 @@ ProductGrid.propTypes = {
     PropTypes.shape({
       id: PropTypes.number,
       name: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      weight: PropTypes.number.isRequired,
+      price: PropTypes.string.isRequired,
+      weight: PropTypes.string.isRequired,
       images: PropTypes.string.isRequired,
     }).isRequired
   ).isRequired,
