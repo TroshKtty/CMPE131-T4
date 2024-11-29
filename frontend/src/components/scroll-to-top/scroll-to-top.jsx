@@ -1,6 +1,6 @@
 import { ChevronUp } from "lucide-react";
 import { useEffect, useState } from "react";
-import "./scroll-to-top.css";
+import styles from "./scroll-to-top.module.css";
 
 export default function ScrollToTopButton() {
   const [showScrollToTop, setShowScrollToTop] = useState(false);
@@ -8,9 +8,6 @@ export default function ScrollToTopButton() {
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollToTop(document.body.scrollTop > 200);
-      if (document.body.scrollTop > 200) {
-        // console.log("show");
-      }
     };
 
     handleScroll();
@@ -20,16 +17,6 @@ export default function ScrollToTopButton() {
       document.body.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-  // TODO: this only works if "overflow-x: hidden" is NOT set on the body
-  // useEffect(() => {
-  // 	const handleScroll = () => {
-  // 		console.log('hi');
-  // 	};
-
-  // 	window.addEventListener("scroll", handleScroll);
-  // 	return () => window.removeEventListener("scroll", handleScroll);
-  // })
 
   const scrollToTop = () => {
     document.body.scrollTo({ top: 0, behavior: "smooth" });
@@ -42,7 +29,9 @@ export default function ScrollToTopButton() {
   return (
     <button
       onClick={scrollToTop}
-      className={`scroll-to-top ${showScrollToTop ? "visible" : "hidden"}`}
+      className={`${styles.scrollToTop} ${
+        showScrollToTop ? styles.visible : styles.hidden
+      }`}
     >
       <ChevronUp size={24} />
     </button>
