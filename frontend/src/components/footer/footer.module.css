@@ -1,14 +1,13 @@
-/* Footer */
 .footer {
   background-color: #333;
   color: white;
   padding: 20px;
   text-align: center;
-  width: 100vw; /* Full viewport width */
-  margin-top: auto; /* Stick the footer to the bottom */
+  width: 100%;
+  margin-top: auto;
 }
 
-.footer p {
+.p {
   margin: 5px 0;
   font-size: 0.9rem;
 }
