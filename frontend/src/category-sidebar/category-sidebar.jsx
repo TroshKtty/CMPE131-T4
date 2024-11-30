@@ -8,7 +8,6 @@ export default function CategorySidebar({
 }) {
   return (
     <Sheet
-      variant="outlined"
       sx={{
         borderRadius: "sm",
         p: 2,
