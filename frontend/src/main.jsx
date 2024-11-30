@@ -9,7 +9,15 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <CssVarsProvider theme={theme}>
       <CssBaseline />
-      <App />
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <App />
+      </div>
     </CssVarsProvider>
   </StrictMode>
 );
