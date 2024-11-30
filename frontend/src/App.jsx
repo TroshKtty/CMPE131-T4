@@ -15,7 +15,7 @@ import SearchPage from "@/pages/search/page";
 import CheckoutPage from "@/pages/checkout/page";
 
 import NavBar from "@/components/navbar/NavBar";
-import Footer from "@/components/footer/Footer";
+import Footer from "@/components/footer/footer";
 import ScrollToTopButton from "@/components/scroll-to-top/scroll-to-top";
 import NotFound from "./components/404/not-found";
 
