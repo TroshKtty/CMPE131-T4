@@ -129,7 +129,6 @@ export default function SearchPage() {
           <Grid item xs={12} md={9}>
             {/* Upper section */}
             <Sheet
-              variant="outlined"
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -152,7 +151,7 @@ export default function SearchPage() {
                   value={sortBy}
                   onChange={(_, value) => setSortBy(value)}
                   size="sm"
-                  sx={{ display: { xs: "none", sm: "inline-flex" } }}
+                  sx={{ display: { xs: "none", md: "inline-flex" } }}
                 >
                   {SORT_OPTIONS.map((option) => (
                     <Option key={option.value} value={option.value}>
@@ -162,7 +161,7 @@ export default function SearchPage() {
                 </Select>
                 <IconButton
                   onClick={() => setDrawerOpen(true)}
-                  sx={{ display: { sm: "none" } }}
+                  sx={{ display: { xs: "inline-flex", md: "none" } }}
                 >
                   <SlidersHorizontalIcon />
                 </IconButton>
@@ -173,7 +172,7 @@ export default function SearchPage() {
             {filteredProducts.length > 0 ? (
               <ProductGrid products={filteredProducts} />
             ) : (
-              <Typography level="h3" sx={{ textAlign: "center", mt: 4 }}>
+              <Typography level="h3" textAlign="center" mt={4}>
                 No products found
               </Typography>
             )}
