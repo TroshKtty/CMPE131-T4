@@ -27,8 +27,7 @@ export default function CheckoutPage() {
     0
   );
 
-  const discount = 200; // Example discount
-  const estimatedTotal = subtotal - discount;
+  const estimatedTotal = subtotal;
 
   return (
     <Grid container spacing={2} sx={{ p: 2 }}>
@@ -106,10 +105,6 @@ export default function CheckoutPage() {
             <div className={styles.summaryItem}>
               <Typography>Subtotal</Typography>
               <Typography>${subtotal.toFixed(2)}</Typography>
-            </div>
-            <div className={styles.summaryItem}>
-              <Typography>Discount</Typography>
-              <Typography>-${discount.toFixed(2)}</Typography>
             </div>
             <div className={styles.summaryItem}>
               <Typography level="h6">Estimated Total</Typography>
