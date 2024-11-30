@@ -1,14 +1,17 @@
 import { useCart } from "@/hooks/useCart";
-import "./CheckoutPage.css";
+import "./styles.module.css";
 
-const CheckoutPage = () => {
+export default function CheckoutPage() {
   const { cart, removeFromCart, updateQuantity } = useCart();
 
   if (!Array.isArray(cart)) {
     return <p>There was an issue loading your cart. Please try again later.</p>;
   }
 
-  const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  const subtotal = cart.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
   const discount = 200; // Example discount
   const estimatedTotal = subtotal - discount;
 
@@ -21,7 +24,11 @@ const CheckoutPage = () => {
         ) : (
           cart.map((item) => (
             <div key={item.id} className="cart-item">
-              <img src={item.image} alt={item.name} className="cart-item-image" />
+              <img
+                src={item.image}
+                alt={item.name}
+                className="cart-item-image"
+              />
               <div className="cart-item-details">
                 <p>{item.name}</p>
                 <p>Price: ${item.price}</p>
@@ -33,12 +40,17 @@ const CheckoutPage = () => {
                     -
                   </button>
                   <span>{item.quantity}</span>
-                  <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>
+                  <button
+                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                  >
                     +
                   </button>
                 </div>
               </div>
-              <button onClick={() => removeFromCart(item.id)} className="remove-button">
+              <button
+                onClick={() => removeFromCart(item.id)}
+                className="remove-button"
+              >
                 Remove
               </button>
             </div>
@@ -64,17 +76,4 @@ const CheckoutPage = () => {
       </div>
     </div>
   );
-};
-
-// Reusable section component for delivery and payment information
-const Section = ({ title, editLabel }) => (
-  <div className="card">
-    <h3>{title}</h3>
-    <p>Details go here...</p>
-    <a href="#" className="edit-link">
-      {editLabel}
-    </a>
-  </div>
-);
-
-export default CheckoutPage;
+}

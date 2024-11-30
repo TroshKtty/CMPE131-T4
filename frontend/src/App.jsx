@@ -10,6 +10,8 @@ import UnauthorizedPage from "@/pages/unauthorized/page";
 import ProductPage from "@/pages/product/page";
 import SearchPage from "@/pages/search/page";
 
+import CheckoutPage from "@/pages/checkout/page";
+
 import NavBar from "@/components/navbar/NavBar";
 import Footer from "@/components/footer/Footer";
 import ScrollToTopButton from "@/components/scroll-to-top/scroll-to-top";
@@ -19,7 +21,6 @@ import ProtectedRoute from "./utils/protected_routes";
 import useAuth from "./utils/auth_check";
 
 import { CartProvider } from "@/providers/CartProvider";
-import CheckoutPage from "./pages/CheckoutPage";
 
 const AuthWrapper = () => {
 	useAuth();
