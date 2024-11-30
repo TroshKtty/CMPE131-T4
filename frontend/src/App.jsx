@@ -7,10 +7,13 @@ import EmployeeDashboardPage from "@/pages/employee/page";
 import InventoryManagementPage from "@/pages/employee/InventoryManagement";
 import EmployeeApprovalRequestsPage from "@/pages/employee/ApprovalRequestsPage";
 import AdminApprovalRequestsPage from "@/pages/admin/ApprovalRequestsPage";
-// import UnauthorizedPage from "./pages/unauthorized_page/unauthorized";
+// import UnauthorizedPage from "./pages/unauthorized_page/unauthorized"
+import UnauthorizedPage from "@/pages/unauthorized/page";;
 
 import ProductPage from "@/pages/product/page";
 import SearchPage from "@/pages/search/page";
+
+import CheckoutPage from "@/pages/checkout/page";
 
 import NavBar from "@/components/navbar/NavBar";
 import Footer from "@/components/footer/Footer";
@@ -23,6 +26,8 @@ import useAuth from "./utils/auth_check";
 import AccountInfoPage from "./pages/accinfo/page";
 import PaymentInfoPage from "./pages/accinfo/payment";
 import OrderHistoryPage from "./pages/accinfo/order";
+
+import { CartProvider } from "@/providers/CartProvider";
 
 const AuthWrapper = () => {
 	useAuth();
@@ -90,6 +95,8 @@ export default function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/product/:product" element={<ProductPage />} />
+                <Route path="/unauthorized" element={<UnauthorizedPage />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
 
                 <Route path="/accinfo" element={<AccountInfoPage />} />
                 <Route path="/accinfo/payment" element={<PaymentInfoPage />} />
