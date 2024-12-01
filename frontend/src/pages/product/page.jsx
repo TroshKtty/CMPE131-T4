@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
-  Accordion as MUIAccordion,
   AccordionDetails,
   AccordionSummary,
   Box,
@@ -21,39 +20,22 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import "./styles.css";
-import PropTypes from "prop-types";
 import NotFound from "@/components/404/not-found";
 import axios from "axios";
 import Loader from "@/components/loader/loader";
 import { useCart } from "@/hooks/useCart";
+import Accordion from "@/components/accordion/accordion";
 
 // k;v|k;v| -> [[k, v], [k, v], ...]
 function decomposeString(str) {
   return str.split("|").map((pair) => pair.split(";"));
 }
 
-// Hacky fix for accordion wrapper to remove accordion hover bg and when it's clicked
-function Accordion({ children }) {
-  return (
-    <MUIAccordion
-      sx={{
-        "--joy-palette-neutral-plainHoverBg": "transparent", // Hover bg
-        "--joy-palette-neutral-plainActiveBg": "transparent", // Click bg
-      }}
-    >
-      {children}
-    </MUIAccordion>
-  );
-}
-
-Accordion.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
 // TODO: refactor
 export default function ProductPage() {
   const { product: productParam } = useParams();
-  const { cart, addToCart } = useCart();
+  const { cart, addToCart, updateQuantity, removeFromCart, hasCartInit } =
+    useCart();
 
   const [product, setProduct] = useState(null);
   const [productImages, setProductImages] = useState([]);
@@ -62,11 +44,28 @@ export default function ProductPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (productParam && hasCartInit) {
+      // Try and find in cart, updating state too
+      const item = cart.find(
+        (item) => item.id === Number.parseInt(productParam, 10)
+      );
+      if (item) {
+        const ogQuantity = item.quantity;
+        const quantity = !Number.isNaN(ogQuantity) ? ogQuantity : 1;
+        setQuantity(quantity);
+        console.log(`${item.name} found in cart with quantity ${quantity}`);
+      } else {
+        console.log("Item was not found in cart");
+      }
+    }
+  }, [productParam, hasCartInit, cart]);
+
+  useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
 
       if (productParam) {
-        console.log("productParam", productParam);
+        console.log("productParam:", productParam);
 
         try {
           const resp = await axios.get(
@@ -76,6 +75,7 @@ export default function ProductPage() {
           // console.log("resp", resp);
 
           if (resp?.data) {
+            console.log("Got the data, setting it now");
             // console.log("resp.data", resp.data);
 
             setProduct(resp.data);
@@ -108,9 +108,16 @@ export default function ProductPage() {
   }, [productParam]);
 
   useEffect(() => {
-    console.log("productData", productData);
-    console.log("productImages", productImages);
+    console.log("productData:", productData);
+    console.log("productImages:", productImages);
   }, [productData, productImages]);
+
+  useEffect(() => {
+    if (hasCartInit && productData !== null) {
+      updateQuantity(productData.id, quantity);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [quantity]);
 
   if (loading) {
     return <Loader />;
@@ -124,6 +131,10 @@ export default function ProductPage() {
     addToCart({ ...product, quantity });
   };
 
+  const handleRemoveFromCart = () => {
+    removeFromCart(product.id);
+  };
+
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
   };
@@ -133,7 +144,14 @@ export default function ProductPage() {
   };
 
   return (
-    <Sheet sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
+    <Sheet
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        width: "100%",
+        backgroundColor: "common.white"
+      }}
+    >
       <Box
         sx={{
           width: "100%",
@@ -161,7 +179,7 @@ export default function ProductPage() {
             <List sx={{ my: 2 }}>
               <ListItem>
                 <Typography level="h3">
-                  ${productData.price?.toFixed(2)}
+                  ${productData.price.toFixed(2)}
                 </Typography>
               </ListItem>
               <ListItem>
@@ -221,9 +239,18 @@ export default function ProductPage() {
                   <Plus />
                 </IconButton>
               </Sheet>
-              {cart.find((item) => item.id === product.id) ? null : (
+              {cart.find((item) => item.id === product.id) ? (
                 <Button
-                  size="lg"
+                  color="danger"
+                  size="md"
+                  sx={{ flexGrow: 1 }}
+                  onClick={handleRemoveFromCart}
+                >
+                  Remove From Cart
+                </Button>
+              ) : (
+                <Button
+                  size="md"
                   sx={{ flexGrow: 1 }}
                   onClick={handleAddToCart}
                 >
