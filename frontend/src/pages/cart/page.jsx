@@ -3,9 +3,14 @@ import { useCart } from "@/hooks/useCart";
 import { Box, Button, Card, Grid, Stack, Typography } from "@mui/joy";
 import { ShoppingBagIcon, ShoppingBasketIcon } from "lucide-react";
 import styles from "./styles.module.css";
+import Loader from "@/components/loader/loader";
 
 export default function CartPage() {
-  const { cart } = useCart();
+  const { cart, hasCartInit } = useCart();
+
+  if (!hasCartInit) {
+    return <Loader />;
+  }
 
   if (!Array.isArray(cart)) {
     return (
