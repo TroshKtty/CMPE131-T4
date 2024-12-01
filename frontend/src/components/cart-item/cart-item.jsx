@@ -1,16 +1,17 @@
 import { useCart } from "@/hooks/useCart";
 import {
-  Card,
-  CardContent,
   AspectRatio,
-  Typography,
-  Stack,
-  IconButton,
   Box,
   Button,
+  Card,
+  CardContent,
+  IconButton,
+  Sheet,
+  Typography,
 } from "@mui/joy";
-import { CircleMinus, CirclePlus } from "lucide-react";
+import { CircleMinusIcon, CirclePlusIcon } from "lucide-react";
 import PropTypes from "prop-types";
+import styles from "./cart-item.module.css";
 
 export default function CartItem({ product }) {
   const { updateQuantity, removeFromCart } = useCart();
@@ -18,9 +19,8 @@ export default function CartItem({ product }) {
   return (
     <Card
       variant="plain"
+      className={styles.cartItemCard}
       sx={{
-        width: "100%",
-        overflow: "hidden",
         boxShadow: "md",
       }}
     >
@@ -28,28 +28,36 @@ export default function CartItem({ product }) {
         orientation="horizontal"
         sx={{ gap: 2, alignItems: "center" }}
       >
-        <AspectRatio ratio="1" sx={{ width: 128, flexShrink: 0 }}>
+        <AspectRatio
+          ratio="1"
+          sx={{
+            width: 128,
+            flexShrink: 0,
+            display: { xs: "none", sm: "inline-flex" },
+          }}
+        >
           <img
             src={product.images.split(";")[0] ?? "https://placehold.co/400x300"}
             alt={product.name}
-            style={{ objectFit: "cover", borderRadius: 8 }}
+            className={styles.cartItemImage}
           />
         </AspectRatio>
-        <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-          <Typography level="title-md" noWrap fontWeight="bold">
-            {product.name}
-          </Typography>
+        <Sheet className={styles.detailsContainer}>
+          <Typography level="title-lg">{product.name}</Typography>
           <Typography level="body-sm">
             Unit Price: ${product.price}/lb
           </Typography>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            spacing={2}
-            sx={{ mt: 1.5 }}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              justifyContent: "space-between",
+              alignItems: { xs: "normal", sm: "center" },
+              gap: { xs: 2, sm: 8 },
+              marginTop: "1.5px",
+            }}
           >
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <IconButton
                 size="sm"
                 variant="soft"
@@ -57,7 +65,7 @@ export default function CartItem({ product }) {
                 onClick={() => updateQuantity(product.id, product.quantity - 1)}
                 disabled={product.quantity <= 1}
               >
-                <CircleMinus size={18} />
+                <CircleMinusIcon size={18} />
               </IconButton>
               <Typography textAlign="center">{product.quantity}</Typography>
               <IconButton
@@ -66,7 +74,7 @@ export default function CartItem({ product }) {
                 color="neutral"
                 onClick={() => updateQuantity(product.id, product.quantity + 1)}
               >
-                <CirclePlus size={18} />
+                <CirclePlusIcon size={18} />
               </IconButton>
             </Box>
             <Button
@@ -80,8 +88,8 @@ export default function CartItem({ product }) {
             <Typography level="title-md">
               ${(product.price * product.quantity).toFixed(2)}
             </Typography>
-          </Stack>
-        </Box>
+          </Box>
+        </Sheet>
       </CardContent>
     </Card>
   );
