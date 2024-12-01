@@ -152,7 +152,6 @@ export default function SearchPage() {
                   defaultValue={"Most Popular"}
                   value={sortBy}
                   onChange={(_, value) => setSortBy(value)}
-                  size="sm"
                   sx={{ display: { xs: "none", md: "inline-flex" } }}
                 >
                   {SORT_OPTIONS.map((option) => (
