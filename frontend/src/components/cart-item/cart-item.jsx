@@ -32,32 +32,43 @@ export default function CartItem({ product }) {
         </Grid>
         <Grid xs={8} sm={9}>
           <Stack spacing={1}>
-            <Typography level="h6">{product.name}</Typography>
-            <Typography>Price: ${product.price}</Typography>
-            <div className={styles.quantityControl}>
-              <IconButton
-                size="sm"
-                onClick={() => updateQuantity(product.id, product.quantity - 1)}
-                disabled={product.quantity <= 1}
-              >
-                <CircleMinusIcon />
-              </IconButton>
-              <Typography>{product.quantity}</Typography>
-              <IconButton
-                size="sm"
-                onClick={() => updateQuantity(product.id, product.quantity + 1)}
-              >
-                <CirclePlusIcon />
-              </IconButton>
+            <div className={styles.itemDetails}>
+              <Typography level="body-lg">{product.name}</Typography>
+              <div className={styles.quantityControl}>
+                <IconButton
+                  size="sm"
+                  onClick={() =>
+                    updateQuantity(product.id, product.quantity - 1)
+                  }
+                  disabled={product.quantity <= 1}
+                >
+                  <CircleMinusIcon />
+                </IconButton>
+                <Typography>{product.quantity}</Typography>
+                <IconButton
+                  size="sm"
+                  onClick={() =>
+                    updateQuantity(product.id, product.quantity + 1)
+                  }
+                >
+                  <CirclePlusIcon />
+                </IconButton>
+              </div>
+              <Typography>Unit Price: ${product.price}/lb</Typography>
             </div>
-            <Button
+            <div className={styles.itemPriceContainer}>
+              <Typography level="h5">
+                Total: ${(product.price * product.quantity).toFixed(2)}
+              </Typography>
+            </div>
+            {/* <Button
               variant="soft"
               color="danger"
               onClick={() => removeFromCart(product.id)}
               sx={{ alignSelf: "flex-start" }}
             >
               Remove
-            </Button>
+            </Button> */}
           </Stack>
         </Grid>
       </Grid>
