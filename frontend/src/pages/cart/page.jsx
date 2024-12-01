@@ -44,21 +44,32 @@ export default function CartPage() {
     <Grid container spacing={2} sx={{ p: 2 }}>
       {/* Items in cart */}
       <Grid xs={12} md={8}>
-        <Card variant="soft">
+        <Card variant="soft" className={styles.cartItem}>
           <div className={styles.cartHeader}>
             <ShoppingBagIcon size={24} sx={{ mt: 8 }} />
             <Typography level="h3">Shopping Cart</Typography>
           </div>
-          <Stack spacing={2}>
-            {cart.map((product) => (
-              <CartItem key={product.id} product={product} />
+          <Box
+            className={styles.cartItemStack}
+            sx={{
+              maxHeight: { xs: "40vh", md: "70vh" },
+            }}
+          >
+            {cart.map((product, index) => (
+              <div key={String(index)} className={styles.cartItem}>
+                <CartItem key={product.id} product={product} />
+              </div>
             ))}
-          </Stack>
+          </Box>
         </Card>
       </Grid>
       {/* Order summary */}
       <Grid xs={12} md={4}>
-        <Card>
+        <Card
+          sx={{
+            position: "sticky",
+          }}
+        >
           <Typography level="h3" sx={{ mb: 2 }}>
             Order Summary
           </Typography>
