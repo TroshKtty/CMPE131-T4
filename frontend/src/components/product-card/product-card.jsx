@@ -11,12 +11,18 @@ import {
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import PropTypes from "prop-types";
 import styles from "./product-card.module.css";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductCard({ product }) {
+  const navigate = useNavigate();
   const { cart, addToCart, updateQuantity, removeFromCart } = useCart();
 
   const cartItem = cart.find((item) => item.id === product.id);
   const quantity = cartItem ? cartItem.quantity : 0;
+
+  const handleNavigate = () => {
+    navigate(`/product/${product.id}`);
+  };
 
   const handleAddToCart = () => {
     addToCart(product);
@@ -47,7 +53,9 @@ export default function ProductCard({ product }) {
         />
       </AspectRatio>
       <CardContent className={styles.productCardBodyContainer}>
-        <Typography level="title-md">{product.name}</Typography>
+        <div onClick={handleNavigate} style={{ cursor: "pointer" }}>
+          <Typography level="title-md">{product.name}</Typography>
+        </div>
         <Typography level="body-sm" sx={{ mb: "auto" }}>
           {product.weight} lbs
         </Typography>
