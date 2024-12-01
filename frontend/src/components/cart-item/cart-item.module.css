@@ -1,3 +1,8 @@
+.cartItemCard {
+  width: "100%";
+  overflow: "hidden";
+}
+
 .cartItemImage {
   width: 100px;
   height: 100px;
@@ -5,19 +10,7 @@
   border-radius: 8px;
 }
 
-.quantityControl {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.itemDetails {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.itemPriceContainer {
-  display: flex;
-  justify-content: flex-end;
+.detailsContainer {
+  flex-grow: 1;
+  min-width: 0px;
 }
