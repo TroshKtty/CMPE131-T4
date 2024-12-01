@@ -24,6 +24,7 @@ const SORT_OPTIONS = [
   { value: "price_desc", label: "Price: High to Low" },
   { value: "weight_asc", label: "Weight: Low to High" },
   { value: "weight_desc", label: "Weight: High to Low" },
+  { value: "most_popular", label: "Most Popular" },
 ];
 
 export default function SearchPage() {
@@ -32,7 +33,7 @@ export default function SearchPage() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState({});
   const [loading, setLoading] = useState(true);
-  const [sortBy, setSortBy] = useState("price_asc");
+  const [sortBy, setSortBy] = useState("most_popular");
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const query = searchParams.get("q")?.toLowerCase() || "";
@@ -148,6 +149,7 @@ export default function SearchPage() {
 
               <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                 <Select
+                  defaultValue={"Most Popular"}
                   value={sortBy}
                   onChange={(_, value) => setSortBy(value)}
                   size="sm"
