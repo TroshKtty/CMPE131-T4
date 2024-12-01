@@ -105,6 +105,11 @@ export default function ProductPage() {
     fetchProduct();
   }, [productParam]);
 
+  useEffect(() => {
+    console.log("productData", productData);
+    console.log("productImages", productImages);
+  }, [productData, productImages]);
+
   if (loading) {
     return <Loader />;
   }
