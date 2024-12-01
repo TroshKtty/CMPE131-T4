@@ -25,6 +25,7 @@ import PropTypes from "prop-types";
 import NotFound from "@/components/404/not-found";
 import axios from "axios";
 import Loader from "@/components/loader/loader";
+import { useCart } from "@/hooks/useCart";
 
 // k;v|k;v| -> [[k, v], [k, v], ...]
 function decomposeString(str) {
@@ -52,8 +53,9 @@ Accordion.propTypes = {
 // TODO: refactor
 export default function ProductPage() {
   const { product: productParam } = useParams();
+  const { cart, addToCart } = useCart();
 
-  const [product, setProduct] = useState("");
+  const [product, setProduct] = useState(null);
   const [productImages, setProductImages] = useState([]);
   const [productData, setProductData] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -71,10 +73,10 @@ export default function ProductPage() {
             `http://localhost:3000/products/${productParam}`
           );
 
-          console.log("resp", resp);
+          // console.log("resp", resp);
 
           if (resp?.data) {
-            console.log("resp.data", resp.data);
+            // console.log("resp.data", resp.data);
 
             setProduct(resp.data);
             setProductData({
@@ -92,7 +94,7 @@ export default function ProductPage() {
           }
         } catch (error) {
           console.log(
-            `An error occured while trying to fetch product ${productParam}:`,
+            `An error occured while trying to fetch product '${productParam}':`,
             error
           );
           setProductData(null);
@@ -114,13 +116,12 @@ export default function ProductPage() {
     return <Loader />;
   }
 
-  if (!loading && (!productData || product === "")) {
+  if (!loading && (!productData || product === null)) {
     return <NotFound />;
   }
 
-  const handleAddToCart = (ev) => {
-    ev.preventDefault();
-    alert(`Added ${quantity}x ${productData.name} to cart`);
+  const handleAddToCart = () => {
+    addToCart({ ...product, quantity });
   };
 
   const handleIncrement = () => {
@@ -220,9 +221,15 @@ export default function ProductPage() {
                   <Plus />
                 </IconButton>
               </Sheet>
-              <Button size="lg" sx={{ flexGrow: 1 }} onClick={handleAddToCart}>
-                Add To Cart
-              </Button>
+              {cart.find((item) => item.id === product.id) ? null : (
+                <Button
+                  size="lg"
+                  sx={{ flexGrow: 1 }}
+                  onClick={handleAddToCart}
+                >
+                  Add To Cart
+                </Button>
+              )}
             </Stack>
           </Box>
         </Stack>
