@@ -12,9 +12,15 @@ import {
 import { CircleMinusIcon, CirclePlusIcon } from "lucide-react";
 import PropTypes from "prop-types";
 import styles from "./cart-item.module.css";
+import { useNavigate } from "react-router-dom";
 
 export default function CartItem({ product }) {
   const { updateQuantity, removeFromCart } = useCart();
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/product/${product.id}`);
+  };
 
   return (
     <Card
@@ -40,10 +46,13 @@ export default function CartItem({ product }) {
             src={product.images.split(";")[0] ?? "https://placehold.co/400x300"}
             alt={product.name}
             className={styles.cartItemImage}
+            onClick={handleClick}
           />
         </AspectRatio>
         <Sheet className={styles.detailsContainer}>
-          <Typography level="title-lg">{product.name}</Typography>
+          <Typography level="title-lg" sx={{ cursor: "pointer" }}>
+            <p onClick={handleClick}>{product.name}</p>
+          </Typography>
           <Typography level="body-sm">
             Unit Price: ${product.price}/lb
           </Typography>

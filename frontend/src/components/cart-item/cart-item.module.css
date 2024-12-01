@@ -8,6 +8,7 @@
   height: 100px;
   object-fit: cover;
   border-radius: 8px;
+  cursor: pointer;
 }
 
 .detailsContainer {
