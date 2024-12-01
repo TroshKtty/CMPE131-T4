@@ -30,9 +30,7 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     console.log("cart", cart);
-    if (cart.length > 0) {
-      localStorage.setItem("cart", JSON.stringify(cart));
-    }
+    localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
   // Add item to the cart
