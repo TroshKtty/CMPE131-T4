@@ -22,9 +22,6 @@ export default function CartItem({ product }) {
         width: "100%",
         overflow: "hidden",
         boxShadow: "md",
-        ":hover": {
-          boxShadow: "lg",
-        },
       }}
     >
       <CardContent
@@ -62,9 +59,7 @@ export default function CartItem({ product }) {
               >
                 <CircleMinus size={18} />
               </IconButton>
-              <Typography fontWeight="md" textAlign="center">
-                {product.quantity}
-              </Typography>
+              <Typography textAlign="center">{product.quantity}</Typography>
               <IconButton
                 size="sm"
                 variant="soft"
@@ -79,11 +74,10 @@ export default function CartItem({ product }) {
               variant="soft"
               color="danger"
               onClick={() => removeFromCart(product.id)}
-              sx={{ minWidth: "auto" }}
             >
               Remove
             </Button>
-            <Typography level="title-sm" fontWeight="bold">
+            <Typography level="title-md">
               ${(product.price * product.quantity).toFixed(2)}
             </Typography>
           </Stack>
