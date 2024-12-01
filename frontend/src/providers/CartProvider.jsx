@@ -6,6 +6,8 @@ export const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
+  // We only want to save the cart to localStorage after the initial load, not during it
+  const [isInit, setIsInit] = useState(false);
 
   useEffect(() => {
     const cartData = localStorage.getItem("cart");
@@ -13,6 +15,7 @@ export const CartProvider = ({ children }) => {
       try {
         const cartJson = JSON.parse(cartData);
         if (Array.isArray(cartJson)) {
+          console.log("Restoring previous cart state");
           setCart(cartJson);
         } else {
           console.log("Cart was in a bad state, restoring");
@@ -25,13 +28,19 @@ export const CartProvider = ({ children }) => {
         );
         localStorage.setItem("cart", JSON.stringify([]));
       }
+
+      setIsInit(true);
     }
   }, []);
 
   useEffect(() => {
+    if (!isInit) {
+      return;
+    }
+
     console.log("cart", cart);
     localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
+  }, [cart, isInit]);
 
   // Add item to the cart
   const addToCart = (item) => {
