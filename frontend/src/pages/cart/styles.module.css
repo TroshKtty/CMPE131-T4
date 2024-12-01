@@ -14,3 +14,20 @@
   gap: 8px;
   margin-left: 4px;
 }
+
+.cartItem {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cartItemStack {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  gap: 8px;
+}
+
+.cartItem {
+  padding-right: 16px;
+}
