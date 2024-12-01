@@ -19,7 +19,7 @@ import Product from "@/components/product/Product";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import "./styles.css";
+import styles from "./styles.module.css";
 import NotFound from "@/components/404/not-found";
 import axios from "axios";
 import Loader from "@/components/loader/loader";
@@ -144,14 +144,7 @@ export default function ProductPage() {
   };
 
   return (
-    <Sheet
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        width: "100%",
-        backgroundColor: "common.white"
-      }}
-    >
+    <Sheet className={styles.wrapper}>
       <Box
         sx={{
           width: "100%",
