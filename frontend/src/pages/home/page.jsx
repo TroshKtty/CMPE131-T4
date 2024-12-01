@@ -51,7 +51,7 @@ export default function HomePage() {
             Shop Fresh, <span className="heading2">Organic</span> Products
           </h2>
           <p>
-            Everything you need for a healthy lifestyle, delivered to your door.
+            Everything you need for a healthy lifestyle, delivered to your door.<br/>
             $5 delivery fee for orders above 20 pounds!
           </p>
           <button onClick={() => navigate("/search")}>Shop Now</button>
