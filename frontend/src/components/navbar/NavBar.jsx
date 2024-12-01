@@ -15,6 +15,7 @@ import {
 import { Menu as MenuIcon, Search, ShoppingCart, User, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useCart } from "@/hooks/useCart";
 
 import "./navbar.css";
 
@@ -24,6 +25,8 @@ export default function NavBar() {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const { cart } = useCart();
 
   useEffect(() => {
     setQuery(searchParams.get("q") || "");
@@ -119,9 +122,11 @@ export default function NavBar() {
           >
             <Button
               startDecorator={<ShoppingCart size={20} />}
-              onClick={() => navigate("/checkout")} // Updated to "/checkout"
+              onClick={() => navigate("/checkout")}
             >
-              <Typography textColor="common.white">Cart</Typography>
+              <Typography textColor="common.white">
+                Cart {cart.length > 0 ? `(${cart.length})` : ""}
+              </Typography>
             </Button>
             {isLoggedIn ? (
               <Dropdown>
