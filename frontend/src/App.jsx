@@ -12,7 +12,7 @@ import AdminApprovalRequestsPage from "@/pages/admin/ApprovalRequestsPage";
 import ProductPage from "@/pages/product/page";
 import SearchPage from "@/pages/search/page";
 
-import CheckoutPage from "@/pages/checkout/page";
+import CartPage from "@/pages/cart/page";
 
 import NavBar from "@/components/navbar/NavBar";
 import Footer from "@/components/footer/footer";
@@ -70,23 +70,20 @@ export default function App() {
               <NavBar />
               <Routes>
                   <Route path="*" element={<NotFound />} />
-                {/* Root page */}
-                <Route path="/" element={<HomePage />} />
-                {/* Route for searching products */}
-                <Route path="/search" element={<SearchPage />} />
-                {/* Route for an individual product */}
-                <Route path="/product/:product" element={<ProductPage />} />
-                {/* <Route path="/products/individual/tomato" element={<TomatoProductPage />} /> */}
-                {/* <Route path="/products/individual/banana" element={<BananaProductPage />} /> */}
-                {/* <Route path="/products/individual/water" element={<WaterProductPage />} /> */}
-                {/* <Route path="/products/individual/test" element={<TestProductPage />} /> */}
-                {/* <Route path="/unauthorized" element={<UnauthorizedPage />} /> */}
-              </Routes>
-              <Footer />
-            </>
-          }
-        />
-      </Routes>
+                  {/* Root page */}
+                  <Route path="/" element={<HomePage />} />
+                  {/* Route for searching products */}
+                  <Route path="/search" element={<SearchPage />} />
+                  {/* Route for an individual product */}
+                  <Route path="/product/:product" element={<ProductPage />} />
+                  <Route path="/cart" element={<CartPage />} />
+                  <Route path="/unauthorized" element={<UnauthorizedPage />} />
+                </Routes>
+                <Footer />
+              </>
+            }
+          />
+        </Routes>
 
         <ScrollToTopButton />
     </Router>
