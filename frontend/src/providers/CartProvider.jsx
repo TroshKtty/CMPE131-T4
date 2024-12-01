@@ -7,7 +7,7 @@ export const CartContext = createContext(null);
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   // We only want to save the cart to localStorage after the initial load, not during it
-  const [isInit, setIsInit] = useState(false);
+  const [hasCartInit, setHasCartInit] = useState(false);
 
   useEffect(() => {
     const cartData = localStorage.getItem("cart");
@@ -29,18 +29,18 @@ export const CartProvider = ({ children }) => {
         localStorage.setItem("cart", JSON.stringify([]));
       }
 
-      setIsInit(true);
+      setHasCartInit(true);
     }
   }, []);
 
   useEffect(() => {
-    if (!isInit) {
+    if (!hasCartInit) {
       return;
     }
 
     console.log("cart", cart);
     localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart, isInit]);
+  }, [cart, hasCartInit]);
 
   // Add item to the cart
   const addToCart = (item) => {
@@ -80,7 +80,7 @@ export const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, updateQuantity }}
+      value={{ cart, addToCart, removeFromCart, updateQuantity, hasCartInit }}
     >
       {children}
     </CartContext.Provider>
