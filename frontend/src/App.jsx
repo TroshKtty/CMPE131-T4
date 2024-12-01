@@ -7,13 +7,12 @@ import EmployeeDashboardPage from "@/pages/employee/page";
 import InventoryManagementPage from "@/pages/employee/InventoryManagement";
 import EmployeeApprovalRequestsPage from "@/pages/employee/ApprovalRequestsPage";
 import AdminApprovalRequestsPage from "@/pages/admin/ApprovalRequestsPage";
-// import UnauthorizedPage from "./pages/unauthorized_page/unauthorized"
 import UnauthorizedPage from "@/pages/unauthorized/page";;
 
 import ProductPage from "@/pages/product/page";
 import SearchPage from "@/pages/search/page";
 
-import CheckoutPage from "@/pages/checkout/page";
+import CartPage from "@/pages/cart/page";
 
 import NavBar from "@/components/navbar/NavBar";
 import Footer from "@/components/footer/footer";
@@ -91,7 +90,7 @@ export default function App() {
             <>
               <NavBar />
               <Routes>
-                  <Route path="*" element={<NotFound />} />
+                <Route path="*" element={<NotFound />} />
                 <Route path="/" element={<HomePage />} />
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/product/:product" element={<ProductPage />} />

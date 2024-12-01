@@ -11,7 +11,7 @@ import {
 } from "@mui/joy";
 import { CirclePlus, CircleMinus } from "lucide-react";
 
-export default function CheckoutPage() {
+export default function CartPage() {
   const { cart, removeFromCart, updateQuantity } = useCart();
 
   if (!Array.isArray(cart)) {
