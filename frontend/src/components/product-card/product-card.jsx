@@ -94,6 +94,7 @@ export default function ProductCard({ product }) {
                 }}
                 sx={{
                   textAlign: "center",
+                  // Removes the up/down arrows for a number input
                   "& .MuiInput-input": {
                     textAlign: "center",
                     "&::-webkit-inner-spin-button, &::-webkit-outer-spin-button":
