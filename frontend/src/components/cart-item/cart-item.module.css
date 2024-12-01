@@ -11,8 +11,13 @@
   gap: 8px;
 }
 
-.summaryItem {
+.itemDetails {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
+  align-items: center;
+}
+
+.itemPriceContainer {
+  display: flex;
+  justify-content: flex-end;
 }
