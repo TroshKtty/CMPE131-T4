@@ -10,7 +10,7 @@ import UnauthorizedPage from "@/pages/unauthorized/page";
 import ProductPage from "@/pages/product/page";
 import SearchPage from "@/pages/search/page";
 
-import CheckoutPage from "@/pages/checkout/page";
+import CartPage from "@/pages/cart/page";
 
 import NavBar from "@/components/navbar/NavBar";
 import Footer from "@/components/footer/footer";
@@ -67,8 +67,7 @@ export default function App() {
                   <Route path="/search" element={<SearchPage />} />
                   {/* Route for an individual product */}
                   <Route path="/product/:product" element={<ProductPage />} />
-                  {/* Route for checkout page */}
-                  <Route path="/checkout" element={<CheckoutPage />} />
+                  <Route path="/cart" element={<CartPage />} />
                   <Route path="/unauthorized" element={<UnauthorizedPage />} />
                 </Routes>
                 <Footer />

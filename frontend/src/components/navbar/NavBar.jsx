@@ -122,7 +122,7 @@ export default function NavBar() {
           >
             <Button
               startDecorator={<ShoppingCart size={20} />}
-              onClick={() => navigate("/checkout")}
+              onClick={() => navigate("/cart")}
             >
               <Typography textColor="common.white">
                 Cart {cart.length > 0 ? `(${cart.length})` : ""}
@@ -204,7 +204,7 @@ export default function NavBar() {
           <Button
             variant="plain"
             color="neutral"
-            onClick={() => navigate("/checkout")}
+            onClick={() => navigate("/cart")}
             fullWidth
             sx={{ color: "common.white" }}
           >
