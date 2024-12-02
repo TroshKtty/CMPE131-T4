@@ -13,6 +13,7 @@ import ProductPage from "@/pages/product/page";
 import SearchPage from "@/pages/search/page";
 
 import CartPage from "@/pages/cart/page";
+import CheckoutPage from "@/pages/checkout/page";
 
 import NavBar from "@/components/navbar/NavBar";
 import Footer from "@/components/footer/footer";
@@ -29,86 +30,67 @@ import OrderHistoryPage from "./pages/accinfo/order";
 import { CartProvider } from "@/providers/CartProvider";
 
 const AuthWrapper = () => {
-	useAuth();
-	return null;
+  useAuth();
+  return null;
 };
 export default function App() {
-  //make sure token hasnt expired
-  
-	return (
-    <Router>
-      <AuthWrapper/>
-      <Routes>
-        {/* Route for logging in */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/registration" element={<RegistrationPage />} />
-        
-        {/*Protected Routes - gotta find a way to make it simpler and just protect one and apply it to others*/}
-        <Route 
-          path="/admin" 
-          element={
-            <ProtectedRoute required_role="admin">
-              <AdminDashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route 
-          path="/admin/approval-requests" 
-          element={
-            <ProtectedRoute required_role="admin">
-              <AdminApprovalRequestsPage />
-            </ProtectedRoute>
-          }
-        />        
-        <Route
-          path="/employee"
-          element={
-            <ProtectedRoute required_role="employee">
-              <EmployeeDashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/employee/inventory-management"
-          element={
-            <ProtectedRoute required_role="employee">
-              <InventoryManagementPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/employee/approval-requests"
-          element={
-            <ProtectedRoute required_role="employee">
-              <EmployeeApprovalRequestsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/*"
-          element={
-            <>
-              <NavBar />
-              <Routes>
-                <Route path="*" element={<NotFound />} />
-                <Route path="/" element={<HomePage />} />
-                <Route path="/search" element={<SearchPage />} />
-                <Route path="/product/:product" element={<ProductPage />} />
-                <Route path="/unauthorized" element={<UnauthorizedPage />} />
-                <Route path="/checkout" element={<CheckoutPage />} />
+  return (
+    <CartProvider>
+      <Router>
+        <AuthWrapper />
+        <Routes>
+          {/* Route for logging in */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/registration" element={<RegistrationPage />} />
 
-                <Route path="/accinfo" element={<AccountInfoPage />} />
+          {/* Protected Routes */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute required_role="admin">
+                <AdminDashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/approval-requests"
+            element={
+              <ProtectedRoute required_role="admin">
+                <ApprovalRequestsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/*"
+            element={
+              <>
+                <NavBar />
+                <Routes>
+                  <Route path="*" element={<NotFound />} />
+                  {/* Root page */}
+                  <Route path="/" element={<HomePage />} />
+                  {/* Route for searching products */}
+                  <Route path="/search" element={<SearchPage />} />
+                  {/* Route for an individual product */}
+                  <Route path="/product/:product" element={<ProductPage />} />
+              <Route path="/unauthorized" element={<UnauthorizedPage />} />
+
+                  <Route path="/cart" element={<CartPage />} />
+                  <Route path="/checkout" element={<CheckoutPage />} />
+
+
+                                  <Route path="/accinfo" element={<AccountInfoPage />} />
                 <Route path="/accinfo/payment" element={<PaymentInfoPage />} />
                 <Route path="/accinfo/orders" element={<OrderHistoryPage />} />
-              </Routes>
-              <Footer />
-            </>
-          }
-        />
-
-      </Routes>
+                </Routes>
+                <Footer />
+              </>
+            }
+          />
+        </Routes>
 
         <ScrollToTopButton />
     </Router>
+    </CartProvider>
   );
 }
