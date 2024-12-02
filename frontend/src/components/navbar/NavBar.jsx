@@ -16,6 +16,7 @@ import { Menu as MenuIcon, Search, ShoppingCart, User, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCart } from "@/hooks/useCart";
+import { useAuth } from "@/hooks/useAuth";
 
 import "./navbar.css";
 
@@ -24,16 +25,14 @@ export default function NavBar() {
   const [query, setQuery] = useState(searchParams.get("q") || "");
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const { cart } = useCart();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
 
   useEffect(() => {
     setQuery(searchParams.get("q") || "");
-    setIsLoggedIn(
-      !!sessionStorage.getItem("token") || !!localStorage.getItem("token")
-    );
-  }, [searchParams]);
+    setIsLoggedIn(isLoggedIn);
+  }, [searchParams, isLoggedIn, setIsLoggedIn]);
 
   const handleSearch = (ev) => {
     ev.preventDefault();
