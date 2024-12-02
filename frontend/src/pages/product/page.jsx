@@ -13,6 +13,7 @@ import {
   Typography,
   Sheet,
   Stack,
+  dividerClasses,
 } from "@mui/joy";
 import { ChevronDown, Plus, Minus } from "lucide-react";
 import Product from "@/components/product/Product";
@@ -135,14 +136,15 @@ export default function ProductPage() {
 
   const handleRemoveFromCart = () => {
     removeFromCart(product.id);
+    setQuantity(1);
   };
 
   const handleIncrement = () => {
-    setQuantity((prev) => prev + 1);
+    updateCount(product.id, quantity + 1);
   };
 
   const handleDecrement = () => {
-    setQuantity((prev) => Math.max(1, prev - 1));
+    updateCount(product.id, quantity - 1);
   };
 
   return (
