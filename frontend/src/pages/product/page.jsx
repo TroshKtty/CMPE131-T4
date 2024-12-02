@@ -37,6 +37,7 @@ export default function ProductPage() {
   const { product: productParam } = useParams();
   const { cart, addToCart, updateCount, removeFromCart, hasCartInit } =
     useCart();
+  const { isLoggedIn } = useCart();
 
   const [product, setProduct] = useState(null);
   const [productImages, setProductImages] = useState([]);
@@ -211,47 +212,55 @@ export default function ProductPage() {
               alignItems="center"
               sx={{ mb: 2 }}
             >
-              <Sheet
-                variant="outlined"
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  borderRadius: "sm",
-                }}
-              >
-                <IconButton
-                  onClick={handleDecrement}
-                  disabled={quantity === 1}
-                  variant="plain"
+              {isLoggedIn && (
+                <Sheet
+                  variant="outlined"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    borderRadius: "sm",
+                  }}
                 >
-                  <Minus />
-                </IconButton>
-                <Typography
-                  level="body1"
-                  sx={{ mx: 2, minWidth: "2rem", textAlign: "center" }}
-                >
-                  {quantity}
-                </Typography>
-                <IconButton onClick={handleIncrement} variant="plain">
-                  <Plus />
-                </IconButton>
-              </Sheet>
-              {cart.find((item) => item.id === product.id) ? (
-                <Button
-                  color="danger"
-                  size="md"
-                  sx={{ flexGrow: 1 }}
-                  onClick={handleRemoveFromCart}
-                >
-                  Remove From Cart
-                </Button>
+                  <IconButton
+                    onClick={handleDecrement}
+                    disabled={quantity === 1}
+                    variant="plain"
+                  >
+                    <Minus />
+                  </IconButton>
+                  <Typography
+                    level="body1"
+                    sx={{ mx: 2, minWidth: "2rem", textAlign: "center" }}
+                  >
+                    {quantity}
+                  </Typography>
+                  <IconButton onClick={handleIncrement} variant="plain">
+                    <Plus />
+                  </IconButton>
+                </Sheet>
+              )}
+              {isLoggedIn ? (
+                cart.find((item) => item.id === product.id) ? (
+                  <Button
+                    color="danger"
+                    size="md"
+                    sx={{ flexGrow: 1 }}
+                    onClick={handleRemoveFromCart}
+                  >
+                    Remove From Cart
+                  </Button>
+                ) : (
+                  <Button
+                    size="md"
+                    sx={{ flexGrow: 1 }}
+                    onClick={handleAddToCart}
+                  >
+                    Add To Cart
+                  </Button>
+                )
               ) : (
-                <Button
-                  size="md"
-                  sx={{ flexGrow: 1 }}
-                  onClick={handleAddToCart}
-                >
-                  Add To Cart
+                <Button variant="soft" fullWidth>
+                  Sign In To Add
                 </Button>
               )}
             </Stack>
