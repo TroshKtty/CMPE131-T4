@@ -46,7 +46,7 @@ export default function ProductCard({ product }) {
   return (
     <Card className={styles.productCard}>
       <AspectRatio className={styles.productCardImgContainer} ratio="1">
-        <img
+        <img onClick={handleNavigate}
           className={styles.productCardImg}
           src={product.images.split(";")[0] ?? "https://placehold.co/400x300"}
           alt={product.name}
