@@ -4,8 +4,8 @@ import { useCart } from "@/hooks/useCart";
 import { Box, Button, Card, Grid, Stack, Typography } from "@mui/joy";
 import { ShoppingBasketIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import styles from "./styles.module.css";
 import { useNavigate } from "react-router-dom";
+import styles from "./styles.module.css";
 
 export default function CartPage() {
   const navigate = useNavigate();
