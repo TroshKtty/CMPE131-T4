@@ -34,7 +34,7 @@ function decomposeString(str) {
 // TODO: refactor
 export default function ProductPage() {
   const { product: productParam } = useParams();
-  const { cart, addToCart, updateQuantity, removeFromCart, hasCartInit } =
+  const { cart, addToCart, updateCount, removeFromCart, hasCartInit } =
     useCart();
 
   const [product, setProduct] = useState(null);
@@ -53,9 +53,9 @@ export default function ProductPage() {
         const ogCount = item.count;
         const quantity = !Number.isNaN(ogCount) ? ogCount : 1;
         setQuantity(quantity);
-        console.log(`${item.name} found in cart with quantity ${quantity}`);
+        // console.log(`${item.name} found in cart with quantity ${quantity}`);
       } else {
-        console.log("Item was not found in cart");
+        // console.log("Item was not found in cart");
       }
     }
   }, [productParam, hasCartInit, cart]);
@@ -84,6 +84,8 @@ export default function ProductPage() {
               price: Number.parseFloat(resp.data.price, 10),
               weight: Number.parseFloat(resp.data.weight, 10),
               descriptions: resp.data.descriptions.split(";"),
+              quantity: Number.parseInt(resp.data.quantity, 10),
+              count: 0,
               specifications: decomposeString(resp.data.specifications),
               nutritionInfo: decomposeString(resp.data.nutritionInfo),
             });
@@ -114,7 +116,7 @@ export default function ProductPage() {
 
   useEffect(() => {
     if (hasCartInit && productData !== null) {
-      updateQuantity(productData.id, quantity);
+      updateCount(productData.id, quantity);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quantity]);
