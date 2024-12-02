@@ -50,8 +50,8 @@ export default function ProductPage() {
         (item) => item.id === Number.parseInt(productParam, 10)
       );
       if (item) {
-        const ogQuantity = item.quantity;
-        const quantity = !Number.isNaN(ogQuantity) ? ogQuantity : 1;
+        const ogCount = item.count;
+        const quantity = !Number.isNaN(ogCount) ? ogCount : 1;
         setQuantity(quantity);
         console.log(`${item.name} found in cart with quantity ${quantity}`);
       } else {
@@ -89,7 +89,7 @@ export default function ProductPage() {
             });
             setProductImages(resp.data.images.split(";"));
           } else {
-            console.log("product not found?", resp);
+            console.log("Product not found?", resp);
             setProductData(null);
           }
         } catch (error) {
