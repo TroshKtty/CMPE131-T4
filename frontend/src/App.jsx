@@ -13,6 +13,7 @@ import ProductPage from "@/pages/product/page";
 import SearchPage from "@/pages/search/page";
 
 import CartPage from "@/pages/cart/page";
+import CheckoutPage from "@/pages/checkout/page";
 
 import NavBar from "@/components/navbar/NavBar";
 import Footer from "@/components/footer/footer";
@@ -25,8 +26,8 @@ import useAuth from "./utils/auth_check";
 import { CartProvider } from "@/providers/CartProvider";
 
 const AuthWrapper = () => {
-	useAuth();
-	return null;
+  useAuth();
+  return null;
 };
 export default function App() {
   //make sure token hasnt expired
@@ -77,6 +78,7 @@ export default function App() {
                   {/* Route for an individual product */}
                   <Route path="/product/:product" element={<ProductPage />} />
                   <Route path="/cart" element={<CartPage />} />
+                  <Route path="/checkout" element={<CheckoutPage />} />
                   <Route path="/unauthorized" element={<UnauthorizedPage />} />
                 </Routes>
                 <Footer />

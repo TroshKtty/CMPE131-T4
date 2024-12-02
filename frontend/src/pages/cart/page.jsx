@@ -3,10 +3,13 @@ import Loader from "@/components/loader/loader";
 import { useCart } from "@/hooks/useCart";
 import { Box, Button, Card, Grid, Stack, Typography } from "@mui/joy";
 import { ShoppingBasketIcon } from "lucide-react";
-import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
+import styles from "./styles.module.css";
+import { useNavigate } from "react-router-dom";
 
 export default function CartPage() {
+  const navigate = useNavigate();
+
   const { cart, hasCartInit } = useCart();
   const [subtotal, setSubtotal] = useState(0);
   const [freeShipping, setFreeShipping] = useState(false);
@@ -22,6 +25,10 @@ export default function CartPage() {
     setSubtotal(total);
     setFreeShipping(total < 20);
   }, [cart]);
+
+  const handleCheckout = () => {
+    navigate("/checkout");
+  };
 
   if (!hasCartInit) {
     return <Loader />;
@@ -123,7 +130,12 @@ export default function CartPage() {
                 ${(subtotal + (freeShipping ? 0 : 5)).toFixed(2)}
               </Typography>
             </div>
-            <Button fullWidth size="lg" color="primary">
+            <Button
+              fullWidth
+              size="lg"
+              color="primary"
+              onClick={handleCheckout}
+            >
               Continue to Checkout
             </Button>
           </Stack>
