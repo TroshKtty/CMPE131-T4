@@ -208,7 +208,7 @@ export default function NavBar() {
             fullWidth
             sx={{ color: "common.white" }}
           >
-            Cart
+            Cart {cart.length > 0 ? `(${cart.length})` : ""}
           </Button>
           {isLoggedIn ? (
             <>
