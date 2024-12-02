@@ -41,7 +41,7 @@ export default function ProductPage() {
   const [productImages, setProductImages] = useState([]);
   const [productData, setProductData] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (productParam && hasCartInit) {
