@@ -7,14 +7,6 @@
   gap: 8px;
 }
 
-.cartHeader {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-  margin-left: 4px;
-}
-
 .cartItem {
   display: flex;
   flex-direction: column;
@@ -24,7 +16,7 @@
 .cartItemStack {
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  overflow-y: auto;
   gap: 8px;
 }
 
