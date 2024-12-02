@@ -28,9 +28,9 @@ export const CartProvider = ({ children }) => {
         );
         localStorage.setItem("cart", JSON.stringify([]));
       }
-
-      setHasCartInit(true);
     }
+
+    setHasCartInit(true);
   }, []);
 
   useEffect(() => {
