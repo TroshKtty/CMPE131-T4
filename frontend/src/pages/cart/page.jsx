@@ -12,6 +12,7 @@ export default function CartPage() {
     return <Loader />;
   }
 
+  // I don't think this'll ever happen, because this should already be dealt with in CartController
   if (!Array.isArray(cart)) {
     return (
       <Typography level="h4">
@@ -45,10 +46,34 @@ export default function CartPage() {
       {/* Items in cart */}
       <Grid xs={12} md={8}>
         <Card variant="soft" className={styles.cartItem}>
-          <div className={styles.cartHeader}>
-            <ShoppingBagIcon size={24} sx={{ mt: 8 }} />
-            <Typography level="h3">Shopping Cart</Typography>
-          </div>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              justifyContent: { xs: "center", sm: "space-between" },
+              alignItems: { xs: "center", sm: "flex-start" },
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                gap: "8px",
+              }}
+            >
+              {/* <Box
+                sx={{ display: { xs: "none", sm: "inline-flex", mt: 4, p: 0 } }}
+              >
+                {<ShoppingBagIcon size={24} sx={{ mt: 8, p: 2 }} />}
+              </Box> */}
+              <Typography level="h3">Shopping Cart</Typography>
+            </Box>
+            <Box sx={{ display: "flex" }}>
+              <Typography level="h3">
+                {cart.length} item{cart.length > 1 ? "s" : ""}
+              </Typography>
+            </Box>
+          </Box>
           <Box
             className={styles.cartItemStack}
             sx={{
@@ -63,9 +88,11 @@ export default function CartPage() {
           </Box>
         </Card>
       </Grid>
+
       {/* Order summary */}
       <Grid xs={12} md={4}>
         <Card
+          variant="soft"
           sx={{
             position: "sticky",
           }}
