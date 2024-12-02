@@ -1,12 +1,27 @@
 import CartItem from "@/components/cart-item/cart-item";
+import Loader from "@/components/loader/loader";
 import { useCart } from "@/hooks/useCart";
 import { Box, Button, Card, Grid, Stack, Typography } from "@mui/joy";
-import { ShoppingBagIcon, ShoppingBasketIcon } from "lucide-react";
+import { ShoppingBasketIcon } from "lucide-react";
 import styles from "./styles.module.css";
-import Loader from "@/components/loader/loader";
+import { useEffect, useState } from "react";
 
 export default function CartPage() {
   const { cart, hasCartInit } = useCart();
+  const [subtotal, setSubtotal] = useState(0);
+  const [freeShipping, setFreeShipping] = useState(false);
+
+  useEffect(() => {
+    if (!Array.isArray(cart)) return;
+
+    const total = cart.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
+
+    setSubtotal(total);
+    setFreeShipping(total < 20);
+  }, [cart]);
 
   if (!hasCartInit) {
     return <Loader />;
@@ -20,13 +35,6 @@ export default function CartPage() {
       </Typography>
     );
   }
-
-  const cartTotal = cart.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
-
-  const estimatedTotal = cartTotal;
 
   if (cart.length === 0) {
     return (
@@ -103,11 +111,17 @@ export default function CartPage() {
           <Stack spacing={2}>
             <div className={styles.summaryItem}>
               <Typography>Subtotal</Typography>
-              <Typography>${cartTotal.toFixed(2)}</Typography>
+              <Typography>${subtotal.toFixed(2)}</Typography>
+            </div>
+            <div className={styles.summaryItem}>
+              <Typography>Shipping</Typography>
+              <Typography>{freeShipping ? "Free" : "$5"}</Typography>
             </div>
             <div className={styles.summaryItem}>
               <Typography level="h6">Estimated Total</Typography>
-              <Typography level="h6">${estimatedTotal.toFixed(2)}</Typography>
+              <Typography level="h6">
+                ${(subtotal + (freeShipping ? 0 : 5)).toFixed(2)}
+              </Typography>
             </div>
             <Button fullWidth size="lg" color="primary">
               Continue to Checkout
