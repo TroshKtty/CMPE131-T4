@@ -44,21 +44,33 @@ export const CartProvider = ({ children }) => {
 
   // Add item to the cart
   const addToCart = (item) => {
-    console.log("item to add", item);
+    console.log("Item to add", item);
+
     setCart((prevCart) => {
       const existingItem = prevCart.find((cartItem) => cartItem.id === item.id);
       if (existingItem) {
-        // console.log(`updated quantity of ${item.name}`);
-        // Update quantity if the item already exists in the cart
+        console.log(
+          `Updating count of ${existingItem.name} from ${
+            existingItem.count
+          } to ${existingItem.count + 1}`
+        );
+
+        // Update count if the item already exists in the cart
         return prevCart.map((cartItem) =>
           cartItem.id === item.id
-            ? { ...cartItem, quantity: cartItem.quantity + 1 } // Changed from item.quantity to 1
+            ? { ...cartItem, count: cartItem.count + 1 }
             : cartItem
         );
       } else {
-        // console.log(`${item.name} was added to cart`);
         // Add new item to the cart
-        return [...prevCart, { ...item, quantity: 1 }];
+        const newItem = {
+          ...item,
+        };
+        newItem.count ??= 1;
+
+        console.log("Adding to cart:", newItem);
+
+        return [...prevCart, newItem];
       }
     });
   };
@@ -68,19 +80,28 @@ export const CartProvider = ({ children }) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== id));
   };
 
-  // Update quantity of an item in the cart
-  const updateQuantity = (id, quantity) => {
-    if (quantity < 1) return; // Prevent negative quantity
+  // Updates the count of an item in the cart
+  const updateCount = (id, count) => {
+    if (count < 1) {
+      return;
+    }
+
     setCart((prevCart) =>
       prevCart.map((item) =>
-        item.id === id ? { ...item, quantity: quantity } : item
+        item.id === id ? { ...item, count: count } : item
       )
     );
   };
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, updateQuantity, hasCartInit }}
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        updateCount,
+        hasCartInit,
+      }}
     >
       {children}
     </CartContext.Provider>
