@@ -44,6 +44,7 @@ export default function SearchPage() {
     const fetchProducts = async () => {
       try {
         const response = await axios.get("http://localhost:3000/products/all");
+
         setProducts(response.data);
         setFilteredProducts(response.data);
 
