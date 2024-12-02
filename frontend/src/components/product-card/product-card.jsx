@@ -15,10 +15,10 @@ import { useNavigate } from "react-router-dom";
 
 export default function ProductCard({ product }) {
   const navigate = useNavigate();
-  const { cart, addToCart, updateQuantity, removeFromCart } = useCart();
+  const { cart, addToCart, updateCount, removeFromCart } = useCart();
 
   const cartItem = cart.find((item) => item.id === product.id);
-  const quantity = cartItem ? cartItem.quantity : 0;
+  const count = cartItem ? cartItem.count : 0;
 
   const handleNavigate = () => {
     navigate(`/product/${product.id}`);
@@ -31,25 +31,28 @@ export default function ProductCard({ product }) {
   const handleInputQuantityChange = (ev) => {
     const newQuantity = Number.parseInt(ev.target.value, 10);
 
+    // Don't allow a quantity greater than what's available
     if (!Number.isNaN(newQuantity) && newQuantity <= product.quantity) {
-      handleBtnQuantityChange(newQuantity);
+      handleBtnCountChange(newQuantity);
     }
   };
 
-  const handleBtnQuantityChange = (newQuantity) => {
+  const handleBtnCountChange = (newQuantity) => {
+    // Remove from cart
     if (newQuantity === 0) {
       removeFromCart(product.id);
     } else {
+      // Don't allow a quantity greater than what's available
       if (newQuantity > product.quantity) {
         return;
       }
 
-      handleUpdateQuantity(newQuantity);
+      handleUpdateCount(newQuantity);
     }
   };
 
-  const handleUpdateQuantity = (newQuantity) => {
-    updateQuantity(product.id, newQuantity);
+  const handleUpdateCount = (newCount) => {
+    updateCount(product.id, newCount);
   };
 
   return (
@@ -76,7 +79,7 @@ export default function ProductCard({ product }) {
           ${product.price}
         </Typography>
         <div style={{ height: "40px" }}>
-          {quantity === 0 ? (
+          {count === 0 ? (
             <Button
               fullWidth
               variant="solid"
@@ -93,7 +96,7 @@ export default function ProductCard({ product }) {
                 size="sm"
                 variant="outlined"
                 color="neutral"
-                onClick={() => handleBtnQuantityChange(quantity - 1)}
+                onClick={() => handleBtnCountChange(count - 1)}
               >
                 <Minus size={16} />
               </IconButton>
@@ -101,12 +104,12 @@ export default function ProductCard({ product }) {
                 type="number"
                 className={styles.inputContainer}
                 size="sm"
-                value={quantity}
+                value={count}
                 onChange={handleInputQuantityChange}
                 slotProps={{
                   input: {
                     min: 0,
-                    max: product.quantity, // ?
+                    max: product.quantity,
                     step: 1,
                   },
                 }}
@@ -131,8 +134,8 @@ export default function ProductCard({ product }) {
                 size="sm"
                 variant="outlined"
                 color="neutral"
-                onClick={() => handleBtnQuantityChange(quantity + 1)}
-                disabled={quantity >= product.quantity}
+                onClick={() => handleBtnCountChange(count + 1)}
+                disabled={count >= product.quantity}
               >
                 <Plus size={16} />
               </IconButton>

@@ -15,7 +15,7 @@ import styles from "./cart-item.module.css";
 import { useNavigate } from "react-router-dom";
 
 export default function CartItem({ product }) {
-  const { updateQuantity, removeFromCart } = useCart();
+  const { cart, updateCount, removeFromCart } = useCart();
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -71,17 +71,20 @@ export default function CartItem({ product }) {
                 size="sm"
                 variant="soft"
                 color="neutral"
-                onClick={() => updateQuantity(product.id, product.quantity - 1)}
-                disabled={product.quantity <= 1}
+                onClick={() => updateCount(product.id, product.count - 1)}
+                disabled={product.count <= 1}
               >
                 <CircleMinusIcon size={18} />
               </IconButton>
-              <Typography textAlign="center">{product.quantity}</Typography>
+              <Typography textAlign="center">{product.count}</Typography>
               <IconButton
                 size="sm"
                 variant="soft"
                 color="neutral"
-                onClick={() => updateQuantity(product.id, product.quantity + 1)}
+                onClick={() => updateCount(product.id, product.count + 1)}
+                disabled={
+                  cart.find((item) => item.id === product.id)?.count >= product.quantity
+                }
               >
                 <CirclePlusIcon size={18} />
               </IconButton>
@@ -95,7 +98,7 @@ export default function CartItem({ product }) {
               Remove
             </Button>
             <Typography level="title-md">
-              ${(product.price * product.quantity).toFixed(2)}
+              ${(product.price * product.count).toFixed(2)}
             </Typography>
           </Box>
         </Sheet>
@@ -111,6 +114,7 @@ CartItem.propTypes = {
     price: PropTypes.string.isRequired,
     weight: PropTypes.string.isRequired,
     images: PropTypes.string.isRequired,
-    quantity: PropTypes.number.isRequired,
+    quantity: PropTypes.number.isRequired, // The inventory quantity
+    count: PropTypes.number.isRequired, // The quantity in the cart
   }).isRequired,
 };

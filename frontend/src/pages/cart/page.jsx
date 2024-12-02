@@ -18,7 +18,7 @@ export default function CartPage() {
     if (!Array.isArray(cart)) return;
 
     const total = cart.reduce(
-      (acc, item) => acc + item.price * item.quantity,
+      (acc, item) => acc + item.price * item.count,
       0
     );
 
