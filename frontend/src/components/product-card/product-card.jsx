@@ -30,7 +30,8 @@ export default function ProductCard({ product }) {
 
   const handleInputQuantityChange = (ev) => {
     const newQuantity = Number.parseInt(ev.target.value, 10);
-    if (!Number.isNaN(newQuantity) && newQuantity >= 0) {
+
+    if (!Number.isNaN(newQuantity) && newQuantity <= product.quantity) {
       handleBtnQuantityChange(newQuantity);
     }
   };
@@ -39,14 +40,23 @@ export default function ProductCard({ product }) {
     if (newQuantity === 0) {
       removeFromCart(product.id);
     } else {
-      updateQuantity(product.id, newQuantity);
+      if (newQuantity > product.quantity) {
+        return;
+      }
+
+      handleUpdateQuantity(newQuantity);
     }
+  };
+
+  const handleUpdateQuantity = (newQuantity) => {
+    updateQuantity(product.id, newQuantity);
   };
 
   return (
     <Card className={styles.productCard}>
       <AspectRatio className={styles.productCardImgContainer} ratio="1">
-        <img onClick={handleNavigate}
+        <img
+          onClick={handleNavigate}
           className={styles.productCardImg}
           src={product.images.split(";")[0] ?? "https://placehold.co/400x300"}
           alt={product.name}
@@ -88,6 +98,7 @@ export default function ProductCard({ product }) {
                 <Minus size={16} />
               </IconButton>
               <Input
+                type="number"
                 className={styles.inputContainer}
                 size="sm"
                 value={quantity}
@@ -95,9 +106,8 @@ export default function ProductCard({ product }) {
                 slotProps={{
                   input: {
                     min: 0,
-                    max: 99, // ?
+                    max: product.quantity, // ?
                     step: 1,
-                    type: "number",
                   },
                 }}
                 sx={{
@@ -122,6 +132,7 @@ export default function ProductCard({ product }) {
                 variant="outlined"
                 color="neutral"
                 onClick={() => handleBtnQuantityChange(quantity + 1)}
+                disabled={quantity >= product.quantity}
               >
                 <Plus size={16} />
               </IconButton>
@@ -140,5 +151,6 @@ ProductCard.propTypes = {
     price: PropTypes.string.isRequired,
     weight: PropTypes.string.isRequired,
     images: PropTypes.string.isRequired,
+    quantity: PropTypes.number.isRequired,
   }).isRequired,
 };
