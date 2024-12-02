@@ -29,6 +29,7 @@ const SORT_OPTIONS = [
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState({});
