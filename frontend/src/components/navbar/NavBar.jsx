@@ -31,8 +31,7 @@ export default function NavBar() {
 
   useEffect(() => {
     setQuery(searchParams.get("q") || "");
-    setIsLoggedIn(isLoggedIn);
-  }, [searchParams, isLoggedIn, setIsLoggedIn]);
+  }, [searchParams]);
 
   const handleSearch = (ev) => {
     ev.preventDefault();
