@@ -14,7 +14,7 @@ const getCart = async (req, res) => {
         model: CartItem,
         include: {
           model: Product,
-          attributes: ["id", "category", "price", "weight", "images", "name"], // Product attributes
+          attributes: ["id", "category", "price", "weight", "images", "name", "quantity"], // Product attributes
         },
       },
     });
@@ -26,13 +26,14 @@ const getCart = async (req, res) => {
 
     // Return cart items
     const cartItems = cart.CartItems.map((cartItem) => ({
-      id: cartItem.id,
-      count: cartItem.quantity,
-      category: cartItem.Product.category,
-      images: cartItem.Product.images,
-      name: cartItem.Product.name,
-      price: cartItem.Product.price,
-      weight: cartItem.Product.weight,
+        id: cartItem.Product.id,
+        category: cartItem.Product.category,
+        quantity: cartItem.Product.quantity,
+        count: cartItem.quantity,
+        images: cartItem.Product.images,
+        name: cartItem.Product.name,
+        price: cartItem.Product.price,
+        weight: cartItem.Product.weight,
     }));
 
     res.status(200).json({ cart: cartItems });
@@ -88,10 +89,10 @@ const addToCart = async (req, res) => {
 
 const removeFromCart = async(req,res) => {
     try {
-        const userId = req.user.id; //The User
-        const { productId } = req.body; // Product to be removed
+        const userId = req.user.user_id; //The User
+        const { itemId } = req.body; // Product to be removed
     
-        if (!productId) {
+        if (!itemId) {
           return res.status(400).json({ message: "Product ID is required." });
         }
     
@@ -106,7 +107,7 @@ const removeFromCart = async(req,res) => {
         const deletedItem = await CartItem.destroy({
           where: {
             cart_id: userCart.id,
-            product_id: productId,
+            product_id: itemId,
           },
         });
     
@@ -122,7 +123,49 @@ const removeFromCart = async(req,res) => {
 }
 
 const updateCount = async(req,res) => {
+    try {
+        const userId = req.user.user_id; 
+        const { itemId, itemCount } = req.body; 
 
+    
+        if (!itemId || !itemCount || itemCount < 0) {
+          return res.status(400).json({ message: "Invalid product ID or quantity." });
+        }
+    
+        // Find the user's cart
+        const userCart = await Cart.findOne({ where: { customer_id: userId } });
+    
+        if (!userCart) {
+          return res.status(404).json({ message: "Cart not found for user." });
+        }
+    
+        // Find the cart item to update
+        const cartItem = await CartItem.findOne({
+          where: {
+            cart_id: userCart.id,
+            product_id: itemId,
+          },
+        });
+    
+        if (!cartItem) {
+          return res.status(404).json({ message: "Item not found in cart." });
+        }
+
+        //Make sure there is enough inventory to give to the user
+        const product = await Product.findByPk(itemId);
+
+        if (product.quantity < itemCount)
+            return res.status(409).json({message: "Not enough items in inventory"});
+    
+        // Update the quantity
+        cartItem.quantity = itemCount;
+        await cartItem.save();
+    
+        return res.status(200).json({ message: "Cart updated successfully." });
+      } catch (error) {
+        console.error("Error updating cart:", error);
+        return res.status(500).json({ message: "Internal server error." });
+      }
 }
 
-module.exports = {getCart, addToCart, removeFromCart};
+module.exports = {getCart, addToCart, removeFromCart, updateCount};
