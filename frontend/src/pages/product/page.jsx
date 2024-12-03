@@ -13,6 +13,7 @@ import {
   Typography,
   Sheet,
   Stack,
+  dividerClasses,
 } from "@mui/joy";
 import { ChevronDown, Plus, Minus } from "lucide-react";
 import Product from "@/components/product/Product";
@@ -34,8 +35,9 @@ function decomposeString(str) {
 // TODO: refactor
 export default function ProductPage() {
   const { product: productParam } = useParams();
-  const { cart, addToCart, updateQuantity, removeFromCart, hasCartInit } =
+  const { cart, addToCart, updateCount, removeFromCart, hasCartInit } =
     useCart();
+  const { isLoggedIn } = useCart();
 
   const [product, setProduct] = useState(null);
   const [productImages, setProductImages] = useState([]);
@@ -50,12 +52,12 @@ export default function ProductPage() {
         (item) => item.id === Number.parseInt(productParam, 10)
       );
       if (item) {
-        const ogQuantity = item.quantity;
-        const quantity = !Number.isNaN(ogQuantity) ? ogQuantity : 1;
+        const ogCount = item.count;
+        const quantity = !Number.isNaN(ogCount) ? ogCount : 1;
         setQuantity(quantity);
-        console.log(`${item.name} found in cart with quantity ${quantity}`);
+        // console.log(`${item.name} found in cart with quantity ${quantity}`);
       } else {
-        console.log("Item was not found in cart");
+        // console.log("Item was not found in cart");
       }
     }
   }, [productParam, hasCartInit, cart]);
@@ -84,12 +86,14 @@ export default function ProductPage() {
               price: Number.parseFloat(resp.data.price, 10),
               weight: Number.parseFloat(resp.data.weight, 10),
               descriptions: resp.data.descriptions.split(";"),
+              quantity: Number.parseInt(resp.data.quantity, 10),
+              count: 0,
               specifications: decomposeString(resp.data.specifications),
               nutritionInfo: decomposeString(resp.data.nutritionInfo),
             });
             setProductImages(resp.data.images.split(";"));
           } else {
-            console.log("product not found?", resp);
+            console.log("Product not found?", resp);
             setProductData(null);
           }
         } catch (error) {
@@ -114,7 +118,7 @@ export default function ProductPage() {
 
   useEffect(() => {
     if (hasCartInit && productData !== null) {
-      updateQuantity(productData.id, quantity);
+      updateCount(productData.id, quantity);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quantity]);
@@ -133,14 +137,15 @@ export default function ProductPage() {
 
   const handleRemoveFromCart = () => {
     removeFromCart(product.id);
+    setQuantity(1);
   };
 
   const handleIncrement = () => {
-    setQuantity((prev) => prev + 1);
+    updateCount(product.id, quantity + 1);
   };
 
   const handleDecrement = () => {
-    setQuantity((prev) => Math.max(1, prev - 1));
+    updateCount(product.id, quantity - 1);
   };
 
   return (
@@ -207,47 +212,55 @@ export default function ProductPage() {
               alignItems="center"
               sx={{ mb: 2 }}
             >
-              <Sheet
-                variant="outlined"
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  borderRadius: "sm",
-                }}
-              >
-                <IconButton
-                  onClick={handleDecrement}
-                  disabled={quantity === 1}
-                  variant="plain"
+              {isLoggedIn && (
+                <Sheet
+                  variant="outlined"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    borderRadius: "sm",
+                  }}
                 >
-                  <Minus />
-                </IconButton>
-                <Typography
-                  level="body1"
-                  sx={{ mx: 2, minWidth: "2rem", textAlign: "center" }}
-                >
-                  {quantity}
-                </Typography>
-                <IconButton onClick={handleIncrement} variant="plain">
-                  <Plus />
-                </IconButton>
-              </Sheet>
-              {cart.find((item) => item.id === product.id) ? (
-                <Button
-                  color="danger"
-                  size="md"
-                  sx={{ flexGrow: 1 }}
-                  onClick={handleRemoveFromCart}
-                >
-                  Remove From Cart
-                </Button>
+                  <IconButton
+                    onClick={handleDecrement}
+                    disabled={quantity === 1}
+                    variant="plain"
+                  >
+                    <Minus />
+                  </IconButton>
+                  <Typography
+                    level="body1"
+                    sx={{ mx: 2, minWidth: "2rem", textAlign: "center" }}
+                  >
+                    {quantity}
+                  </Typography>
+                  <IconButton onClick={handleIncrement} variant="plain">
+                    <Plus />
+                  </IconButton>
+                </Sheet>
+              )}
+              {isLoggedIn ? (
+                cart.find((item) => item.id === product.id) ? (
+                  <Button
+                    color="danger"
+                    size="md"
+                    sx={{ flexGrow: 1 }}
+                    onClick={handleRemoveFromCart}
+                  >
+                    Remove From Cart
+                  </Button>
+                ) : (
+                  <Button
+                    size="md"
+                    sx={{ flexGrow: 1 }}
+                    onClick={handleAddToCart}
+                  >
+                    Add To Cart
+                  </Button>
+                )
               ) : (
-                <Button
-                  size="md"
-                  sx={{ flexGrow: 1 }}
-                  onClick={handleAddToCart}
-                >
-                  Add To Cart
+                <Button variant="soft" fullWidth>
+                  Sign In To Add
                 </Button>
               )}
             </Stack>

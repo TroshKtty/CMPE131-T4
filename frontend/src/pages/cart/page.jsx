@@ -1,17 +1,40 @@
 import CartItem from "@/components/cart-item/cart-item";
+import Loader from "@/components/loader/loader";
 import { useCart } from "@/hooks/useCart";
 import { Box, Button, Card, Grid, Stack, Typography } from "@mui/joy";
-import { ShoppingBagIcon, ShoppingBasketIcon } from "lucide-react";
+import { ShoppingBasketIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
-import Loader from "@/components/loader/loader";
 
 export default function CartPage() {
+  const navigate = useNavigate();
+
   const { cart, hasCartInit } = useCart();
+  const [subtotal, setSubtotal] = useState(0);
+  const [freeShipping, setFreeShipping] = useState(false);
+
+  useEffect(() => {
+    if (!Array.isArray(cart)) return;
+
+    const total = cart.reduce(
+      (acc, item) => acc + item.price * item.count,
+      0
+    );
+
+    setSubtotal(total);
+    setFreeShipping(total < 20);
+  }, [cart]);
+
+  const handleCheckout = () => {
+    navigate("/checkout");
+  };
 
   if (!hasCartInit) {
     return <Loader />;
   }
 
+  // I don't think this'll ever happen, because this should already be dealt with in CartController
   if (!Array.isArray(cart)) {
     return (
       <Typography level="h4">
@@ -19,13 +42,6 @@ export default function CartPage() {
       </Typography>
     );
   }
-
-  const cartTotal = cart.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
-
-  const estimatedTotal = cartTotal;
 
   if (cart.length === 0) {
     return (
@@ -45,10 +61,34 @@ export default function CartPage() {
       {/* Items in cart */}
       <Grid xs={12} md={8}>
         <Card variant="soft" className={styles.cartItem}>
-          <div className={styles.cartHeader}>
-            <ShoppingBagIcon size={24} sx={{ mt: 8 }} />
-            <Typography level="h3">Shopping Cart</Typography>
-          </div>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              justifyContent: { xs: "center", sm: "space-between" },
+              alignItems: { xs: "center", sm: "flex-start" },
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                gap: "8px",
+              }}
+            >
+              {/* <Box
+                sx={{ display: { xs: "none", sm: "inline-flex", mt: 4, p: 0 } }}
+              >
+                {<ShoppingBagIcon size={24} sx={{ mt: 8, p: 2 }} />}
+              </Box> */}
+              <Typography level="h3">Shopping Cart</Typography>
+            </Box>
+            <Box sx={{ display: "flex" }}>
+              <Typography level="h3">
+                {cart.length} item{cart.length > 1 ? "s" : ""}
+              </Typography>
+            </Box>
+          </Box>
           <Box
             className={styles.cartItemStack}
             sx={{
@@ -63,9 +103,11 @@ export default function CartPage() {
           </Box>
         </Card>
       </Grid>
+
       {/* Order summary */}
       <Grid xs={12} md={4}>
         <Card
+          variant="soft"
           sx={{
             position: "sticky",
           }}
@@ -76,13 +118,24 @@ export default function CartPage() {
           <Stack spacing={2}>
             <div className={styles.summaryItem}>
               <Typography>Subtotal</Typography>
-              <Typography>${cartTotal.toFixed(2)}</Typography>
+              <Typography>${subtotal.toFixed(2)}</Typography>
+            </div>
+            <div className={styles.summaryItem}>
+              <Typography>Shipping</Typography>
+              <Typography>{freeShipping ? "Free" : "$5"}</Typography>
             </div>
             <div className={styles.summaryItem}>
               <Typography level="h6">Estimated Total</Typography>
-              <Typography level="h6">${estimatedTotal.toFixed(2)}</Typography>
+              <Typography level="h6">
+                ${(subtotal + (freeShipping ? 0 : 5)).toFixed(2)}
+              </Typography>
             </div>
-            <Button fullWidth size="lg" color="primary">
+            <Button
+              fullWidth
+              size="lg"
+              color="primary"
+              onClick={handleCheckout}
+            >
               Continue to Checkout
             </Button>
           </Stack>

@@ -16,6 +16,7 @@ import { Menu as MenuIcon, Search, ShoppingCart, User, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCart } from "@/hooks/useCart";
+import { useAuth } from "@/hooks/useAuth";
 
 import "./navbar.css";
 
@@ -24,15 +25,16 @@ export default function NavBar() {
   const [query, setQuery] = useState(searchParams.get("q") || "");
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const { cart } = useCart();
+  const { isLoggedIn, logout } = useAuth();
+
+  // useEffect(() => {
+  //   console.log("isLoggedIn", isLoggedIn);
+  // }, [isLoggedIn]);
 
   useEffect(() => {
     setQuery(searchParams.get("q") || "");
-    setIsLoggedIn(
-      !!sessionStorage.getItem("token") || !!localStorage.getItem("token")
-    );
   }, [searchParams]);
 
   const handleSearch = (ev) => {
@@ -42,12 +44,7 @@ export default function NavBar() {
     navigate(`/search?${target}`);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    sessionStorage.removeItem("token");
-    setIsLoggedIn(false);
-    navigate("/");
-  };
+  const handleLogout = () => logout(false);
 
   const clearSearch = () => setQuery("");
 
@@ -120,14 +117,16 @@ export default function NavBar() {
               alignItems: "center",
             }}
           >
-            <Button
-              startDecorator={<ShoppingCart size={20} />}
-              onClick={() => navigate("/cart")}
-            >
-              <Typography textColor="common.white">
-                Cart {cart.length > 0 ? `(${cart.length})` : ""}
-              </Typography>
-            </Button>
+            {isLoggedIn && (
+              <Button
+                startDecorator={<ShoppingCart size={20} />}
+                onClick={() => navigate("/cart")}
+              >
+                <Typography textColor="common.white">
+                  Cart {cart.length > 0 ? `(${cart.length})` : ""}
+                </Typography>
+              </Button>
+            )}
             {isLoggedIn ? (
               <Dropdown>
                 <MenuButton
@@ -201,15 +200,18 @@ export default function NavBar() {
             p: 2,
           }}
         >
-          <Button
-            variant="plain"
-            color="neutral"
-            onClick={() => navigate("/cart")}
-            fullWidth
-            sx={{ color: "common.white" }}
-          >
-            Cart
-          </Button>
+          {isLoggedIn && (
+            <Button
+              variant="plain"
+              color="neutral"
+              onClick={() => navigate("/cart")}
+              startDecorator={<ShoppingCart size={20} />}
+              fullWidth
+              sx={{ color: "common.white" }}
+            >
+              Cart {cart.length > 0 ? `(${cart.length})` : ""}
+            </Button>
+          )}
           {isLoggedIn ? (
             <>
               <Button

@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import "./styles.css";
 
-import CategorySidebar from "@/category-sidebar/category-sidebar";
+import CategorySidebar from "@/components/category-sidebar/category-sidebar";
 import Loader from "@/components/loader/loader";
 import ProductGrid from "@/components/product-grid/product-grid";
 
@@ -29,6 +29,7 @@ const SORT_OPTIONS = [
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState({});
@@ -44,6 +45,7 @@ export default function SearchPage() {
     const fetchProducts = async () => {
       try {
         const response = await axios.get("http://localhost:3000/products/all");
+
         setProducts(response.data);
         setFilteredProducts(response.data);
 

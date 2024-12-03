@@ -9,22 +9,25 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Link,
   Typography,
 } from "@mui/joy";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
-import { jwtDecode } from "jwt-decode";
 import { EyeOff, Eye, X } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function LoginPage() {
+  const { isLoggedIn, login } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (sessionStorage.getItem("token") || localStorage.getItem("token"))
+    if (isLoggedIn) {
       navigate("/");
-  }, [navigate]);
+      // console.log("isloggedin so navigating back to home");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoggedIn]);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -46,16 +49,10 @@ export default function LoginPage() {
 
       console.log("Logged in successfully!");
 
-      const token = response.data.token;
-      // console.log("token", token);
-
-      const role = jwtDecode(token).role;
-      if (role === "admin") navigate("/admin");
-      else if (role === "employee") navigate("/");
-      else navigate("/");
+      login(response.data.token, rememberMe);
     } catch (error) {
       // alert("Invalid username or password. Please try again.");
-      console.log("Login failed", error);
+      console.error("Login failed", error);
       if (error instanceof AxiosError && error?.response?.data?.message) {
         setMsg(error.response.data.message);
       } else {
