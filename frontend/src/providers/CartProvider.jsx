@@ -1,9 +1,9 @@
+import axios from "axios";
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const CartContext = createContext(null);
-
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   // We only want to save the cart to localStorage after the initial load, not during it
@@ -38,14 +38,13 @@ export const CartProvider = ({ children }) => {
       return;
     }
 
-    console.log("cart", cart);
+    //console.log("cart", cart);
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart, hasCartInit]);
 
   // Add item to the cart
-  const addToCart = (item) => {
-    console.log("Item to add", item);
-
+  const addToCart = async (item, token) => {
+    console.log("item to add", item);
     setCart((prevCart) => {
       const existingItem = prevCart.find((cartItem) => cartItem.id === item.id);
       if (existingItem) {
@@ -73,15 +72,43 @@ export const CartProvider = ({ children }) => {
         return [...prevCart, newItem];
       }
     });
+
+    try {
+      await axios.post(
+        "http://localhost:3000/cart/addToCart", 
+        {itemId: item.id},
+        {
+            headers: {
+              Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+            },
+        }
+    );
+    } catch (err) {
+      console.log(err.response.data.message + "Failed to add item to cart");
+    }
   };
 
   // Remove item from the cart
-  const removeFromCart = (id) => {
+  const removeFromCart = async (id, token) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+
+    try {
+      await axios.post("http://localhost:3000/cart/removeFromCart", {
+        itemId: id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+        },
+    }
+    );
+    } catch (err) {
+      console.log(err + "Failed to remove item from cart");
+    }
   };
 
   // Updates the count of an item in the cart
-  const updateCount = (id, count) => {
+  const updateCount = async (id, count) => {
     if (count < 1) {
       return;
     }
@@ -91,7 +118,47 @@ export const CartProvider = ({ children }) => {
         item.id === id ? { ...item, count: count } : item
       )
     );
+
+    try {
+      await axios.post("http://localhost:3000/cart/updateCount", {
+        itemId: id,
+        itemCount: count,
+      });
+    } catch (err) {
+      console.log(err + "Failed to update quantity");
+    }
   };
+
+  const syncCart = async (token) => {
+    try {
+      const response = await axios.get("http://localhost:3000/cart",
+        {
+            headers: {
+              Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+            },
+        }
+      );
+      if (response.status === 200 && Array.isArray(response.data.cart)) {
+        setCart(response.data.cart);
+        localStorage.setItem("cart", JSON.stringify(response.data.cart)); // Sync with localStorage
+        console.log("Cart updated from backend");
+      } else {
+        console.error("Failed to fetch cart");
+        setCart([]); // Empty Cart in case any kinds of error
+        localStorage.setItem("cart", JSON.stringify([])); // Clear localStorage
+      }
+    } catch (error) {
+      console.error("Some shit went wrong", error);
+      setCart([]); // Reset cart in case of error
+      localStorage.setItem("cart", JSON.stringify([])); // Clear localStorage
+    }
+  };
+
+  const clearCart = () => {
+    setCart([]);
+    localStorage.removeItem("cart");
+  };
+
 
   return (
     <CartContext.Provider
@@ -101,6 +168,8 @@ export const CartProvider = ({ children }) => {
         removeFromCart,
         updateCount,
         hasCartInit,
+        syncCart,
+        clearCart
       }}
     >
       {children}

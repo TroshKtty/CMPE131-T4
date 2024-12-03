@@ -21,13 +21,14 @@ export default function ProductCard({ product }) {
 
   const cartItem = cart.find((item) => item.id === product.id);
   const count = cartItem ? cartItem.count : 0;
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
   const handleNavigate = () => {
     navigate(`/product/${product.id}`);
   };
 
   const handleAddToCart = () => {
-    addToCart(product);
+    addToCart(product,token);
   };
 
   const handleInputQuantityChange = (ev) => {
@@ -42,7 +43,7 @@ export default function ProductCard({ product }) {
   const handleBtnCountChange = (newQuantity) => {
     // Remove from cart
     if (newQuantity === 0) {
-      removeFromCart(product.id);
+      removeFromCart(product.id, token);
     } else {
       // Don't allow a quantity greater than what's available
       if (newQuantity > product.quantity) {
