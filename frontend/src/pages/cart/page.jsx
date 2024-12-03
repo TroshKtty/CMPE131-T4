@@ -15,6 +15,7 @@ export default function CartPage() {
   const [freeShipping, setFreeShipping] = useState(false);
 
   useEffect(() => {
+    //console.log(cart);
     if (!Array.isArray(cart)) return;
 
     const total = cart.reduce(

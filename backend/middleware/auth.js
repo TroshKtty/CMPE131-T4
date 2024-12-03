@@ -9,7 +9,6 @@ const auth = (req, res, next) => {
     }
 
     const token = authHeader.split(" ")[1];
-    console.log(token);
     try {
         const decoded = jwt.verify(token, process.env.JWT_secret);
         req.user = decoded;
@@ -24,7 +23,6 @@ const auth = (req, res, next) => {
 //calls on the check function - more modularity
 const verifyPermission = (role) => async (req, res, next) => {
     const userRole = req.user.role;
-    console.log(req.user.role);
     if (role != userRole) {
         return res.status(403).json({ message: 'Access Denied' });
     }
