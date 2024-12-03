@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 export default function CartItem({ product }) {
   const { cart, updateCount, removeFromCart } = useCart();
   const navigate = useNavigate();
-
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
   const handleClick = () => {
     navigate(`/product/${product.id}`);
   };
@@ -71,7 +71,7 @@ export default function CartItem({ product }) {
                 size="sm"
                 variant="soft"
                 color="neutral"
-                onClick={() => updateCount(product.id, product.count - 1)}
+                onClick={() => updateCount(product.id, product.count - 1, token)}
                 disabled={product.count <= 1}
               >
                 <CircleMinusIcon size={18} />
@@ -81,7 +81,7 @@ export default function CartItem({ product }) {
                 size="sm"
                 variant="soft"
                 color="neutral"
-                onClick={() => updateCount(product.id, product.count + 1)}
+                onClick={() => updateCount(product.id, product.count + 1, token)}
                 disabled={
                   cart.find((item) => item.id === product.id)?.count >= product.quantity
                 }
@@ -93,7 +93,7 @@ export default function CartItem({ product }) {
               size="sm"
               variant="soft"
               color="danger"
-              onClick={() => removeFromCart(product.id)}
+              onClick={() => removeFromCart(product.id, token)}
             >
               Remove
             </Button>
