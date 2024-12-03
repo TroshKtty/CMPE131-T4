@@ -43,6 +43,7 @@ export default function ProductCard({ product }) {
   const handleBtnCountChange = (newQuantity) => {
     // Remove from cart
     if (newQuantity === 0) {
+        console.log(token);
       removeFromCart(product.id, token);
     } else {
       // Don't allow a quantity greater than what's available
@@ -55,7 +56,7 @@ export default function ProductCard({ product }) {
   };
 
   const handleUpdateCount = (newCount) => {
-    updateCount(product.id, newCount);
+    updateCount(product.id, newCount, token);
   };
 
   return (

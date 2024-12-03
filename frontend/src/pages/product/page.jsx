@@ -43,6 +43,7 @@ export default function ProductPage() {
   const [productData, setProductData] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
   useEffect(() => {
     if (productParam && hasCartInit) {
@@ -135,7 +136,7 @@ export default function ProductPage() {
   };
 
   const handleRemoveFromCart = () => {
-    removeFromCart(product.id);
+    removeFromCart(product.id, token);
     setQuantity(1);
   };
 

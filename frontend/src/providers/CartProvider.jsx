@@ -103,12 +103,12 @@ export const CartProvider = ({ children }) => {
     }
     );
     } catch (err) {
-      console.log(err + "Failed to remove item from cart");
+      console.log(err + "Failed to remove item from cart" + err.response.data.message);
     }
   };
 
   // Updates the count of an item in the cart
-  const updateCount = async (id, count) => {
+  const updateCount = async (id, count, token) => {
     if (count < 1) {
       return;
     }
@@ -123,7 +123,13 @@ export const CartProvider = ({ children }) => {
       await axios.post("http://localhost:3000/cart/updateCount", {
         itemId: id,
         itemCount: count,
-      });
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+        },
+    }
+    );
     } catch (err) {
       console.log(err + "Failed to update quantity");
     }
