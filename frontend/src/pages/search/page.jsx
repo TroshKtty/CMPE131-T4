@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import "./styles.css";
 
-import CategorySidebar from "@/category-sidebar/category-sidebar";
+import CategorySidebar from "@/components/category-sidebar/category-sidebar";
 import Loader from "@/components/loader/loader";
 import ProductGrid from "@/components/product-grid/product-grid";
 
