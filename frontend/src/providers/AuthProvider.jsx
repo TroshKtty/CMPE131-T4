@@ -1,12 +1,15 @@
 import PropTypes from "prop-types";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { CartContext } from "../providers/CartProvider";
+
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
+    const { syncCart, clearCart } = useContext(CartContext);
   const navigate = useNavigate();
   const [token, setToken] = useState(
     sessionStorage.getItem("token") || localStorage.getItem("token") || null
@@ -14,7 +17,7 @@ export function AuthProvider({ children }) {
   const [userRole, setUserRole] = useState(null);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  const handleLogin = (newToken, rememberMe) => {
+  const handleLogin = async (newToken, rememberMe) => {
     const storage = rememberMe ? localStorage : sessionStorage;
     storage.setItem("token", newToken);
 
@@ -27,6 +30,7 @@ export function AuthProvider({ children }) {
     } else if (decodedToken.role === "employee") {
       navigate("/");
     } else {
+        syncCart(newToken);
       navigate("/");
     }
   };
@@ -36,6 +40,7 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("token");
     setToken(null);
     setUserRole(null);
+    clearCart();
     navigate("/");
     if (msg) {
       alert("You have been logged out due to inactivity.");

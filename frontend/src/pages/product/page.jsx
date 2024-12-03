@@ -13,7 +13,6 @@ import {
   Typography,
   Sheet,
   Stack,
-  dividerClasses,
 } from "@mui/joy";
 import { ChevronDown, Plus, Minus } from "lucide-react";
 import Product from "@/components/product/Product";

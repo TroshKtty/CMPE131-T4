@@ -5,7 +5,7 @@ const Product = require("../models/product");
 
 const getCart = async (req, res) => {
     try {
-      const userId = req.user.user_id; // Assuming `req.user` is populated by middleware after verifying JWT or session
+      const userId = req.user.user_id; 
   
       // Fetch the user's cart
       const cart = await Cart.findOne({
@@ -84,11 +84,42 @@ const getCart = async (req, res) => {
   };
 
 const removeFromCart = async(req,res) => {
+    try {
+        const userId = req.user.id; //The User
+        const { productId } = req.body; // Product to be removed
+    
+        if (!productId) {
+          return res.status(400).json({ message: "Product ID is required." });
+        }
+    
+        // The user's cart Id
+        const userCart = await Cart.findOne({ where: { customer_id: userId } });
+    
+        if (!userCart) {
+          return res.status(404).json({ message: "Cart not found for user." }); //User doesn't have a cart to remove items from
+        }
+    
+        // Remove the specific product from the cart
+        const deletedItem = await CartItem.destroy({
+          where: {
+            cart_id: userCart.id,
+            product_id: productId,
+          },
+        });
+    
+        if (deletedItem) {
+          return res.status(200).json({ message: "Item removed from cart successfully." });
+        } else {
+          return res.status(404).json({ message: "Item not found in cart." });
+        }
+      } catch (error) {
+        console.error("Error removing item from cart:", error);
+        return res.status(500).json({ message: "Internal server error." });
+      }
+}
+
+const updateCount = async(req,res) => {
 
 }
 
-const updateQuantity = async(req,res) => {
-
-}
-
-module.exports = {getCart, addToCart};
+module.exports = {getCart, addToCart, removeFromCart};
