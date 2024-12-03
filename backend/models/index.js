@@ -1,26 +1,29 @@
-const sequelize = require('../config.js');
+const Cart = require("./cart_model");
+const CartItem = require("./cart_items_model");
+const Product = require("./product");
+const User = require("./auth_model");
+/*const Order = require("./order");
+const OrderItem = require("./order_items");*/
 
-// Import all models
-const Product = require('./product');
-const ProductTest = require('./product_test');
-const Order = require('./order');
-const OrderItem = require('./order_items');  // Ensure this is correct
-const Cart = require('./cart');
+const setupAssociations = () => {
+    // Cart and CartItem associations
+    Cart.hasMany(CartItem, { foreignKey: "cart_id", sourceKey: "id" });
+    CartItem.belongsTo(Cart, { foreignKey: "cart_id", targetKey: "id" });
+  
+    // CartItem and Product associations
+    CartItem.belongsTo(Product, { foreignKey: "product_id", targetKey: "id" });
+    Product.hasMany(CartItem, { foreignKey: "product_id", sourceKey: "id" });
+  
+    // User and Cart association
+    User.hasOne(Cart, { foreignKey: "customer_id", sourceKey: "user_id" });
+    Cart.belongsTo(User, { foreignKey: "customer_id", targetKey: "user_id" });
 
-// // Define model relationships (associations)
-// Customer.hasMany(Order, { foreignKey: 'customer_id' });
-// Order.belongsTo(Customer, { foreignKey: 'customer_id' });
-
-// Order.hasMany(OrderItem, { foreignKey: 'order_id' });
-// OrderItem.belongsTo(Order, { foreignKey: 'order_id' });
-// OrderItem.belongsTo(Product, { foreignKey: 'product_id' });
-
-// Customer.hasMany(Cart, { foreignKey: 'customer_id' });
-// Cart.belongsTo(Customer, { foreignKey: 'customer_id' });
-// Cart.belongsTo(Product, { foreignKey: 'product_id' });
-
-// Export all models
-module.exports = {
-  ProductTest,
-  sequelize
 };
+
+/*Order.hasMany(OrderItem, { foreignKey: 'order_id', onDelete: 'CASCADE' });
+OrderItem.belongsTo(Order, { foreignKey: 'order_id' });
+
+OrderItem.belongsTo(Product, { foreignKey: 'product_id' });
+Product.hasMany(OrderItem, { foreignKey: 'product_id' });*/
+
+module.exports = {setupAssociations};
