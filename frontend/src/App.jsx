@@ -27,9 +27,9 @@ import { AuthProvider } from "@/providers/AuthProvider";
 
 export default function App() {
   return (
-    <AuthProvider>
-      <CartProvider>
-        <Router>
+    <Router>
+      <AuthProvider>
+        <CartProvider>
           <Routes>
             {/* Route for logging in */}
             <Route path="/login" element={<LoginPage />} />
@@ -87,8 +87,8 @@ export default function App() {
           </Routes>
 
           <ScrollToTopButton />
-        </Router>
-      </CartProvider>
-    </AuthProvider>
+        </CartProvider>
+      </AuthProvider>
+    </Router>
   );
 }

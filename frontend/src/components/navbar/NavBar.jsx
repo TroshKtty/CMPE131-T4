@@ -27,7 +27,11 @@ export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const { cart } = useCart();
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
+
+  // useEffect(() => {
+  //   console.log("isLoggedIn", isLoggedIn);
+  // }, [isLoggedIn]);
 
   useEffect(() => {
     setQuery(searchParams.get("q") || "");
@@ -40,12 +44,7 @@ export default function NavBar() {
     navigate(`/search?${target}`);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    sessionStorage.removeItem("token");
-    setIsLoggedIn(false);
-    navigate("/");
-  };
+  const handleLogout = () => logout(false);
 
   const clearSearch = () => setQuery("");
 

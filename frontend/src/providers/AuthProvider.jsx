@@ -1,59 +1,87 @@
 import PropTypes from "prop-types";
 import { createContext, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext(null);
 
-export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+export function AuthProvider({ children }) {
+  const navigate = useNavigate();
+  const [token, setToken] = useState(
+    sessionStorage.getItem("token") || localStorage.getItem("token") || null
+  );
+  const [userRole, setUserRole] = useState(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  const handleLogout = () => {
-    sessionStorage.removeItem("token");
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
-    alert("You have been logged out due to inactivity.");
-    window.location.href = "/login"; // or we navigate to home page
+  const handleLogin = (newToken, rememberMe) => {
+    const storage = rememberMe ? localStorage : sessionStorage;
+    storage.setItem("token", newToken);
+
+    const decodedToken = jwtDecode(newToken);
+    setToken(newToken);
+    setUserRole(decodedToken.role);
+
+    if (decodedToken.role === "admin") {
+      navigate("/admin");
+    } else if (decodedToken.role === "employee") {
+      navigate("/");
+    } else {
+      navigate("/");
+    }
   };
 
+  const handleLogout = (msg) => {
+    sessionStorage.removeItem("token");
+    localStorage.removeItem("token");
+    setToken(null);
+    setUserRole(null);
+    navigate("/");
+    if (msg) {
+      alert("You have been logged out due to inactivity.");
+    }
+  };
+
+  useEffect(() => setIsInitialized(true), []);
+
   useEffect(() => {
-    const checkToken = () => {
-      const token =
-        sessionStorage.getItem("token") || localStorage.getItem("token");
+    const token =
+      sessionStorage.getItem("token") || localStorage.getItem("token");
+    setToken(token);
 
-      if (token) {
-        const decodedToken = jwtDecode(token);
-        const currentTime = Date.now() / 1000;
-
-        if (decodedToken.exp < currentTime) {
-          handleLogout();
-          return false;
-        }
-        return true;
-      }
-      return false;
-    };
-
-    const isValid = checkToken();
-    setIsLoggedIn(isValid);
-
-    if (isValid) {
-      const token =
-        sessionStorage.getItem("token") || localStorage.getItem("token");
+    if (token) {
       const decodedToken = jwtDecode(token);
       const currentTime = Date.now() / 1000;
-      const timeout = (decodedToken.exp - currentTime) * 1000;
-      const timer = setTimeout(handleLogout, timeout);
-      return () => clearTimeout(timer);
+
+      if (decodedToken.exp < currentTime) {
+        handleLogout(true);
+      } else {
+        const timeout = (decodedToken.exp - currentTime) * 1000;
+        const timer = setTimeout(() => handleLogout(true), timeout);
+
+        return () => clearTimeout(timer);
+      }
     }
-  }, []);
+  }, [navigate]);
+
+  if (!isInitialized) {
+    return null;
+  }
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+    <AuthContext.Provider
+      value={{
+        isLoggedIn: token !== null,
+        token,
+        userRole,
+        login: handleLogin,
+        logout: () => handleLogout(false),
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
 AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
