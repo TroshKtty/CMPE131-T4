@@ -28,7 +28,7 @@ const getCart = async (req, res) => {
       // Return cart items
       const cartItems = cart.CartItems.map((cartItem) => ({
         id: cartItem.id,
-        quantity: cartItem.quantity,
+        count: cartItem.quantity,
         category: cartItem.Product.category,
         images: cartItem.Product.images,
         name: cartItem.Product.name,
