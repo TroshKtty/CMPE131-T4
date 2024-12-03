@@ -117,14 +117,16 @@ export default function NavBar() {
               alignItems: "center",
             }}
           >
-            <Button
-              startDecorator={<ShoppingCart size={20} />}
-              onClick={() => navigate("/cart")}
-            >
-              <Typography textColor="common.white">
-                Cart {cart.length > 0 ? `(${cart.length})` : ""}
-              </Typography>
-            </Button>
+            {isLoggedIn && (
+              <Button
+                startDecorator={<ShoppingCart size={20} />}
+                onClick={() => navigate("/cart")}
+              >
+                <Typography textColor="common.white">
+                  Cart {cart.length > 0 ? `(${cart.length})` : ""}
+                </Typography>
+              </Button>
+            )}
             {isLoggedIn ? (
               <Dropdown>
                 <MenuButton
@@ -198,15 +200,18 @@ export default function NavBar() {
             p: 2,
           }}
         >
-          <Button
-            variant="plain"
-            color="neutral"
-            onClick={() => navigate("/cart")}
-            fullWidth
-            sx={{ color: "common.white" }}
-          >
-            Cart {cart.length > 0 ? `(${cart.length})` : ""}
-          </Button>
+          {isLoggedIn && (
+            <Button
+              variant="plain"
+              color="neutral"
+              onClick={() => navigate("/cart")}
+              startDecorator={<ShoppingCart size={20} />}
+              fullWidth
+              sx={{ color: "common.white" }}
+            >
+              Cart {cart.length > 0 ? `(${cart.length})` : ""}
+            </Button>
+          )}
           {isLoggedIn ? (
             <>
               <Button
