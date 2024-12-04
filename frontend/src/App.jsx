@@ -49,7 +49,6 @@ export default function App() {
           element={
             <ProtectedRoute required_role="admin">
               <AdminApprovalRequestsPage />
-              <AdminApprovalRequestsPage />
             </ProtectedRoute>
           }
         />        
