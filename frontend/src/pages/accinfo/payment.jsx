@@ -1,4 +1,3 @@
-import "@/pages/accinfo/styles.css";
 import { useState, useEffect } from "react";
 import { Box, Typography, Link, Card, CardContent, Divider, Button, Input, Stack } from "@mui/joy";
 import "react-multi-carousel/lib/styles.css";
@@ -17,7 +16,7 @@ export default function PaymentInfoPage() {
       try {
         const response = await axios.get("http://localhost:3000/userInfo/cardInfo", {
           headers: {
-            Authorization: `Bearer ${token}`, 
+            Authorization: `Bearer ${token}`,
           },
         });
         setCards(response.data);
@@ -45,7 +44,7 @@ export default function PaymentInfoPage() {
         { cardNumber, expiry, cvv },
         {
           headers: {
-            Authorization: `Bearer ${token}`, 
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -64,7 +63,7 @@ export default function PaymentInfoPage() {
     try {
       const response = await axios.post(`http://localhost:3000/userInfo/removeCard`,{ cardId}, {
         headers: {
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
         },
       });
       if (response.status === 200) {
@@ -116,8 +115,8 @@ export default function PaymentInfoPage() {
         sx={{
           flexGrow: 1,
           padding: 4,
-          overflowY: "auto", 
-          maxHeight: "calc(100vh - 32px)", 
+          overflowY: "auto",
+          maxHeight: "calc(100vh - 32px)",
         }}
       >
         <Typography fontSize="2.5rem" fontWeight="bold" align="left" sx={{ color: "black" }}>

@@ -7,7 +7,7 @@ import EmployeeDashboardPage from "@/pages/employee/page";
 import InventoryManagementPage from "@/pages/employee/InventoryManagement";
 import EmployeeApprovalRequestsPage from "@/pages/employee/ApprovalRequestsPage";
 import AdminApprovalRequestsPage from "@/pages/admin/ApprovalRequestsPage";
-import UnauthorizedPage from "@/pages/unauthorized/page";;
+import UnauthorizedPage from "@/pages/unauthorized/page";
 
 import ProductPage from "@/pages/product/page";
 import SearchPage from "@/pages/search/page";
@@ -28,15 +28,12 @@ import OrderHistoryPage from "./pages/accinfo/order";
 
 import { CartProvider } from "@/providers/CartProvider";
 import { AuthProvider } from "@/providers/AuthProvider";
-import AccountInfoPage from "./pages/accinfo/page";
-import PaymentInfoPage from "./pages/accinfo/payment";
-import OrderHistoryPage from "./pages/accinfo/order";
 
 export default function App() {
   return (
     <Router>
-        <CartProvider>
-      <AuthProvider>
+      <CartProvider>
+        <AuthProvider>
           <Routes>
             {/* Route for logging in */}
             <Route path="/login" element={<LoginPage />} />
@@ -55,10 +52,35 @@ export default function App() {
               path="/admin/approval-requests"
               element={
                 <ProtectedRoute required_role="admin">
-                  <ApprovalRequestsPage />
+                  <AdminApprovalRequestsPage />
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/employee"
+              element={
+                <ProtectedRoute required_role="employee">
+                  <EmployeeDashboardPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/employee/inventory-management"
+              element={
+                <ProtectedRoute required_role="employee">
+                  <InventoryManagementPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/employee/approval-requests"
+              element={
+                <ProtectedRoute required_role="employee">
+                  <EmployeeApprovalRequestsPage />
+                </ProtectedRoute>
+              }
+            />
+
             <Route
               path="/*"
               element={
@@ -75,9 +97,15 @@ export default function App() {
 
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/checkout" element={<CheckoutPage />} />
-                    <Route path="/account" element = {<AccountInfoPage/>}/>
-                    <Route path="/accinfo/payment" element={<PaymentInfoPage />} />
-                    <Route path="/accinfo/orders" element={<OrderHistoryPage />} />
+                    <Route path="/account" element={<AccountInfoPage />} />
+                    <Route
+                      path="/accinfo/payment"
+                      element={<PaymentInfoPage />}
+                    />
+                    <Route
+                      path="/accinfo/orders"
+                      element={<OrderHistoryPage />}
+                    />
                     <Route
                       path="/unauthorized"
                       element={<UnauthorizedPage />}
@@ -90,8 +118,7 @@ export default function App() {
           </Routes>
 
           <ScrollToTopButton />
-        
-      </AuthProvider>
+        </AuthProvider>
       </CartProvider>
     </Router>
   );
