@@ -1,0 +1,146 @@
+.checkoutPageContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px;
+  }
+  
+  .leftSection {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .rightSection {
+    flex: 1;
+    background-color: #dde7ee69;
+    border: 1px solid #dde7ee69;
+    border-radius: 8px;
+    padding: 16px;
+    position: sticky;
+    top: 20px;
+  }
+  
+  .collapsibleSection {
+    border: 1px solid #dde7ee69;
+    background-color: #dde7ee69;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  
+  .collapsibleHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    
+    cursor: pointer;
+  }
+  
+  .collapsibleHeader h2 {
+    margin: 0;
+    font-size: 16px;
+  }
+  
+  .collapsibleHeader span {
+    font-size: 18px;
+  }
+  
+  .collapsibleContent {
+    padding: 16px;
+  }
+  
+  .formField {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 12px;
+  }
+  
+  input, select {
+    padding: 12px;
+    border: 1px solid #dde7ee69;
+    border-radius: 8px; /* Rounded corners */
+    font-size: 16px; /* Larger font size */
+    width: 100%;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+  }
+  
+  input:focus, select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+  }
+  
+  .summaryDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .primaryButton {
+    width: 100%;
+    padding: 12px; /* Larger button */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .primaryButton:hover {
+    background-color: #0056b3;
+  }
+
+  .errorInput {
+    border-color: red;
+    box-shadow: 0 0 4px rgba(255, 0, 0, 0.5);
+  }
+  
+  .errorText {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
+  .saveCardLabel {
+    display: flex;
+    align-items: center; /* Vertically align the checkbox and label */
+  }
+  
+  .redirectButton {
+    display: flex; /* To ensure alignment works properly */
+    justify-content: flex-start; /* Align text to the left */
+    align-items: center; /* Vertically center the text */
+    padding: 7px 10px; /* Adjust for desired spacing */
+    font-size: 16px; /* Medium text size */
+    border-radius: 10px; /* Makes the button rounded */
+    border: none; /* Remove default border */
+    background-color: #007bff; /* Button background color */
+    color: white; /* Button text color */
+    cursor: pointer; /* Changes the cursor to a pointer on hover */
+    transition: background-color 0.3s ease;
+    width: fit-content;
+    text-decoration: none;
+  }
+
+
+.summaryItem {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .separator {
+    border-top: 1px solid #ccc;
+    margin: 10px 0;
+  }
+  
+  .summaryItemTotal {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2em;
+    font-weight: bold;
+  }
