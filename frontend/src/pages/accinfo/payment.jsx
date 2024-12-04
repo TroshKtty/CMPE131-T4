@@ -1,10 +1,33 @@
 import "@/pages/accinfo/styles.css";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Typography, Link, Card, CardContent, Divider, Button, Input, Stack} from "@mui/joy";
 import "react-multi-carousel/lib/styles.css";
 import { Link as RouterLink } from "react-router-dom";
+import axios from "axios";
 
 export default function PaymentInfoPage() {
+const CardForm = () => {
+  const [cardNumber, setCardNumber] = useState("");
+
+  const event = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setSuccessMessage("");
+
+    try {
+      const response = await axios.post("http://localhost:3000/cards", {
+        card_number: cardNumber,
+      });
+      if (response.status === 200) {
+        setSuccessMessage("Card added successfully!");
+        setCardNumber(""); // Reset the form
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "An error occurred.");
+    }
+   } 
+  };
+  
   return (
     <Box sx={{ display: "flex", height: "100vh", bgcolor: "#f4f5f7" }}>
       {/* Sidebar */}
@@ -48,7 +71,7 @@ export default function PaymentInfoPage() {
           align="left"
           sx={{ color: "#5271ff" }}
         >
-          Payment Methods
+          Update Payment Method
         </Typography>
 
         <Divider></Divider>
@@ -69,7 +92,7 @@ export default function PaymentInfoPage() {
                   }}
                 >
                   <Stack spacing={1}>
-                  <Input placeholder="1234 5678 9098 7654" variant="soft" size="md" required />
+                  <Input placeholder="1234 5678 9098 7654" variant="soft" size="md" onChange={(e) => setCardNumber(e.target.value)} required />
                     <Button type="submit">Submit</Button>
                   </Stack>
                 </form>

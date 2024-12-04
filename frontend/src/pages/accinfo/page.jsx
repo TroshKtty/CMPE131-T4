@@ -1,40 +1,11 @@
 import "@/pages/accinfo/styles.css";
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Link, Card, CardContent, Divider, Button, Tab, TabPanel, TabList} from "@mui/joy";
+import { Box, Typography, Link, Card, CardContent, Divider, Button, Input} from "@mui/joy";
 import { Link as RouterLink } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
 export default function AccountInfoPage() {
-  useEffect(() => {
-    const fetchRequests = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/users/pendingAll",
-          {}
-        );
-        //const data = await response.json();
-        setRequests(response.data.pending_users);
-      } catch (err) {
-        setError(err.message);
-        alert(error);
-      }
-    };
-    const fetchHistory = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/users/approved_users"
-        );
-        setHistory(response.data.user_history);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-
-    fetchHistory();
-    fetchRequests();
-  }, []);
-
   return (
     <Box sx={{ display: "flex", height: "100vh", bgcolor: "#f4f5f7" }}>
       {/* Sidebar */}
@@ -114,7 +85,7 @@ export default function AccountInfoPage() {
         <Card sx={{ flexGrow: 1, m: 1 }}>
             <CardContent>
               <Typography fontSize="1.3rem" fontWeight="bold">Password</Typography>
-              <Typography fontSize="1.2rem" fontWeight="body-sm">*******</Typography>
+              <Typography fontSize="1.2rem" fontWeight="body-sm">pw123</Typography>
             </CardContent>
           </Card>
           </Box>
