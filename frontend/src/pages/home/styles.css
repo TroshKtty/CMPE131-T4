@@ -158,7 +158,6 @@ body {
 .react-multiple-carousel__arrow::before {
   color: #5271ff;
 }
-
 .react-multiple-carousel__arrow {
   background-color: rgba(255, 255, 255, 0.8) !important;
 }
