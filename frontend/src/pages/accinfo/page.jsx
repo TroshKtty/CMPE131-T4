@@ -59,7 +59,7 @@ export default function AccountInfoPage() {
           </Typography>
           <Link
             component={RouterLink}
-            to="/accinfo"
+            to="/account"
             sx={{ color: "#5271ff", fontSize: "1.3rem" }}
           >
             Personal Information

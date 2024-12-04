@@ -45,7 +45,7 @@ export default function OrderHistoryPage() {
           <Typography fontSize="1.5rem" fontWeight="bold" sx={{ color: "#5271ff" }}>
             Your Account
           </Typography>
-          <Link component={RouterLink} to="/accinfo" sx={{ color: "black", fontSize: "1.3rem" }}>
+          <Link component={RouterLink} to="/account" sx={{ color: "black", fontSize: "1.3rem" }}>
             Personal Information
           </Link>
           <Link component={RouterLink} to="/accinfo/payment" sx={{ color: "black", fontSize: "1.3rem" }}>
