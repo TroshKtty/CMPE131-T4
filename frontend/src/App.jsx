@@ -40,7 +40,7 @@ export default function App() {
             <Route path="/registration" element={<RegistrationPage />} />
 
             {/* Protected Routes */}
-            <Route
+            {/* <Route
               path="/admin"
               element={
                 <ProtectedRoute required_role="admin">
@@ -79,7 +79,7 @@ export default function App() {
                   <EmployeeApprovalRequestsPage />
                 </ProtectedRoute>
               }
-            />
+            /> */}
 
             <Route
               path="/*"
