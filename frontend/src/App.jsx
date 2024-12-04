@@ -20,6 +20,10 @@ import NotFound from "./components/404/not-found";
 import ProtectedRoute from "./utils/protected_routes";
 import useAuth from "./utils/auth_check";
 
+import AccountInfoPage from "./pages/accinfo/page";
+import PaymentInfoPage from "./pages/accinfo/payment";
+import OrderHistoryPage from "./pages/accinfo/order";
+
 const AuthWrapper = () => {
 	useAuth();
 	return null;
@@ -86,11 +90,16 @@ export default function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/product/:product" element={<ProductPage />} />
+
+                <Route path="/accinfo" element={<AccountInfoPage />} />
+                <Route path="/accinfo/payment" element={<PaymentInfoPage />} />
+                <Route path="/accinfo/orders" element={<OrderHistoryPage />} />
               </Routes>
               <Footer />
             </>
           }
         />
+
       </Routes>
 
         <ScrollToTopButton />
