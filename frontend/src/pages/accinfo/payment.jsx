@@ -1,7 +1,6 @@
 import "@/pages/accinfo/styles.css";
 import React from "react";
-import { Box, Typography, Link, Card, CardContent, Divider, Button} from "@mui/joy";
-import Carousel from "react-multi-carousel";
+import { Box, Typography, Link, Card, CardContent, Divider, Button, Input, Stack} from "@mui/joy";
 import "react-multi-carousel/lib/styles.css";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -56,20 +55,59 @@ export default function PaymentInfoPage() {
 
 
         <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>
-        <Card sx={{ flexGrow: 1, m: 1 }}>
+        <Card sx={{ flexGrow: 1  }}>
             <CardContent>
-              <Typography fontSize="1.3rem" fontWeight="bold">Card 1</Typography>
-              <Typography fontSize="1.25rem" fontWeight="body-sm">User.name123</Typography>
+              <Typography fontSize="1.3rem" fontWeight="bold">Card Ending in 1234</Typography>
+              <Typography fontSize="1.25rem" fontWeight="body-sm">Card Number</Typography>
+                <form
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    const formData = new FormData(event.currentTarget);
+                    const formJson = Object.fromEntries(formData.entries());
+                    JSON.stringify(formJson)
+                    alert("Card Info Updated")
+                  }}
+                >
+                  <Stack spacing={1}>
+                  <Input placeholder="1234 5678 9098 7654" variant="soft" size="md" required />
+                    <Button type="submit">Submit</Button>
+                  </Stack>
+                </form>
+
+              <Typography fontSize="1.25rem" fontWeight="body-sm">Expiration</Typography>
+              <form
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    const formData = new FormData(event.currentTarget);
+                    const formJson = Object.fromEntries(formData.entries());
+                    JSON.stringify(formJson)
+                    alert("Card Info Updated")
+                  }}
+                >
+                  <Stack spacing={1}>
+                    <Input placeholder="DD/YY" variant="soft" size="md" required />
+                    <Button type="submit">Submit</Button>
+                  </Stack>
+                </form>
+
+              <Typography fontSize="1.25rem" fontWeight="body-sm">CVC</Typography>
+                <form
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    const formData = new FormData(event.currentTarget);
+                    const formJson = Object.fromEntries(formData.entries());
+                    JSON.stringify(formJson)
+                    alert("Card Info Updated")
+                  }}
+                >
+                  <Stack spacing={1}>
+                    <Input placeholder="123" required />
+                    <Button type="submit">Submit</Button>
+                  </Stack>
+                </form>
             </CardContent>
         </Card>
-        <Card sx={{ flexGrow: 1, m: 1 }}>
-            <CardContent>
-              <Typography fontSize="1.3rem" fontWeight="bold">Password</Typography>
-              <Typography fontSize="1.2rem" fontWeight="body-sm">*******</Typography>
-            </CardContent>
-          </Card>
           </Box>
-
       </Box>
     </Box>
 
