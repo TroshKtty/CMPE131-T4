@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography, Card, CardContent } from "@mui/joy";
 import Chart from "react-apexcharts";
-import AdminSidebar from "@/components/admin_navbar/admin_navbar"; // Import AdminSidebar component
+import AdminSidebar from "@/components/admin_navbar/admin_navbar"; // Ensure this path is correct
 
 export default function AdminDashboardPage() {
   const salesData = {
@@ -49,20 +49,11 @@ export default function AdminDashboardPage() {
 
   return (
     <Box sx={{ display: "flex", height: "100vh", bgcolor: "#f4f5f7" }}>
-      {/* Sidebar */}
-      <AdminSidebar />
-
-      {/* Main Content */}
+      <AdminSidebar /> {/* This is where the sidebar is used */}
       <Box sx={{ flexGrow: 1, padding: 4 }}>
-        <Typography
-          fontSize="2.5rem"
-          fontWeight="bold"
-          align="center"
-          sx={{ color: "#0c6cba" }}
-        >
+        <Typography fontSize="2.5rem" fontWeight="bold" align="center" sx={{ color: "#0c6cba" }}>
           OFS Admin Dashboard
         </Typography>
-
         <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>
           <Card sx={{ flexGrow: 1, m: 1 }}>
             <CardContent>
@@ -89,8 +80,6 @@ export default function AdminDashboardPage() {
             </CardContent>
           </Card>
         </Box>
-
-        {/* Charts */}
         <Box sx={{ display: "flex", mt: 4 }}>
           <Box sx={{ width: "70%", mr: 2 }}>
             <Typography fontSize="1.5rem" fontWeight="medium">Sales, Expenses, and Profit</Typography>
