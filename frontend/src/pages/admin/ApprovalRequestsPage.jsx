@@ -5,6 +5,7 @@ import {
   Typography,
   Tabs,
   Tab,
+  TabPanel,
   TabList,
 } from "@mui/joy";
 import "./styles.css";
@@ -15,7 +16,7 @@ import { jwtDecode } from "jwt-decode";
 const ApprovalRequestsPage = () => {
   const [requests, setRequests] = useState([]);
   const [history, setHistory] = useState([]);
-  const [tabValue, setTabValue] = useState(0); // Ensure this is a number
+  const [tabValue, setTabValue] = useState(0);
   const [error, setError] = useState(null);
   const [showDetails, setShowDetails] = useState({});
 
@@ -31,6 +32,7 @@ const ApprovalRequestsPage = () => {
           "http://localhost:3000/users/pendingAll",
           {}
         );
+        //const data = await response.json();
         setRequests(response.data.pending_users);
       } catch (err) {
         setError(err.message);
@@ -74,7 +76,7 @@ const ApprovalRequestsPage = () => {
     if (entry) {
       setHistory(history.filter((entry) => entry.id !== id));
     }
-    axios.post("http://localhost:3000/users/revoke_access", { id });
+    axios.post("http://localhost:3000/users/revoke_access", {id});
   };
 
   const toggleDetails = (entryId) => {
@@ -110,167 +112,178 @@ const ApprovalRequestsPage = () => {
               value={tabValue}
               onChange={(event, newValue) => setTabValue(newValue)}
             >
-              <TabList>
-                <Tab value={0} sx={{ borderRadius: "7px" }}>
-                  Pending Requests
-                </Tab>
-                <Tab value={1} sx={{ borderRadius: "7px" }}>
-                  Approved Users
-                </Tab>
-              </TabList>
-            </Tabs>
-
-            {/* Conditionally Render Tab Panels */}
-            {tabValue === 0 && (
-              <Box sx={{ mt: 2 }}>
-                {/* Pending Requests */}
-                {requests.length > 0 ? (
-                  requests.map((request) => (
-                    <Box
-                      key={request.user_id}
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        padding: 2,
-                        backgroundColor: "#c4d9ed",
-                        borderRadius: "6px",
-                        mb: 2,
-                        boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
-                      }}
-                    >
-                      <Box>
-                        <Typography variant="body1" sx={{ color: "black" }}>
-                          <b>Name:</b> {request.name}
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: "black" }}>
-                          <b>Requested on:</b> {request.created_at}
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: "black" }}>
-                          <b>Email:</b> {request.email}
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: "black" }}>
-                          <b>Role:</b> {request.role}
-                        </Typography>
-                      </Box>
-                      <Box>
-                        <Button
-                          color="success"
-                          variant="solid"
-                          sx={{
-                            mr: 1,
-                            color: "white",
-                          }}
-                          onClick={() =>
-                            handleDecision(request.user_id, "true")
-                          }
-                        >
-                          Approve
-                        </Button>
-                        <Button
-                          variant="solid"
-                          color="danger"
-                          onClick={() =>
-                            handleDecision(request.user_id, "false")
-                          }
-                        >
-                          Deny
-                        </Button>
-                      </Box>
-                    </Box>
-                  ))
-                ) : (
-                  <Typography variant="body2" sx={{ color: "black" }}>
-                    No pending requests.
-                  </Typography>
-                )}
+              <Box>
+                <TabList>
+                  <Tab
+                    label="Pending Requests"
+                    value={0}
+                    sx={{ borderRadius: "7px" }}
+                  >
+                    {" "}
+                    Pending Requests{" "}
+                  </Tab>
+                  <Tab
+                    label="Approval History"
+                    value={1}
+                    sx={{ borderRadius: "7px" }}
+                  >
+                    {" "}
+                    Approved Users{" "}
+                  </Tab>
+                </TabList>
               </Box>
-            )}
 
-            {tabValue === 1 && (
-              <Box sx={{ mt: 2 }}>
-                {/* Approval History */}
-                {history.length > 0 ? (
-                  history.map((entry) => (
-                    <Box
-                      key={entry.id}
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        padding: 2,
-                        backgroundColor: "#c4d9ed",
-                        borderRadius: "6px",
-                        mb: 2,
-                        boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
-                      }}
-                    >
-                      {/* Basic Info */}
+              <TabPanel value={0}>
+                {/* Pending Requests */}
+                <Box sx={{ mb: 4 }}>
+                  {requests.length > 0 ? (
+                    requests.map((request) => (
                       <Box
+                        key={request.user_id}
                         sx={{
                           display: "flex",
                           justifyContent: "space-between",
                           alignItems: "center",
+                          padding: 2,
+                          backgroundColor: "#c4d9ed",
+                          borderRadius: "6px",
+                          mb: 2,
+                          boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
                         }}
                       >
                         <Box>
                           <Typography variant="body1" sx={{ color: "black" }}>
-                            <b>Name: </b>
-                            {entry.name} (user id - {entry.user_id})
+                            <b>Name:</b> {request.name}
                           </Typography>
                           <Typography variant="body2" sx={{ color: "black" }}>
-                            <b>Role: </b>
-                            {entry.role}
+                            <b>Requested on:</b> {request.created_at}
                           </Typography>
+                          <Typography variant="body2" sx={{ color: "black" }}>
+                            <b>Email:</b> {request.email}
+                          </Typography>
+                          <Typography variant="body2" sx={{ color: "black" }}>
+                            <b>Role:</b> {request.role}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Button
+                            color="success"
+                            variant="solid"
+                            sx={{
+                              mr: 1,
+                              color: "white",
+                            }}
+                            onClick={() =>
+                              handleDecision(request.user_id, "true")
+                            }
+                          >
+                            Approve
+                          </Button>
+                          <Button
+                            variant="solid"
+                            color="danger"
+                            onClick={() =>
+                              handleDecision(request.user_id, "false")
+                            }
+                          >
+                            Deny
+                          </Button>
                         </Box>
                       </Box>
+                    ))
+                  ) : (
+                    <Typography variant="body2" sx={{ color: "black" }}>
+                      No pending requests.
+                    </Typography>
+                  )}
+                </Box>
+              </TabPanel>
 
-                      {/* Toggle More Info */}
-                      {showDetails[entry.id] && (
-                        <Box sx={{ mt: 1 }}>
-                          <Typography variant="body2" sx={{ color: "black" }}>
-                            <b>Approved by: </b>
-                            {entry.approved_by} (user id - {entry.approved_by_id})
-                          </Typography>
-                          <Typography variant="body2" sx={{ color: "black" }}>
-                            <b>Approved on: </b>
-                            {entry.approved_at}
-                          </Typography>
-                        </Box>
-                      )}
-
-                      {/* Action Buttons */}
+              <TabPanel value={1}>
+                {/* Approval History */}
+                <Box>
+                  {history.length > 0 ? (
+                    history.map((entry) => (
                       <Box
+                        key={entry.id}
                         sx={{
                           display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          mt: 1,
+                          flexDirection: "column",
+                          padding: 2,
+                          backgroundColor: "#c4d9ed",
+                          borderRadius: "6px",
+                          mb: 2,
+                          boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)"
                         }}
                       >
-                        <Button
-                          onClick={() => toggleDetails(entry.id)}
-                          sx={{ mr: 1, color: "white" }}
+                        {/* Basic Info */}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          }}
                         >
-                          {showDetails[entry.id] ? "Less Info" : "More Info"}
-                        </Button>
-                        <Button
-                          variant="solid"
-                          color={"danger"}
-                          onClick={() => handleRevoke(entry.id)}
-                          sx={{ ml: 2 }}
+                          <Box>
+                            <Typography variant="body1" sx={{ color: "black" }}>
+                              <b>Name: </b>
+                              {entry.name} (user id - {entry.user_id})
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: "black" }}>
+                              <b>Role: </b>
+                              {entry.role}
+                            </Typography>
+                          </Box>
+                        </Box>
+
+                        {/* Toggle More Info */}
+                        {showDetails[entry.id] && (
+                          <Box sx={{ mt: 1 }}>
+                            <Typography variant="body2" sx={{ color: "black" }}>
+                              <b>Approved by: </b>
+                              {entry.approved_by} (user id - {entry.approved_by_id})
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: "black" }}>
+                            <b>Approved on: </b>
+                            {entry.approved_at}
+                            </Typography>
+                          </Box>
+                        )}
+
+                        {/* Action Buttons */}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            mt: 1,
+                          }}
                         >
-                          Revoke
-                        </Button>
+                          <Button
+                            onClick={() => toggleDetails(entry.id)}
+                            sx={{ mr: 1, color: "white" }}
+                          >
+                            {showDetails[entry.id] ? "Less Info" : "More Info"}
+                          </Button>
+                          <Button
+                            variant="solid"
+                            color= {"danger"}
+                            onClick={() => handleRevoke(entry.id)}
+                            sx={{ ml: 2 }}
+                          >
+                            Revoke
+                          </Button>
+                        </Box>
                       </Box>
-                    </Box>
-                  ))
-                ) : (
-                  <Typography variant="body2" sx={{ color: "black" }}>
-                    No history yet.
-                  </Typography>
-                )}
-              </Box>
-            )}
+                    ))
+                  ) : (
+                    <Typography variant="body2" sx={{ color: "black" }}>
+                      No history yet.
+                    </Typography>
+                  )}
+                </Box>
+              </TabPanel>
+            </Tabs>
           </Box>
         </Box>
       </Box>
