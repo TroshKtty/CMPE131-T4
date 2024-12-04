@@ -1,12 +1,44 @@
 const Product = require("../models/product");
 
+const { ValidationError } = require('sequelize');
+
 const addProduct = async (req, res) => {
   try {
-    const { name, quantity, price, weight } = req.body; // Adjust the order here
-    const product = await Product.create({ name, quantity, price, weight });
+    const {
+      name,
+      price,
+      weight,
+      category,
+      quantity,
+      images = '',
+      descriptions,
+      nutritionInfo,
+      specifications
+    } = req.body;
+
+    // Create the product with all required fields
+    const product = await Product.create({
+      name,
+      price,
+      weight,
+      category,
+      quantity,
+      images, // images has a default value but can be provided
+      descriptions,
+      nutritionInfo,
+      specifications
+    });
+
     res.status(201).json(product);
   } catch (error) {
-    res.status(500).json({ error: "Failed to add product" });
+    if (error instanceof ValidationError) {
+      // Send a 400 Bad Request with validation error details
+      console.error('Validation error:', error);
+      res.status(400).json({ error: error.message, details: error.errors });
+    } else {
+      console.error('Error adding product:', error);
+      res.status(500).json({ error: "Failed to add product" });
+    }
   }
 };
 
