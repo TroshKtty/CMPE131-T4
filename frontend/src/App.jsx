@@ -48,7 +48,7 @@ export default function App() {
               path="/admin/approval-requests"
               element={
                 <ProtectedRoute required_role="admin">
-                  <ApprovalRequestsPage />
+                  <AdminApprovalRequestsPage />
                 </ProtectedRoute>
               }
             />
@@ -87,7 +87,7 @@ export default function App() {
           </Routes>
 
           <ScrollToTopButton />
-        
+
       </AuthProvider>
       </CartProvider>
     </Router>
