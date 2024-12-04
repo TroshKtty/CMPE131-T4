@@ -13,7 +13,10 @@ const Product = require("./models/product");
 const checkoutRoute = require("./routes/checkout_route");
 const { auth, verifyPermission } = require("./middleware/auth");
 const cookieParser = require('cookie-parser');
+const userInfoRoute = require("./routes/userInfo_route");
+
 const { setupAssociations } = require("./models/index");
+
 
 const app = express();
 const PORT = 3000;
