@@ -7,7 +7,7 @@ import EmployeeDashboardPage from "@/pages/employee/page";
 import InventoryManagementPage from "@/pages/employee/InventoryManagement";
 import EmployeeApprovalRequestsPage from "@/pages/employee/ApprovalRequestsPage";
 import AdminApprovalRequestsPage from "@/pages/admin/ApprovalRequestsPage";
-// import UnauthorizedPage from "./pages/unauthorized_page/unauthorized";
+import UnauthorizedPage from "@/pages/unauthorized/page";
 
 import ProductPage from "@/pages/product/page";
 import SearchPage from "@/pages/search/page";
