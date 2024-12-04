@@ -101,7 +101,7 @@ const InventoryManagement = () => {
           }
           .table th, .table td {
               text-align: left;
-              vertical-align: middle;
+              vertical-align: middle; // This ensures vertical centering
               padding: 8px;
           }
           .table th {
@@ -114,47 +114,13 @@ const InventoryManagement = () => {
       </style>
       <h1 className="mb-4">Inventory Management</h1>
       {error && <div className="alert alert-danger" role="alert">{error}</div>}
-      <div className="mb-4">
-        {/* Inputs and add button commented out to disable adding new items */}
-        {/* <label className="form-label">Item Name</label>
-        <input 
-          type="text" 
-          className="form-control mb-2" 
-          placeholder="Item Name" 
-          value={newItem.name} 
-          onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-        />
-        <label className="form-label">Quantity</label>
-        <input 
-          type="number" 
-          className="form-control mb-2" 
-          placeholder="Quantity" 
-          value={newItem.quantity} 
-          onChange={(e) => setNewItem({ ...newItem, quantity: parseInt(e.target.value, 10) || 0 })}
-        />
-        <label className="form-label">Price</label>
-        <input 
-          type="number" 
-          className="form-control mb-2" 
-          placeholder="Price" 
-          value={newItem.price}
-          onChange={(e) => setNewItem({ ...newItem, price: parseFloat(e.target.value) || 0 })}
-        />
-        <label className="form-label">Weight</label>
-        <input 
-          type="number" 
-          className="form-control mb-2" 
-          placeholder="Weight" 
-          value={newItem.weight}
-          onChange={(e) => setNewItem({ ...newItem, weight: parseFloat(e.target.value) || 0 })}
-        />
-        <button className="btn btn-primary" onClick={handleAddItem}>Add Item</button> */}
-      </div>
       <table className="table table-striped">
         <thead>
           <tr>
             <th>Name</th>
             <th>Quantity</th>
+            <th>Price</th>
+            <th>Weight</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -163,6 +129,8 @@ const InventoryManagement = () => {
             <tr key={index}>
               <td>{item.name}</td>
               <td>{item.quantity}</td>
+              <td>{item.price}</td>
+              <td>{item.weight}</td>
               <td>
                 <button className="btn btn-warning btn-sm mr-2" onClick={() => { setEditItem({...item}); setEditIndex(index); }}>Edit</button>
                 <button className="btn btn-danger btn-sm" onClick={() => handleDeleteItem(index)}>Delete</button>
@@ -173,19 +141,33 @@ const InventoryManagement = () => {
       </table>
       {editItem && (
         <div className="mt-4">
+          <label className="form-label">Item Name</label>
           <input 
             type="text" 
             className="form-control mb-2" 
-            placeholder="Item Name" 
             value={editItem.name} 
             onChange={(e) => setEditItem({ ...editItem, name: e.target.value })}
           />
+          <label className="form-label">Quantity</label>
           <input 
             type="number" 
             className="form-control mb-2" 
-            placeholder="Quantity" 
             value={editItem.quantity} 
             onChange={(e) => setEditItem({ ...editItem, quantity: parseInt(e.target.value, 10) || 0 })}
+          />
+          <label className="form-label">Price</label>
+          <input 
+            type="number" 
+            className="form-control mb-2" 
+            value={editItem.price}
+            onChange={(e) => setEditItem({ ...editItem, price: parseFloat(e.target.value) || 0 })}
+          />
+          <label className="form-label">Weight</label>
+          <input 
+            type="number" 
+            className="form-control mb-2" 
+            value={editItem.weight}
+            onChange={(e) => setEditItem({ ...editItem, weight: parseFloat(e.target.value) || 0 })}
           />
           <button className="btn btn-success" onClick={handleEditItem}>Save Changes</button>
         </div>

@@ -28,25 +28,23 @@ const EmployeeApprovalRequestsPage = () => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/employees/pendingAll"
-        );
-        setRequests(response.data.pending_employees);
+        const response = await axios.get("http://localhost:3000/employees/pendingAll");
+        setRequests(response.data.pending_employees || []);
       } catch (err) {
         setError(err.message);
-        alert(error);
+        alert(error); 
       }
     };
+    
     const fetchHistory = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/employees/history"
-        );
-        setHistory(response.data.employee_history);
+        const response = await axios.get("http://localhost:3000/employees/history");
+        setHistory(response.data.employee_history || []);
       } catch (error) {
         setError(error.message);
       }
     };
+    
 
     fetchHistory();
     fetchRequests();
