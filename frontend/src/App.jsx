@@ -24,6 +24,10 @@ import AccountInfoPage from "./pages/accinfo/page";
 import PaymentInfoPage from "./pages/accinfo/payment";
 import OrderHistoryPage from "./pages/accinfo/order";
 
+import AccountInfoPage from "./pages/accinfo/page";
+import PaymentInfoPage from "./pages/accinfo/payment";
+import OrderHistoryPage from "./pages/accinfo/order";
+
 const AuthWrapper = () => {
 	useAuth();
 	return null;
