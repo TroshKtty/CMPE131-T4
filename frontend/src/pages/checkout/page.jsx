@@ -8,40 +8,47 @@ export default function CheckoutPage() {
   const [selectedAddress, setSelectedAddress] = useState("");
   const [isPaymentOpen, setPaymentOpen] = useState(false);
   const [isAddressOpen, setAddressOpen] = useState(false);
-  const [orderPlaced, setOrderPlaced] = useState(false); // Success state
-  const [savedCards, setSavedCards] = useState([]); // Cards state
-  const [savedAddresses, setSavedAddresses] = useState([]); // Addresses state
+  const [orderPlaced, setOrderPlaced] = useState(false); 
+  const [savedCards, setSavedCards] = useState([]); // Cards state (initialized as an empty array)
+  const [savedAddresses, setSavedAddresses] = useState([]); // Addresses state also empty
 
+
+  //get cost info from cart page redirect if data not present or no order added to cart
   const location = useLocation();
   const { subtotal, shipping } = location.state || { subtotal: 0, shipping: 0 };
   const tax = subtotal * 0.08;
   const token = localStorage.getItem("token") || sessionStorage.getItem("token");
   const navigateTo  = useNavigate();
+
   useEffect(() => {
-    // Fetch saved cards and addresses from the backend
-    if(subtotal == 0)
-        navigateTo("/cart");
+    // fetch saved cards and addresses from the backend
+    if (subtotal === 0) navigateTo("/cart");
+
     const fetchSavedCardsAndAddresses = async () => {
       try {
-        const cardsResponse = await axios.get("/userInfo/cards", {
+        const cardsResponse = await axios.get("http://localhost:3000/userInfo/cardInfo", {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+            Authorization: `Bearer ${token}`, 
           },
         });
-        const addressesResponse = await axios.get("/userInfo/addresses");
+        const addressesResponse = await axios.get("/userInfo/addresses", {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        });
 
-        const cardsData = await cardsResponse.data.cards;
-        const addressesData = await addressesResponse.data.addresses;
-
-        setSavedCards(cardsData);
-        setSavedAddresses(addressesData);
+        const cardsData = cardsResponse.data;
+        const addressesData = addressesResponse.data.addresses;
+        // Ensure cardsData is an array before setting it else make it empty - shouldnt happen 
+        setSavedCards(Array.isArray(cardsData) ? cardsData : []);
+        setSavedAddresses(addressesData || []);
       } catch (error) {
         console.error("Error fetching cards and addresses:", error);
       }
     };
 
     fetchSavedCardsAndAddresses();
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }, [token, subtotal, navigateTo]); 
 
   const handlePlaceOrder = async () => {
     if (selectedCard === "") {
@@ -52,13 +59,13 @@ export default function CheckoutPage() {
       alert("Please select a delivery address.");
       return;
     }
-    try {
+    try { //create the order in the backend
       const response = await axios.post(
         "http://localhost:3000/checkout/createOrder",
-        { cardId: selectedCard.id, addressId: selectedAddress.id},
+        { cardId: selectedCard.id, addressId: selectedAddress.id },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+            Authorization: `Bearer ${token}`, 
           },
         }
       );
@@ -76,7 +83,7 @@ export default function CheckoutPage() {
       <div className={styles.leftSection}>
         <h1>Checkout</h1>
 
-        {/* Payment Section */}
+        {/* payment Section */}
         <div className={styles.collapsibleSection}>
           <div
             className={styles.collapsibleHeader}
@@ -92,11 +99,15 @@ export default function CheckoutPage() {
                 value={selectedCard}
                 onChange={(e) => setSelectedCard(e.target.value)}
               >
-                {savedCards.map((card) => (
-                  <option key={card.id} value={card.id}>
-                    {card.label}
-                  </option>
-                ))}
+                {Array.isArray(savedCards) && savedCards.length > 0 ? (
+                  savedCards.map((card) => (
+                    <option key={card.id} value={card.id}>
+                      {card.cardType} **** **** **** {card.lastFourDigits} (Exp: {card.expiry})
+                    </option>
+                  ))
+                ) : (
+                  <option value="">No cards available</option>
+                )}
               </select>
               {!selectedCard && (
                 <div>
@@ -112,7 +123,7 @@ export default function CheckoutPage() {
           )}
         </div>
 
-        {/* Address Section */}
+        {/* address section */}
         <div className={styles.collapsibleSection}>
           <div
             className={styles.collapsibleHeader}
@@ -165,7 +176,7 @@ export default function CheckoutPage() {
             <span>{shipping.toFixed(2)}</span>
           </div>
 
-          {/* Line before Total */}
+          {/* line*/}
           <div className={styles.separator}></div>
 
           <div className={styles.summaryItemTotal}>

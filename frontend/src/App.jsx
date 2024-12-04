@@ -22,6 +22,9 @@ import ProtectedRoute from "@/components/protected-route/protected-route";
 
 import { CartProvider } from "@/providers/CartProvider";
 import { AuthProvider } from "@/providers/AuthProvider";
+import AccountInfoPage from "./pages/accinfo/page";
+import PaymentInfoPage from "./pages/accinfo/payment";
+import OrderHistoryPage from "./pages/accinfo/order";
 
 export default function App() {
   return (
@@ -66,7 +69,9 @@ export default function App() {
 
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/checkout" element={<CheckoutPage />} />
-
+                    <Route path="/account" element = {<AccountInfoPage/>}/>
+                    <Route path="/accinfo/payment" element={<PaymentInfoPage />} />
+                    <Route path="/accinfo/orders" element={<OrderHistoryPage />} />
                     <Route
                       path="/unauthorized"
                       element={<UnauthorizedPage />}

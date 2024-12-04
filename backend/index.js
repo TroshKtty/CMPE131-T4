@@ -12,7 +12,10 @@ const Product = require("./models/product");
 const checkoutRoute = require("./routes/checkout_route");
 const { auth, verifyPermission } = require("./middleware/auth");
 const cookieParser = require('cookie-parser');
+const userInfoRoute = require("./routes/userInfo_route");
+
 const { setupAssociations } = require("./models/index");
+
 
 const app = express();
 const PORT = 3000;
@@ -33,6 +36,7 @@ app.use("/users", auth, verifyPermission("admin"), pending_route);
 app.use("/products", productRoute);
 app.use("/cart", auth, verifyPermission("customer"), cartRoute);
 app.use("/checkout", auth, verifyPermission("customer"), checkoutRoute);
+app.use("/userInfo", auth, userInfoRoute);
 async function startServer() {
   try {
     await sequelize.authenticate();
