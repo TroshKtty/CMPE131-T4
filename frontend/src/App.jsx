@@ -53,12 +53,30 @@ export default function App() {
             </ProtectedRoute>
           }
         />        
-        <Route path="/employee" element={<EmployeeDashboardPage />} />
-        <Route path="/employee/inventory-management" element={<InventoryManagementPage />} />
-        <Route path="/employee/approval-requests" element={<EmployeeApprovalRequestsPage />} />
-        <Route path="/employee" element={<EmployeeDashboardPage />} />
-        <Route path="/employee/inventory-management" element={<InventoryManagementPage />} />
-        <Route path="/employee/approval-requests" element={<EmployeeApprovalRequestsPage />} />
+        <Route
+          path="/employee"
+          element={
+            <ProtectedRoute required_role="employee">
+              <EmployeeDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/employee/inventory-management"
+          element={
+            <ProtectedRoute required_role="employee">
+              <InventoryManagementPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/employee/approval-requests"
+          element={
+            <ProtectedRoute required_role="employee">
+              <EmployeeApprovalRequestsPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/*"
           element={
@@ -66,17 +84,9 @@ export default function App() {
               <NavBar />
               <Routes>
                   <Route path="*" element={<NotFound />} />
-                {/* Root page */}
                 <Route path="/" element={<HomePage />} />
-                {/* Route for searching products */}
                 <Route path="/search" element={<SearchPage />} />
-                {/* Route for an individual product */}
                 <Route path="/product/:product" element={<ProductPage />} />
-                {/* <Route path="/products/individual/tomato" element={<TomatoProductPage />} /> */}
-                {/* <Route path="/products/individual/banana" element={<BananaProductPage />} /> */}
-                {/* <Route path="/products/individual/water" element={<WaterProductPage />} /> */}
-                {/* <Route path="/products/individual/test" element={<TestProductPage />} /> */}
-                {/* <Route path="/unauthorized" element={<UnauthorizedPage />} /> */}
               </Routes>
               <Footer />
             </>
