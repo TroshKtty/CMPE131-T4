@@ -22,9 +22,9 @@ export default function AdminSidebar() {
         <Typography className="sidebar-header">Dashboard</Typography>
         <br></br>
         <div className="sidebar-links">
-          <Link component={RouterLink} to="/admin/inventory" className="sidebar-link">
+          {/* <Link component={RouterLink} to="/admin/inventory" className="sidebar-link">
             Inventory Management
-          </Link>
+          </Link> */}
           <Link component={RouterLink} to="/admin/sales" className="sidebar-link">
             Sales Reports
           </Link>

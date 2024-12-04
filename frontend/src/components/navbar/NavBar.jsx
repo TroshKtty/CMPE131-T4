@@ -36,7 +36,7 @@ export default function NavBar() {
     ev.preventDefault();
     if (query.length < 3) return;
     const target = new URLSearchParams({ q: query }).toString();
-    navigate(encodeURI(`/search?${target}`));
+    navigate(`/search?${target}`);
   };
 
   const handleLogout = () => {
@@ -199,8 +199,9 @@ export default function NavBar() {
           <Button
             variant="plain"
             color="neutral"
-            onClick={() => navigate("/checkout")} // Updated to "/checkout"
+            onClick={() => navigate("/checkout")}
             fullWidth
+            sx={{ color: "common.white" }}
           >
             Cart
           </Button>
@@ -240,6 +241,7 @@ export default function NavBar() {
               startDecorator={<User size={20} />}
               onClick={() => navigate("/login")}
               fullWidth
+              sx={{ color: "common.white" }}
             >
               Log In
             </Button>

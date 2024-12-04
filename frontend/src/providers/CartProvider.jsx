@@ -6,38 +6,42 @@ export const CartContext = createContext(null);
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
-  //   useEffect(() => {
-  //     axios
-  //       .get("/api/cart") // Adjust this URL based on your backend setup
-  //       .then((response) => setCart(response.data))
-  //       .catch((error) => console.error("Error fetching cart data:", error));
-  //   }, []);
+  // Add item to the cart
+  const addToCart = (item) => {
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((cartItem) => cartItem.id === item.id);
+      if (existingItem) {
+        // Update quantity if the item already exists in the cart
+        return prevCart.map((cartItem) =>
+          cartItem.id === item.id
+            ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
+            : cartItem
+        );
+      } else {
+        // Add new item to the cart
+        return [...prevCart, item];
+      }
+    });
+  };
 
-  //   const addToCart = (item) => {
-  //     axios
-  //       .post("/api/cart", item)
-  //       .then((response) => setCart(response.data))
-  //       .catch((error) => console.error("Error adding to cart:", error));
-  //   };
+  // Remove item from the cart
+  const removeFromCart = (id) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  };
 
-  //   const removeFromCart = (id) => {
-  //     axios
-  //       .delete(`/api/cart/${id}`)
-  //       .then((response) => setCart(response.data))
-  //       .catch((error) => console.error("Error removing from cart:", error));
-  //   };
-
-  //   const updateQuantity = (id, quantity) => {
-  //     axios
-  //       .put(`/api/cart/${id}`, { quantity })
-  //       .then((response) => setCart(response.data))
-  //       .catch((error) => console.error("Error updating quantity:", error));
-  //   };
+  // Update quantity of an item in the cart
+  const updateQuantity = (id, quantity) => {
+    if (quantity < 1) return; // Prevent negative quantity
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.id === id ? { ...item, quantity: quantity } : item
+      )
+    );
+  };
 
   return (
     <CartContext.Provider
-      //   value={{ cart, addToCart, removeFromCart, updateQuantity }}
-      value={{ cart, setCart }}
+      value={{ cart, addToCart, removeFromCart, updateQuantity }}
     >
       {children}
     </CartContext.Provider>

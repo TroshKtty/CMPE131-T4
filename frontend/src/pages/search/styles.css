@@ -1,0 +1,15 @@
+/* remove margin jank */
+.MuiSelect-button, .JoySelect-button,
+.MuiSelect-button:hover, .JoySelect-button:hover {
+    margin: 0px !important;
+}
+
+/* remove select button bg hover */
+.MuiSelect-button:hover {
+    background-color: transparent !important;
+}
+
+/* remove padding jank on the select menu */
+.MuiSelect-listbox {
+    padding: 0px !important;
+}
