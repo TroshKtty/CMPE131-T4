@@ -17,7 +17,7 @@ const employeePendingAll = async (req, res) => {
 };
   
 
-const employeeApprovedUsers = async(req, res) => {
+const employeeApprovedUsers = async (req, res) => {
   try {
     const user_history = await Requests.findAll({
       where: {
@@ -25,40 +25,54 @@ const employeeApprovedUsers = async(req, res) => {
         role: 'employee' 
       }
     });
-    res.status(200).json({user_history});
+    res.status(200).json({ employee_history: user_history }); 
   } catch (err) {
-    res.status(500).json({message: "Something went wrong"});
+    res.status(500).json({ message: "Something went wrong" });
   }
-}
+};
 
 const employeeDecision = async (req, res) => {
-    const { requester_id, decision, decision_date, user_id_approver } = req.body;
-    try {
-        const approver = await Users.findOne({
-          where: { user_id: user_id_approver },
-          attributes: ["name"]
-        });
-        const requester = await Users.findOne({
-          where: { user_id: requester_id },
-          attributes: ["user_id", "role", "name"]
-        });
+  const { requester_id, decision, decision_date, user_id_approver } = req.body;
+  try {
+    const approver = await Users.findOne({
+      where: { user_id: user_id_approver },
+      attributes: ["name"]
+    });
+    const requester = await Users.findOne({
+      where: { user_id: requester_id },
+      attributes: ["user_id", "role", "name"]
+    });
+    requester.approved = decision;
+    await requester.save();
 
-        await Requests.create({
-            user_id: requester_id,
-            name: requester.name,
-            role: requester.role,
-            decision,
-            approved_at: decision_date,
-            approved_by_name: approver.name,
-            approved_by_id: user_id_approver,
-        });
-        requester.approved = decision;
-        await requester.save();
-        res.status(200).send("Decision recorded");
-    } catch(err) {
-      console.log("Something went wrong", err);
-      res.status(500).send("Failed to process decision");
+    const existingRequest = await Requests.findOne({
+      where: { user_id: requester_id }
+    });
+
+    if (existingRequest) {
+      await existingRequest.update({
+        decision,
+        approved_at: decision_date,
+        approved_by_name: approver.name,
+        approved_by_id: user_id_approver,
+      });
+    } else {
+      await Requests.create({
+        user_id: requester_id,
+        name: requester.name,
+        role: requester.role,
+        decision,
+        approved_at: decision_date,
+        approved_by_name: approver.name,
+        approved_by_id: user_id_approver,
+      });
     }
+
+    res.status(200).send("Decision recorded");
+  } catch (err) {
+    console.log("Something went wrong", err);
+    res.status(500).send("Failed to process decision");
+  }
 };
 
 const employeeRevokeAccess = async (req, res) => {

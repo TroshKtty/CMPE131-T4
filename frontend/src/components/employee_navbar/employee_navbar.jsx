@@ -1,39 +1,38 @@
 import React from "react";
-import { Typography, Link, Box } from "@mui/joy";
-import { Link as RouterLink } from "react-router-dom";
+import { Typography, Link } from "@mui/joy";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import "./employee_navbar.css"; 
 
 export default function EmployeeSidebar() {
+
+  const navigate = useNavigate();
+
+  const logout = (event) => {
+    event.preventDefault(); // Prevent the default link navigation
+    sessionStorage.removeItem('token');
+    localStorage.removeItem('token');
+    navigate('/'); // Navigate after removing the tokens
+  }
+
   return (
-    <Box
-      sx={{
-        width: 250,
-        bgcolor: "#5271ff",
-        color: "common.white",
-        padding: 2,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-      }}
-    >
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-        <Typography fontSize="1.5rem" fontWeight="bold" sx={{ color: "white" }}>
-          Employee Panel
-        </Typography>
-        <Link component={RouterLink} to="/employee/inventory-management" sx={{ color: "white", fontSize: "1rem" }}>
-          Inventory Management
-        </Link>
-        <Link component={RouterLink} to="/employee/approval-requests" sx={{ color: "white", fontSize: "1rem" }}>
-          Approval Requests
-        </Link>
-      </Box>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-        <Link component={RouterLink} to="/employee/settings" sx={{ color: "white", fontSize: "1rem" }}>
-          Settings
-        </Link>
-        <Link component={RouterLink} to="/logout" sx={{ color: "white", fontSize: "1rem" }}>
+    <div className="sidebar">
+      <div>
+        <Typography className="sidebar-header">Employee Panel</Typography>
+        <br />
+        <div className="sidebar-links">
+          <Link component={RouterLink} to="/employee/inventory-management" className="sidebar-link">
+            Inventory Management
+          </Link>
+          <Link component={RouterLink} to="/employee/approval-requests" className="sidebar-link">
+            Approval Requests
+          </Link>
+        </div>
+      </div>
+      <div className="sidebar-links">
+        <Link onClick={logout} className="sidebar-link" to="/">
           Logout
         </Link>
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }

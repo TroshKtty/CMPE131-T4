@@ -10,28 +10,27 @@
     justify-content: space-between;
     gap: 8px;
   }
-  
+
   .sidebar-header {
     font-size: 1.5rem !important;
     font-weight: bold;
     color: white !important;
   }
-  
+
   .sidebar-links {
     display: flex;
     flex-direction: column;
     gap: 8px;
   }
-  
+
   .sidebar-link {
     color: white !important; /* Force link color to be white */
     font-size: 1rem;
     text-decoration: none;
     padding: 4px 0; /* Add padding for better readability */
   }
-  
+
   .sidebar-link:hover {
     text-decoration: underline;
     color: #ffffff; /* Ensure hover color is white */
   }
-  

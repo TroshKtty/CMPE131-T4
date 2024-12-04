@@ -11,7 +11,7 @@ export default function EmployeeDashboardPage() {
           fontSize="2.5rem"
           fontWeight="bold"
           align="center"
-          sx={{ color: "#5271ff" }}
+          sx={{ color: "#0c6cba" }}
         >
           Employee Dashboard
         </Typography>
