@@ -3,11 +3,10 @@ const Requests = require("../models/approval_model");
 
 const employeePendingAll = async (req, res) => {
     try {
-        // Specify the role directly in the query
         const pendingEmployees = await Users.findAll({
             where: {
                 approved: false,
-                role: 'employee' // Directly querying only employees
+                role: 'employee' 
             },
             attributes: ["user_id", "name", "email", "role", "created_at"],
         });
@@ -23,7 +22,7 @@ const employeeApprovedUsers = async(req, res) => {
     const user_history = await Requests.findAll({
       where: {
         decision: true,
-        role: 'employee' // Assuming role is stored and needs to be filtered
+        role: 'employee' 
       }
     });
     res.status(200).json({user_history});
