@@ -132,7 +132,7 @@ export default function NavBar() {
                   <Typography textColor="common.white">Menu</Typography>
                 </MenuButton>
                 <Menu placement="bottom-end">
-                  <MenuItem onClick={() => navigate("/account")}>
+                  <MenuItem onClick={() => navigate("/accinfo")}>
                     <Typography
                       sx={{
                         "&:hover": {
@@ -143,7 +143,7 @@ export default function NavBar() {
                       Account Information
                     </Typography>
                   </MenuItem>
-                  <MenuItem onClick={() => navigate("/orders")}>
+                  <MenuItem onClick={() => navigate("/accinfo/orders")}>
                     <Typography
                       sx={{
                         "&:hover": {
