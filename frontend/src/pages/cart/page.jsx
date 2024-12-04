@@ -28,7 +28,9 @@ export default function CartPage() {
   }, [cart]);
 
   const handleCheckout = () => {
-    navigate("/checkout");
+    const shipping = freeShipping ? 0 : 5;
+    console.log(shipping + " " + subtotal);
+    navigate("/checkout", { state: { subtotal, shipping} });
   };
 
   if (!hasCartInit) {
