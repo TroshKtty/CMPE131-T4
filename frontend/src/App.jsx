@@ -104,7 +104,7 @@ export default function App() {
                     <Route
                       path="/cart"
                       element={
-                        <ProtectedRoute required_role="user">
+                        <ProtectedRoute required_role="customer">
                           <CartPage />{" "}
                         </ProtectedRoute>
                       }
@@ -112,7 +112,7 @@ export default function App() {
                     <Route
                       path="/checkout"
                       element={
-                        <ProtectedRoute required_role="user">
+                        <ProtectedRoute required_role="customer">
                           <CheckoutPage />
                         </ProtectedRoute>
                       }
@@ -120,7 +120,7 @@ export default function App() {
                     <Route
                       path="/account"
                       element={
-                        <ProtectedRoute required_role="user">
+                        <ProtectedRoute required_role="customer">
                           <AccountInfoPage />
                         </ProtectedRoute>
                       }
@@ -128,7 +128,7 @@ export default function App() {
                     <Route
                       path="/accinfo/payment"
                       element={
-                        <ProtectedRoute required_role="user">
+                        <ProtectedRoute required_role="customer">
                           <PaymentInfoPage />
                         </ProtectedRoute>
                       }
@@ -144,7 +144,7 @@ export default function App() {
                     <Route
                       path="/accinfo/address"
                       element={
-                        <ProtectedRoute required_role="user">
+                        <ProtectedRoute required_role="customer">
                           <AddressPage />
                         </ProtectedRoute>
                       }
