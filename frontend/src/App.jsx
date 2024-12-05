@@ -1,9 +1,9 @@
-import { Route, BrowserRouter as Router, Routes, Link, Navigate } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes, Navigate } from "react-router-dom";
 import LoginPage from "@/pages/login/page";
 import RegistrationPage from "@/pages/registration/page";
 import HomePage from "@/pages/home/page";
 import AdminDashboardPage from "@/pages/admin/page";
-import EmployeeDashboardPage from "@/pages/employee/page";
+//import EmployeeDashboardPage from "@/pages/employee/page";
 import InventoryManagementPage from "@/pages/employee/InventoryManagement";
 import EmployeeApprovalRequestsPage from "@/pages/employee/ApprovalRequestsPage";
 import AdminApprovalRequestsPage from "@/pages/admin/ApprovalRequestsPage";
@@ -25,6 +25,7 @@ import ProtectedRoute from "@/components/protected-route/protected-route";
 import AccountInfoPage from "./pages/accinfo/page";
 import PaymentInfoPage from "./pages/accinfo/payment";
 import OrderHistoryPage from "./pages/accinfo/order";
+import AddressPage from "./pages/accinfo/address";
 
 import { CartProvider } from "@/providers/CartProvider";
 import { AuthProvider } from "@/providers/AuthProvider";
@@ -105,6 +106,10 @@ export default function App() {
                     <Route
                       path="/accinfo/orders"
                       element={<OrderHistoryPage />}
+                    />
+                    <Route
+                      path="/accinfo/address"
+                      element={<AddressPage />}
                     />
                     <Route
                       path="/unauthorized"

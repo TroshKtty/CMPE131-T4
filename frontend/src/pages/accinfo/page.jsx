@@ -78,14 +78,12 @@ export default function AccountInfoPage() {
           >
             Order History
           </Link>
-        </Box>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <Link
             component={RouterLink}
-            to="/logout"
+            to="/accinfo/address"
             sx={{ color: "black", fontSize: "1.3rem" }}
           >
-            Logout
+            Address Info
           </Link>
         </Box>
       </Box>
