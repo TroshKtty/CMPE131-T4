@@ -120,7 +120,7 @@ const removeCard = async (req, res) => {
 
   //find card id of user
   if (!cardId)
-    return res.status(400).response({ message: "Specify the card to remove" });
+    return res.status(400).json({ message: "Specify the card to remove" });
 
   let card = await Card.findOne({
     where: { customer_id: userId },
