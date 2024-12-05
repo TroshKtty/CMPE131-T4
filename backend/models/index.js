@@ -34,6 +34,12 @@ const setupAssociations = () => {
   Address.hasMany(AddressItem, { foreignKey: "address_id", sourceKey: "id" });
   AddressItem.belongsTo(Address, { foreignKey: "address_id", targetKey: "id" });
 
+  Order.belongsTo(AddressItem, { foreignKey: "deliveryAddressId", targetKey: "address_item_id" });
+  AddressItem.hasMany(Order, { foreignKey: "deliveryAddressId", sourceKey: "address_item_id" });
+
+  Order.belongsTo(CardItem, { foreignKey: "cardId", targetKey: "card_item_id" });
+  CardItem.hasMany(Order, { foreignKey: "cardId", sourceKey: "card_item_id" });
+
   Address.belongsTo(User, {
     foreignKey: "customer_id",
     targetKey: "user_id",
