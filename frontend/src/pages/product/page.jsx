@@ -38,7 +38,8 @@ export default function ProductPage() {
   const { product: productParam } = useParams();
   const { cart, addToCart, updateCount, removeFromCart, hasCartInit } =
     useCart();
-  const { isLoggedIn } = useCart();
+  const isLoggedIn =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
 
   const [product, setProduct] = useState(null);
   const [productImages, setProductImages] = useState([]);
