@@ -11,7 +11,6 @@ import {
 import "./styles.css";
 import AdminSidebar from "@/components/admin_navbar/admin_navbar";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
 
 const ApprovalRequestsPage = () => {
   const [requests, setRequests] = useState([]);
@@ -19,7 +18,7 @@ const ApprovalRequestsPage = () => {
   const [tabValue, setTabValue] = useState(0);
   const [error, setError] = useState(null);
   const [showDetails, setShowDetails] = useState({});
-
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
   const getCurrentDate = () => {
     const today = new Date();
     return today.toISOString().split("T")[0];
@@ -30,7 +29,7 @@ const ApprovalRequestsPage = () => {
       try {
         const response = await axios.get(
           "http://localhost:3000/users/pendingAll",
-          {}
+          {headers: { Authorization: `Bearer ${token}` }}
         );
         //const data = await response.json();
         setRequests(response.data.pending_users);
@@ -42,7 +41,8 @@ const ApprovalRequestsPage = () => {
     const fetchHistory = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/users/approved_users"
+          "http://localhost:3000/users/approved_users",
+          {headers: { Authorization: `Bearer ${token}` }}
         );
         setHistory(response.data.user_history);
       } catch (error) {
@@ -59,13 +59,11 @@ const ApprovalRequestsPage = () => {
     if (user) {
       const decision_date = getCurrentDate();
       const requester_id = user_id;
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-      const user_id_approver = jwtDecode(token).user_id;
-      axios.post("http://localhost:3000/users/decision", {
+      axios.post("http://localhost:3000/users/decision", 
+        {headers: { Authorization: `Bearer ${token}` }},{
         requester_id,
         decision,
         decision_date,
-        user_id_approver,
       });
       setRequests(requests.filter((request) => request.user_id !== user_id));
     }
@@ -76,7 +74,7 @@ const ApprovalRequestsPage = () => {
     if (entry) {
       setHistory(history.filter((entry) => entry.id !== id));
     }
-    axios.post("http://localhost:3000/users/revoke_access", {id});
+    axios.post("http://localhost:3000/users/revoke_access", {id}, {headers: { Authorization: `Bearer ${token}` }});
   };
 
   const toggleDetails = (entryId) => {
