@@ -60,7 +60,7 @@ export default function App() {
               path="/employee"
               element={
                 <ProtectedRoute required_role="employee">
-                  <EmployeeDashboardPage />
+                  <Navigate to="/employee/approval-requests" replace />
                 </ProtectedRoute>
               }
             />

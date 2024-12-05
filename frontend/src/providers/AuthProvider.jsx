@@ -4,18 +4,21 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../providers/CartProvider";
 
-
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-    const { syncCart, clearCart } = useContext(CartContext);
+  const { syncCart, clearCart } = useContext(CartContext);
   const navigate = useNavigate();
   const [token, setToken] = useState(
     sessionStorage.getItem("token") || localStorage.getItem("token") || null
   );
   const [userRole, setUserRole] = useState(null);
   const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    console.log("role", userRole);
+  }, [userRole]);
 
   const handleLogin = async (newToken, rememberMe) => {
     const storage = rememberMe ? localStorage : sessionStorage;
@@ -30,7 +33,7 @@ export function AuthProvider({ children }) {
     } else if (decodedToken.role === "employee") {
       navigate("/");
     } else {
-        syncCart(newToken);
+      syncCart(newToken);
       navigate("/");
     }
   };
@@ -56,6 +59,8 @@ export function AuthProvider({ children }) {
 
     if (token) {
       const decodedToken = jwtDecode(token);
+      setUserRole(decodedToken.role);
+
       const currentTime = Date.now() / 1000;
 
       if (decodedToken.exp < currentTime) {
