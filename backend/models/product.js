@@ -12,7 +12,6 @@ const Product = sequelize.define(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
     price: {
       type: DataTypes.DECIMAL(10, 2),
@@ -48,7 +47,9 @@ const Product = sequelize.define(
       allowNull: false,
     },
   },
-  { tableName: "product" }
+  {
+    tableName: "product",
+  }
 );
 
 module.exports = Product;
