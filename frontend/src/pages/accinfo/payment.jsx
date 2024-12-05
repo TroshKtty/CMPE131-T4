@@ -1,25 +1,43 @@
 import { useState, useEffect } from "react";
-import { Box, Typography, Link, Card, CardContent, Divider, Button, Input, Stack } from "@mui/joy";
+import {
+  Box,
+  Typography,
+  Link,
+  Card,
+  CardContent,
+  Divider,
+  Button,
+  Input,
+  Stack,
+} from "@mui/joy";
 import "react-multi-carousel/lib/styles.css";
 import { Link as RouterLink } from "react-router-dom";
 import axios from "axios";
 
 export default function PaymentInfoPage() {
   const [cards, setCards] = useState([]);
-  const [newCard, setNewCard] = useState({ cardNumber: "", expiry: "", cvv: "" });
+  const [newCard, setNewCard] = useState({
+    cardNumber: "",
+    expiry: "",
+    cvv: "",
+  });
   const [error, setError] = useState("");
-  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
 
   // Fetch user's saved cards
   useEffect(() => {
     const fetchCards = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/userInfo/cardInfo", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setCards(response.data.filter(e => e !== null && e !== undefined));
+        const response = await axios.get(
+          "http://localhost:3000/userInfo/cardInfo",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setCards(response.data.filter((e) => e !== null && e !== undefined));
       } catch (err) {
         setError("Failed to fetch cards.");
         console.log(err);
@@ -61,11 +79,15 @@ export default function PaymentInfoPage() {
   // remove card
   const handleRemoveCard = async (cardId) => {
     try {
-      const response = await axios.post(`http://localhost:3000/userInfo/removeCard`,{ cardId}, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.post(
+        `http://localhost:3000/userInfo/removeCard`,
+        { cardId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (response.status === 200) {
         // Remove the card from the list
         setCards(cards.filter((card) => card.id !== cardId));
@@ -90,21 +112,41 @@ export default function PaymentInfoPage() {
         }}
       >
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <Typography fontSize="1.5rem" fontWeight="bold" sx={{ color: "#5271ff" }}>
+          <Typography
+            fontSize="1.5rem"
+            fontWeight="bold"
+            sx={{ color: "#5271ff" }}
+          >
             Your Account
           </Typography>
-          <Link component={RouterLink} to="/account" sx={{ color: "black", fontSize: "1.3rem" }}>
+          <Link
+            component={RouterLink}
+            to="/account"
+            sx={{ color: "black", fontSize: "1.3rem" }}
+          >
             Personal Information
           </Link>
-          <Link component={RouterLink} to="/accinfo/payment" sx={{ color: "#5271ff", fontSize: "1.3rem" }}>
+          <Link
+            component={RouterLink}
+            to="/accinfo/payment"
+            sx={{ color: "#5271ff", fontSize: "1.3rem" }}
+          >
             Billing & Payments
           </Link>
-          <Link component={RouterLink} to="/accinfo/orders" sx={{ color: "black", fontSize: "1.3rem" }}>
+          <Link
+            component={RouterLink}
+            to="/accinfo/orders"
+            sx={{ color: "black", fontSize: "1.3rem" }}
+          >
             Order History
           </Link>
         </Box>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <Link component={RouterLink} to="/logout" sx={{ color: "black", fontSize: "1.3rem" }}>
+          <Link
+            component={RouterLink}
+            to="/logout"
+            sx={{ color: "black", fontSize: "1.3rem" }}
+          >
             Logout
           </Link>
         </Box>
@@ -119,14 +161,23 @@ export default function PaymentInfoPage() {
           maxHeight: "calc(100vh - 32px)",
         }}
       >
-        <Typography fontSize="2.5rem" fontWeight="bold" align="left" sx={{ color: "black" }}>
+        <Typography
+          fontSize="2.5rem"
+          fontWeight="bold"
+          align="left"
+          sx={{ color: "black" }}
+        >
           Manage Payment Methods
         </Typography>
         <Divider />
 
         {/* Saved Cards */}
         <Box sx={{ marginTop: 4 }}>
-          <Typography fontSize="1.5rem" fontWeight="bold" sx={{ marginBottom: 2 }}>
+          <Typography
+            fontSize="1.5rem"
+            fontWeight="bold"
+            sx={{ marginBottom: 2 }}
+          >
             Saved Cards
           </Typography>
           {cards.length > 0 ? (
@@ -136,8 +187,12 @@ export default function PaymentInfoPage() {
                   <Typography fontSize="1.3rem" fontWeight="bold">
                     Card Ending in {card.lastFourDigits}
                   </Typography>
-                  <Typography fontSize="1.25rem">Expiry: {card.expiry}</Typography>
-                  <Typography fontSize="1.25rem">Type: {card.cardType}</Typography>
+                  <Typography fontSize="1.25rem">
+                    Expiry: {card.expiry}
+                  </Typography>
+                  <Typography fontSize="1.25rem">
+                    Type: {card.cardType}
+                  </Typography>
                   <Button
                     variant="outlined"
                     color="error"
@@ -156,7 +211,11 @@ export default function PaymentInfoPage() {
 
         {/* Add New Card */}
         <Box sx={{ marginTop: 4 }}>
-          <Typography fontSize="1.5rem" fontWeight="bold" sx={{ marginBottom: 2 }}>
+          <Typography
+            fontSize="1.5rem"
+            fontWeight="bold"
+            sx={{ marginBottom: 2 }}
+          >
             Add a New Card
           </Typography>
           {error && (
@@ -171,16 +230,19 @@ export default function PaymentInfoPage() {
                 placeholder="Card Number"
                 value={newCard.cardNumber}
                 onChange={(e) => {
-                  const value = e.target.value.replace(/\D/g, ""); // X non-digit characters
-                  const formatted = value
-                    .match(/.{1,4}/g)
-                    ?.join(" ")
-                    .substring(0, 19); // UX for card number
-                  setNewCard({ ...newCard, cardNumber: formatted });
+                  const value = e.target.value.replace(/\D/g, "");
+                  // Only proceed if it's a potential valid number (max 16 digits)
+                  if (value.length <= 16) {
+                    const formatted = value
+                      .match(/.{1,4}/g)
+                      ?.join(" ")
+                      .substring(0, 19);
+                    setNewCard({ ...newCard, cardNumber: formatted });
+                  }
                 }}
                 size="sm"
                 sx={{ width: 300 }}
-                inputProps={{ maxLength: 19 }} // Ensure max length of 19 (16 digits + 3 spaces)
+                inputProps={{ maxLength: 19 }}
                 required
               />
 
@@ -189,26 +251,28 @@ export default function PaymentInfoPage() {
                 placeholder="MM/YY"
                 value={newCard.expiry}
                 onChange={(e) => {
-                  const value = e.target.value.replace(/\D/g, ""); //  X non-digit characters
-                  let formatted = value;
-
-                  if (value.length >= 2) {
-                    const month = parseInt(value.substring(0, 2), 10);
-                    if (month > 12 || month < 1) {
-                      formatted = "12"; // Default to 12 if invalid
+                  const value = e.target.value.replace(/\D/g, "");
+                  if (value.length <= 4) {
+                    // Only allow 4 digits total
+                    let formatted = value;
+                    if (value.length >= 2) {
+                      const month = parseInt(value.substring(0, 2), 10);
+                      // Only accept valid months 1-12
+                      if (month >= 1 && month <= 12) {
+                        formatted = value.substring(0, 2);
+                        if (value.length > 2) {
+                          formatted += `/${value.substring(2, 4)}`;
+                        }
+                        setNewCard({ ...newCard, expiry: formatted });
+                      }
                     } else {
-                      formatted = value.substring(0, 2); // Keep valid month
+                      setNewCard({ ...newCard, expiry: formatted });
                     }
                   }
-                  if (value.length > 2) {
-                    formatted += `/${value.substring(2, 4)}`; // Append year
-                  }
-
-                  setNewCard({ ...newCard, expiry: formatted });
                 }}
                 size="sm"
                 sx={{ width: 300 }}
-                inputProps={{ maxLength: 5 }} // Ensure max length of 5 (MM/YY)
+                inputProps={{ maxLength: 5 }}
                 required
               />
 
@@ -217,8 +281,11 @@ export default function PaymentInfoPage() {
                 placeholder="CVV"
                 value={newCard.cvv}
                 onChange={(e) => {
-                  const value = e.target.value.replace(/\D/g, ""); // Remove non-digit characters
-                  setNewCard({ ...newCard, cvv: value.substring(0, 4) }); // Limit to 3 digits
+                  const value = e.target.value.replace(/\D/g, "");
+                  // Only allow 3-4 digits (covers both regular cards and Amex)
+                  if (value.length <= 4) {
+                    setNewCard({ ...newCard, cvv: value });
+                  }
                 }}
                 size="sm"
                 sx={{ width: 300 }}
@@ -227,7 +294,11 @@ export default function PaymentInfoPage() {
               />
 
               {/* Submit Button */}
-              <Button type="submit" size="sm" sx={{ width: 150, fontSize: "0.875rem" }}>
+              <Button
+                type="submit"
+                size="sm"
+                sx={{ width: 150, fontSize: "0.875rem" }}
+              >
                 Add Card
               </Button>
             </Stack>
