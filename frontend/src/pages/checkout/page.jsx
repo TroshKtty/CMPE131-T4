@@ -12,31 +12,36 @@ export default function CheckoutPage() {
   const [savedCards, setSavedCards] = useState([]); // Cards state (initialized as an empty array)
   const [savedAddresses, setSavedAddresses] = useState([]); // Addresses state also empty
 
-
   //get cost info from cart page redirect if data not present or no order added to cart
   const location = useLocation();
   const { subtotal, shipping } = location.state || { subtotal: 0, shipping: 0 };
   const tax = subtotal * 0.08;
-  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-  const navigateTo  = useNavigate();
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+  const navigateTo = useNavigate();
 
-  
   useEffect(() => {
     // fetch saved cards and addresses from the backend
     if (subtotal === 0) navigateTo("/cart");
 
     const fetchSavedCardsAndAddresses = async () => {
       try {
-        const cardsResponse = await axios.get("http://localhost:3000/userInfo/cardInfo", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const addressesResponse = await axios.get("http://localhost:3000/userInfo/addressInfo", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const cardsResponse = await axios.get(
+          "http://localhost:3000/userInfo/cardInfo",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const addressesResponse = await axios.get(
+          "http://localhost:3000/userInfo/addressInfo",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         const cardsData = cardsResponse.data;
         const addressesData = addressesResponse.data;
@@ -60,8 +65,9 @@ export default function CheckoutPage() {
       alert("Please select a delivery address.");
       return;
     }
-    console.log(selectedAddress.id + " "+selectedCard.id); 
-    try { //create the order in the backend
+    console.log(selectedAddress.id + " " + selectedCard.id);
+    try {
+      //create the order in the backend
       const response = await axios.post(
         "http://localhost:3000/checkout/createOrder",
         { cardId: selectedCard, addressId: selectedAddress },
@@ -104,23 +110,22 @@ export default function CheckoutPage() {
                 {Array.isArray(savedCards) && savedCards.length > 0 ? (
                   savedCards.map((card) => (
                     <option key={card.id} value={card.id}>
-                      {card.cardType} **** **** **** {card.lastFourDigits} (Exp: {card.expiry})
+                      {card.cardType} **** **** **** {card.lastFourDigits} (Exp:{" "}
+                      {card.expiry})
                     </option>
                   ))
                 ) : (
                   <option value="">No cards available</option>
                 )}
               </select>
-              {!selectedCard && (
-                <div>
-                  <br />
-                  <Link to={"/account"} style={{ textDecoration: "none" }}>
-                    <button className={styles.redirectButton}>
-                      Different Card?
-                    </button>
-                  </Link>
-                </div>
-              )}
+              <div>
+                <br />
+                <Link to={"/account"} style={{ textDecoration: "none" }}>
+                  <button className={styles.redirectButton}>
+                    Different Card?
+                  </button>
+                </Link>
+              </div>
             </div>
           )}
         </div>
@@ -142,20 +147,22 @@ export default function CheckoutPage() {
               >
                 {savedAddresses.map((address) => (
                   <option key={address.id} value={address.id}>
-                    {address.street}, {address.city}, {address.state}, {address.zipcode}
+                    {address.street}, {address.city}, {address.state},{" "}
+                    {address.zipcode}
                   </option>
                 ))}
               </select>
-              {!selectedAddress && (
-                <div>
-                  <br />
-                  <Link to={"/accInfo/address"} style={{ textDecoration: "none" }}>
-                    <button className={styles.redirectButton}>
-                      Different Address?
-                    </button>
-                  </Link>
-                </div>
-              )}
+              <div>
+                <br />
+                <Link
+                  to={"/accInfo/address"}
+                  style={{ textDecoration: "none" }}
+                >
+                  <button className={styles.redirectButton}>
+                    Different Address?
+                  </button>
+                </Link>
+              </div>
             </div>
           )}
         </div>
