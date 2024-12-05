@@ -38,7 +38,7 @@ export default function AdminSidebar() {
       </div>
       <div className="sidebar-links">
       <Link component={RouterLink} to="/" className="sidebar-link">
-          Return to Dashboard
+          Return to Home
         </Link>
         <Link component={RouterLink} to="/admin/settings" className="sidebar-link">
           Settings
