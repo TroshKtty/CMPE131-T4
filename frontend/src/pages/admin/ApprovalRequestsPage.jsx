@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -54,17 +54,18 @@ const ApprovalRequestsPage = () => {
     fetchRequests();
   }, []);
 
-  const handleDecision = (user_id, decision) => {
+  const handleDecision = async(user_id, decision) => {
     const user = requests.find((request) => request.user_id === user_id);
     if (user) {
       const decision_date = getCurrentDate();
       const requester_id = user_id;
-      axios.post("http://localhost:3000/users/decision", 
-        {headers: { Authorization: `Bearer ${token}` }},{
+      await axios.post("http://localhost:3000/users/decision",{
         requester_id,
         decision,
         decision_date,
-      });
+      },
+      {headers: { Authorization: `Bearer ${token}` }}
+    );
       setRequests(requests.filter((request) => request.user_id !== user_id));
     }
   };
