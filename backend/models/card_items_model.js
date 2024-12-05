@@ -29,9 +29,9 @@ const CardItem = sequelize.define('CardItem', {
       }
  }, {
   tableName: 'card_items',
-  timestamps: false, 
+  timestamps: false,
 });
 
-CardItem.sync({ alter: true });
+// CardItem.sync({ alter: true });
 
 module.exports = CardItem;

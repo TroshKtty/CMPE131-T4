@@ -43,11 +43,11 @@ const sequelize = require('../config.js');
       allowNull: false,
     },
   }, {
-    tableName: "orders", 
-    timestamps: false, 
+    tableName: "orders",
+    timestamps: false,
   });
 
-  Order.sync({ alter: true });
+  // Order.sync({ alter: true });
 
 module.exports = Order;
 

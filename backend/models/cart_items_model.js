@@ -22,9 +22,9 @@ const CartItem = sequelize.define('CartItem', {
       defaultValue: 1,
     },
  }, {
-  tableName: 'cart_items', 
+  tableName: 'cart_items',
 });
 
-CartItem.sync({ alter: true });
+// CartItem.sync({ alter: true });
 
 module.exports = CartItem;

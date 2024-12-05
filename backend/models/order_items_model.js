@@ -33,5 +33,5 @@ const OrderItem = sequelize.define('OrderItem', {
   tableName: 'order_items',
 });
 
-OrderItem.sync({ alter: true });
+// OrderItem.sync({ alter: true });
 module.exports = OrderItem;
