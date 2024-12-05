@@ -105,6 +105,7 @@ export default function PaymentInfoPage() {
         sx={{
           width: 250,
           bgcolor: "#f4f5f7",
+          color: "common.white",
           padding: 2,
           display: "flex",
           flexDirection: "column",
@@ -140,27 +141,18 @@ export default function PaymentInfoPage() {
           >
             Order History
           </Link>
-        </Box>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <Link
             component={RouterLink}
-            to="/logout"
+            to="/accinfo/address"
             sx={{ color: "black", fontSize: "1.3rem" }}
           >
-            Logout
+            Address Info
           </Link>
         </Box>
       </Box>
 
       {/* Main Content */}
-      <Box
-        sx={{
-          flexGrow: 1,
-          padding: 4,
-          overflowY: "auto",
-          maxHeight: "calc(100vh - 32px)",
-        }}
-      >
+      <Box sx={{ flexGrow: 1, padding: 4 }}>
         <Typography
           fontSize="2.5rem"
           fontWeight="bold"

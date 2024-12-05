@@ -4,7 +4,8 @@ import { Link as RouterLink } from "react-router-dom";
 import axios from "axios";
 
 export default function AccountInfoPage() {
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
@@ -18,7 +19,7 @@ export default function AccountInfoPage() {
         const response = await axios.get(`http://localhost:3000/userInfo`, {
           headers: {
             Authorization: `Bearer ${token}`,
-          }
+          },
         });
 
         setUserInfo({
