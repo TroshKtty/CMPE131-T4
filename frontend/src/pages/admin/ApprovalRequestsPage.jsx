@@ -36,7 +36,7 @@ const ApprovalRequestsPage = () => {
         setRequests(response.data.pending_users);
       } catch (err) {
         setError(err.message);
-        alert(error);
+        // alert(error);
       }
     };
     const fetchHistory = async () => {
