@@ -25,27 +25,21 @@ export default function AdminSidebar() {
           {/* <Link component={RouterLink} to="/admin/inventory" className="sidebar-link">
             Inventory Management
           </Link> */}
-          <Link component={RouterLink} to="/admin/sales" className="sidebar-link">
-            Sales Reports
-          </Link>
-          <Link component={RouterLink} to="/admin/analytics" className="sidebar-link">
-            User Analytics
-          </Link>
           <Link component={RouterLink} to="/admin/approval-requests" className="sidebar-link">
             Approval Requests
+          </Link>
+          <Link component={RouterLink} to="/admin" className="sidebar-link">
+            Admin Dashboard
           </Link>
         </div>
       </div>
       <div className="sidebar-links">
-      <Link component={RouterLink} to="/" className="sidebar-link">
+        <Link component={RouterLink} to="/" className="sidebar-link">
           Return to Home
-        </Link>
-        <Link component={RouterLink} to="/admin/settings" className="sidebar-link">
-          Settings
-        </Link>
-        <Link className="sidebar-link" onClick={logout}>
-          Logout
-        </Link>
+          </Link>
+          <Link className="sidebar-link" onClick={logout}>
+            Logout
+          </Link>
       </div>
     </div>
   );
