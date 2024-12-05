@@ -72,6 +72,7 @@ const createOrder = async (req, res) => {
       weight: item.Product.weight,
     }));
 
+    
     // Save order items
     await OrderItems.bulkCreate(orderItems);
 

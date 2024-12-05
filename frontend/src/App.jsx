@@ -12,6 +12,8 @@ import AdminDashboardPage from "@/pages/admin/page";
 import InventoryManagementPage from "@/pages/employee/InventoryManagement";
 import EmployeeApprovalRequestsPage from "@/pages/employee/ApprovalRequestsPage";
 import AdminApprovalRequestsPage from "@/pages/admin/ApprovalRequestsPage";
+import OrderPage from "@/pages/employee/Orders";
+
 import UnauthorizedPage from "@/pages/unauthorized/page";
 
 import ProductPage from "@/pages/product/page";
@@ -75,6 +77,14 @@ export default function App() {
               element={
                 <ProtectedRoute required_role="employee">
                   <InventoryManagementPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/employee/orders"
+              element={
+                <ProtectedRoute required_role="employee">
+                  <OrderPage />
                 </ProtectedRoute>
               }
             />
