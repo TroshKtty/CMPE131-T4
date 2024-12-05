@@ -57,15 +57,13 @@ export default function CheckoutPage() {
   }, [token, subtotal, navigateTo]);
 
   const handlePlaceOrder = async () => {
-    if (selectedCard === "") {
+    if (!selectedCard) {
       alert("Please select a payment method.");
-      return;
     }
     if (!selectedAddress) {
       alert("Please select a delivery address.");
-      return;
     }
-    console.log(selectedAddress.id + " " + selectedCard.id);
+    else{
     try {
       //create the order in the backend
       const response = await axios.post(
@@ -83,6 +81,10 @@ export default function CheckoutPage() {
       //alert(err.response);
     }
     setOrderPlaced(true); // Show success message
+    localStorage.setItem("cart", []);
+    window.location.reload();
+    navigateTo("/");
+    }
   };
 
   return (
@@ -107,6 +109,7 @@ export default function CheckoutPage() {
                 value={selectedCard}
                 onChange={(e) => setSelectedCard(e.target.value)}
               >
+                <option>Select Card</option>
                 {Array.isArray(savedCards) && savedCards.length > 0 ? (
                   savedCards.map((card) => (
                     <option key={card.id} value={card.id}>
@@ -145,6 +148,7 @@ export default function CheckoutPage() {
                 value={selectedAddress}
                 onChange={(e) => setSelectedAddress(e.target.value)}
               >
+                <option>Select Address</option>
                 {savedAddresses.map((address) => (
                   <option key={address.id} value={address.id}>
                     {address.street}, {address.city}, {address.state},{" "}
