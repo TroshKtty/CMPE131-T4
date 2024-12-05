@@ -141,4 +141,97 @@ const removeCard = async (req, res) => {
   deleteCard.destroy();
   return res.status(200).json({ message: "Card deleted" });
 };
-module.exports = { cardInfo, addCard, removeCard };
+
+const addAddress = async (req, res) => {
+    try {
+      const { street, city, state, zipcode } = req.body;
+      const userId = req.user.user_id;
+  
+      // see if there is address id for user, if not create one
+      let address = await Address.findOne({ where: { customer_id: userId } });
+      if (!address) {
+        address = await Address.create({ customer_id: userId });
+      }
+  
+      // Add the AddressItem entry
+      const newAddressItem = await AddressItem.create({
+        address_id: address.id,
+        street,
+        city,
+        state,
+        zipcode,
+      });
+  
+      res.status(201).json({ message: "Address added successfully", address: newAddressItem });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Server error", error });
+    }
+  };
+  
+  // Remove an address
+  const removeAddress = async (req, res) => {
+    try {
+      const { addressItemId } = req.params;
+      const userId = req.user.user_id;
+  
+      // Check if the address belongs to the user
+      const addressItem = await AddressItem.findOne({
+        where: { address_item_id: addressItemId },
+        include: {
+          model: Address,
+          where: { customer_id: userId },
+        },
+      });
+  
+      if (!addressItem) {
+        return res.status(404).json({ message: "Address not found or not authorized." });
+      }
+  
+      // Delete the address
+      await addressItem.destroy();
+      res.status(200).json({ message: "Address removed successfully" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Server error", error });
+    }
+  };
+  
+  // Get all addresses
+  const addressInfo = async (req, res) => {
+    try {
+      const userId = req.user.user_id;
+  
+      // Fetch all addresses for this user
+      const addresses = await Address.findAll({
+        where: { customer_id: userId },
+        include: {
+          model: AddressItem,
+          attributes: ["address_item_id", "street", "city", "state", "zipcode"],
+        },
+      });
+  
+      if (!addresses || addresses.length === 0) {
+        return res.status(404).json({ message: "No addresses found." });
+      }
+  
+      // Flatten the data for the response
+      const simplifiedAddresses = addresses
+        .map((address) =>
+          address.AddressItems.map((item) => ({
+            id: item.address_item_id,
+            street: item.street,
+            city: item.city,
+            state: item.state,
+            zipcode: item.zipcode,
+          }))
+        )
+        .flat();
+  
+      res.status(200).json(simplifiedAddresses);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Server error", error });
+    }
+  };
+module.exports = { cardInfo, addCard, removeCard , addressInfo, addAddress, removeAddress};

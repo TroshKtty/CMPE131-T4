@@ -32,7 +32,8 @@ const approved_users = async(req, res) => {
 }
 
 const decision = async (req,res) => {
-    const{requester_id, decision, decision_date, user_id_approver} = req.body;
+    const{requester_id, decision, decision_date} = req.body;
+    const user_id_approver = req.user.user_id;
     const approver_name = await Users.findOne({where: {user_id : user_id_approver}, attributes: ["name"]}).name;
     const requester = await Users.findOne({where: {user_id: requester_id}, attributes: ["user_id", "role", "name"]});
     try{
