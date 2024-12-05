@@ -16,6 +16,6 @@ const Cart = sequelize.define('Cart', {
   tableName: 'cart',  // Maps to the 'cart' table in the database
 });
 
-Cart.sync({ alter: true });
+// Cart.sync({ alter: true });
 
 module.exports = Cart;

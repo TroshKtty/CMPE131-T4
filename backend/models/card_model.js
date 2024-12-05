@@ -12,10 +12,10 @@ const Card = sequelize.define('Card', {
     allowNull: false,
   }
 }, {
-  tableName: 'card',  
+  tableName: 'card',
   timestamps: false,
 });
 
-Card.sync({ alter: true });
+// Card.sync({ alter: true });
 
 module.exports = Card;
