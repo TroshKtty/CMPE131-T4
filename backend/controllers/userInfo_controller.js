@@ -1,6 +1,7 @@
 const Card = require("../models/card_model");
 const CardItem = require("../models/card_items_model");
-
+const Address = require("../models/address_model");
+const AddressItem = require("../models/address_items_model");
 // Get the user's card information
 const cardInfo = async (req, res) => {
   try {
@@ -153,7 +154,7 @@ const addAddress = async (req, res) => {
         address = await Address.create({ customer_id: userId });
       }
   
-      // Add the AddressItem entry
+      // add the AddressItem entry
       const newAddressItem = await AddressItem.create({
         address_id: address.id,
         street,
@@ -169,13 +170,13 @@ const addAddress = async (req, res) => {
     }
   };
   
-  // Remove an address
+  // remove address
   const removeAddress = async (req, res) => {
     try {
-      const { addressItemId } = req.params;
+      const addressItemId  = req.body.id;
       const userId = req.user.user_id;
   
-      // Check if the address belongs to the user
+      // check if the address belongs to the user
       const addressItem = await AddressItem.findOne({
         where: { address_item_id: addressItemId },
         include: {
@@ -188,7 +189,7 @@ const addAddress = async (req, res) => {
         return res.status(404).json({ message: "Address not found or not authorized." });
       }
   
-      // Delete the address
+      // delete the address
       await addressItem.destroy();
       res.status(200).json({ message: "Address removed successfully" });
     } catch (error) {
@@ -197,12 +198,12 @@ const addAddress = async (req, res) => {
     }
   };
   
-  // Get all addresses
+  
   const addressInfo = async (req, res) => {
     try {
       const userId = req.user.user_id;
   
-      // Fetch all addresses for this user
+      // get all addresses for user
       const addresses = await Address.findAll({
         where: { customer_id: userId },
         include: {
@@ -215,7 +216,7 @@ const addAddress = async (req, res) => {
         return res.status(404).json({ message: "No addresses found." });
       }
   
-      // Flatten the data for the response
+      
       const simplifiedAddresses = addresses
         .map((address) =>
           address.AddressItems.map((item) => ({

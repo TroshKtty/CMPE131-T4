@@ -21,7 +21,6 @@ const auth = (req, res, next) => {
 };
 
 
-//calls on the check function - more modularity
 const verifyPermission = (role) => async (req, res, next) => {
     const userRole = req.user.role;
     if (role != userRole) {
