@@ -13,10 +13,10 @@ const Address = sequelize.define("Address", {
     allowNull: false,
   },
 }, {
-    tableName: 'address',  
+    tableName: 'address',
     timestamps: false,
   });
-  
-  Address.sync({ alter: true });
+
+  // Address.sync({ alter: true });
 
 module.exports = Address;

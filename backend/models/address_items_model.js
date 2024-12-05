@@ -29,10 +29,10 @@ const AddressItem = sequelize.define("AddressItem", {
     allowNull: false,
   },
 }, {
-    tableName: 'address_items',  
+    tableName: 'address_items',
     timestamps: false,
   });
-  
-  AddressItem.sync({ alter: true });
+
+  // AddressItem.sync({ alter: true });
 
 module.exports = AddressItem;
