@@ -21,14 +21,15 @@ export default function ProductCard({ product }) {
 
   const cartItem = cart.find((item) => item.id === product.id);
   const count = cartItem ? cartItem.count : 0;
-  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
 
   const handleNavigate = () => {
     navigate(`/product/${product.id}`);
   };
 
   const handleAddToCart = () => {
-    addToCart(product,token);
+    addToCart(product, token);
   };
 
   const handleInputQuantityChange = (ev) => {
@@ -43,7 +44,7 @@ export default function ProductCard({ product }) {
   const handleBtnCountChange = (newQuantity) => {
     // Remove from cart
     if (newQuantity === 0) {
-        console.log(token);
+      console.log(token);
       removeFromCart(product.id, token);
     } else {
       // Don't allow a quantity greater than what's available
@@ -147,7 +148,9 @@ export default function ProductCard({ product }) {
               </div>
             )
           ) : (
-            <Button variant="soft" fullWidth>Sign In To Add</Button>
+            <Button variant="soft" fullWidth onClick={() => navigate("/login")}>
+              Sign In To Add
+            </Button>
           )}
         </div>
       </CardContent>

@@ -25,6 +25,7 @@ import axios from "axios";
 import Loader from "@/components/loader/loader";
 import { useCart } from "@/hooks/useCart";
 import Accordion from "@/components/accordion/accordion";
+import { useNavigate } from "react-router-dom";
 
 // k;v|k;v| -> [[k, v], [k, v], ...]
 function decomposeString(str) {
@@ -33,6 +34,7 @@ function decomposeString(str) {
 
 // TODO: refactor
 export default function ProductPage() {
+  const navigate = useNavigate();
   const { product: productParam } = useParams();
   const { cart, addToCart, updateCount, removeFromCart, hasCartInit } =
     useCart();
@@ -43,7 +45,8 @@ export default function ProductPage() {
   const [productData, setProductData] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
-  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
 
   useEffect(() => {
     if (productParam && hasCartInit) {
@@ -259,7 +262,11 @@ export default function ProductPage() {
                   </Button>
                 )
               ) : (
-                <Button variant="soft" fullWidth>
+                <Button
+                  variant="soft"
+                  fullWidth
+                  onClick={() => navigate("/login")}
+                >
                   Sign In To Add
                 </Button>
               )}
