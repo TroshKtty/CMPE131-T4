@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 const InventoryManagement = () => {
@@ -20,7 +21,7 @@ const InventoryManagement = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const addFormRef = useRef(null);
   const editFormRef = useRef(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -175,6 +176,7 @@ const InventoryManagement = () => {
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h1 className="mb-0">Inventory Management</h1>
         <button className="btn btn-primary" onClick={handleAddNewItemClick}>Add New Item</button>
+        <button className="btn btn-primary" onClick={()=>navigate("/")}>Return to Home</button>
       </div>
       {error && <div className="alert alert-danger" role="alert">{error}</div>}
       <table className="table table-striped">
