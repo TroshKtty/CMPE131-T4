@@ -20,6 +20,7 @@ export default function CheckoutPage() {
   const token = localStorage.getItem("token") || sessionStorage.getItem("token");
   const navigateTo  = useNavigate();
 
+  
   useEffect(() => {
     // fetch saved cards and addresses from the backend
     if (subtotal === 0) navigateTo("/cart");
@@ -31,14 +32,14 @@ export default function CheckoutPage() {
             Authorization: `Bearer ${token}`,
           },
         });
-        const addressesResponse = await axios.get("/userInfo/addresses", {
+        const addressesResponse = await axios.get("http://localhost:3000/userInfo/addressInfo", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
         const cardsData = cardsResponse.data;
-        const addressesData = addressesResponse.data.addresses;
+        const addressesData = addressesResponse.data;
         // Ensure cardsData is an array before setting it else make it empty - shouldnt happen
         setSavedCards(Array.isArray(cardsData) ? cardsData : []);
         setSavedAddresses(addressesData || []);
@@ -59,10 +60,11 @@ export default function CheckoutPage() {
       alert("Please select a delivery address.");
       return;
     }
+    console.log(selectedAddress.id + " "+selectedCard.id); 
     try { //create the order in the backend
       const response = await axios.post(
         "http://localhost:3000/checkout/createOrder",
-        { cardId: selectedCard.id, addressId: selectedAddress.id },
+        { cardId: selectedCard, addressId: selectedAddress },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -72,7 +74,7 @@ export default function CheckoutPage() {
       console.log(response.data);
     } catch (err) {
       console.log(err);
-      alert(err.response.data.message);
+      //alert(err.response);
     }
     setOrderPlaced(true); // Show success message
   };
@@ -140,14 +142,14 @@ export default function CheckoutPage() {
               >
                 {savedAddresses.map((address) => (
                   <option key={address.id} value={address.id}>
-                    {address.label}
+                    {address.street}, {address.city}, {address.state}, {address.zipcode}
                   </option>
                 ))}
               </select>
               {!selectedAddress && (
                 <div>
                   <br />
-                  <Link to={"/account"} style={{ textDecoration: "none" }}>
+                  <Link to={"/accInfo/address"} style={{ textDecoration: "none" }}>
                     <button className={styles.redirectButton}>
                       Different Address?
                     </button>
