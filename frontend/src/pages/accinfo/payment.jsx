@@ -19,7 +19,7 @@ export default function PaymentInfoPage() {
             Authorization: `Bearer ${token}`,
           },
         });
-        setCards(response.data.filter(e => e !== null || e !== undefined));
+        setCards(response.data.filter(e => e !== null && e !== undefined));
       } catch (err) {
         setError("Failed to fetch cards.");
         console.log(err);

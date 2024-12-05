@@ -41,7 +41,7 @@ const cardInfo = async (req, res) => {
         }
       })
       .flat()
-      .filter((card) => card !== null || card !== undefined);
+      .filter((card) => card !== null && card !== undefined);
 
     //no cards handle
     if (simplifiedCards.length === 0) {
