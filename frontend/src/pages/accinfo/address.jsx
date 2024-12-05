@@ -23,7 +23,8 @@ const AddressPage = () => {
     state: "",
     zipcode: "",
   });
-  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
 
   useEffect(() => {
     const fetchAddresses = async () => {
@@ -76,76 +77,60 @@ const AddressPage = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "#f4f5f7" }}>
+    <Box sx={{ display: "flex", height: "100vh", bgcolor: "#f4f5f7" }}>
       {/* Sidebar */}
       <Box
         sx={{
           width: 250,
           bgcolor: "#f4f5f7",
-          padding: 3,
-          borderRight: "1px solid",
-          borderColor: "divider",
+          color: "common.white",
+          padding: 2,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
         }}
       >
-        <Stack spacing={3}>
-          <Typography level="h4" sx={{ color: "#5271ff" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <Typography
+            fontSize="1.5rem"
+            fontWeight="bold"
+            sx={{ color: "#5271ff" }}
+          >
             Your Account
           </Typography>
-          <Stack spacing={2}>
-            <Link
-              component={RouterLink}
-              to="/account"
-              sx={{
-                color: "#5271ff",
-                textDecoration: "none",
-                fontSize: "1.1rem",
-                "&:hover": { textDecoration: "underline" },
-              }}
-            >
-              Personal Information
-            </Link>
-            <Link
-              component={RouterLink}
-              to="/accinfo/payment"
-              sx={{
-                color: "text.primary",
-                textDecoration: "none",
-                fontSize: "1.1rem",
-                "&:hover": { textDecoration: "underline" },
-              }}
-            >
-              Billing & Payments
-            </Link>
-            <Link
-              component={RouterLink}
-              to="/accinfo/orders"
-              sx={{
-                color: "text.primary",
-                textDecoration: "none",
-                fontSize: "1.1rem",
-                "&:hover": { textDecoration: "underline" },
-              }}
-            >
-              Order History
-            </Link>
-            <Link
-              component={RouterLink}
-              to="/accinfo/address"
-              sx={{
-                color: "text.primary",
-                textDecoration: "none",
-                fontSize: "1.1rem",
-                "&:hover": { textDecoration: "underline" },
-              }}
-            >
-              Address Info
-            </Link>
-          </Stack>
-        </Stack>
+          <Link
+            component={RouterLink}
+            to="/account"
+            sx={{ color: "black", fontSize: "1.3rem" }}
+          >
+            Personal Information
+          </Link>
+          <Link
+            component={RouterLink}
+            to="/accinfo/payment"
+            sx={{ color: "black", fontSize: "1.3rem" }}
+          >
+            Billing & Payments
+          </Link>
+          <Link
+            component={RouterLink}
+            to="/accinfo/orders"
+            sx={{ color: "black", fontSize: "1.3rem" }}
+          >
+            Order History
+          </Link>
+          <Link
+            component={RouterLink}
+            to="/accinfo/address"
+            sx={{ color: "#5271ff", fontSize: "1.3rem" }}
+          >
+            Address Info
+          </Link>
+        </Box>
       </Box>
 
       {/* Main Content */}
-      <Box sx={{ flex: 1, p: 3 }}>
+      <Box sx={{ flexGrow: 1, padding: 4 }}>
         <Typography level="h4" sx={{ mb: 2 }}>
           Your Addresses
         </Typography>
