@@ -29,6 +29,9 @@ export default function EmployeeSidebar() {
         </div>
       </div>
       <div className="sidebar-links">
+        <Link component={RouterLink} to="/" className="sidebar-link">
+          Return to Home
+        </Link>
         <Link onClick={logout} className="sidebar-link" to="/">
           Logout
         </Link>
