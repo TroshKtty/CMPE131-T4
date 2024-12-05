@@ -8,7 +8,7 @@ export default function CheckoutPage() {
   const [selectedAddress, setSelectedAddress] = useState("");
   const [isPaymentOpen, setPaymentOpen] = useState(false);
   const [isAddressOpen, setAddressOpen] = useState(false);
-  const [orderPlaced, setOrderPlaced] = useState(false); 
+  const [orderPlaced, setOrderPlaced] = useState(false);
   const [savedCards, setSavedCards] = useState([]); // Cards state (initialized as an empty array)
   const [savedAddresses, setSavedAddresses] = useState([]); // Addresses state also empty
 
@@ -28,18 +28,18 @@ export default function CheckoutPage() {
       try {
         const cardsResponse = await axios.get("http://localhost:3000/userInfo/cardInfo", {
           headers: {
-            Authorization: `Bearer ${token}`, 
+            Authorization: `Bearer ${token}`,
           },
         });
         const addressesResponse = await axios.get("/userInfo/addresses", {
           headers: {
-            Authorization: `Bearer ${token}`, 
+            Authorization: `Bearer ${token}`,
           },
         });
 
         const cardsData = cardsResponse.data;
         const addressesData = addressesResponse.data.addresses;
-        // Ensure cardsData is an array before setting it else make it empty - shouldnt happen 
+        // Ensure cardsData is an array before setting it else make it empty - shouldnt happen
         setSavedCards(Array.isArray(cardsData) ? cardsData : []);
         setSavedAddresses(addressesData || []);
       } catch (error) {
@@ -48,7 +48,7 @@ export default function CheckoutPage() {
     };
 
     fetchSavedCardsAndAddresses();
-  }, [token, subtotal, navigateTo]); 
+  }, [token, subtotal, navigateTo]);
 
   const handlePlaceOrder = async () => {
     if (selectedCard === "") {
@@ -65,7 +65,7 @@ export default function CheckoutPage() {
         { cardId: selectedCard.id, addressId: selectedAddress.id },
         {
           headers: {
-            Authorization: `Bearer ${token}`, 
+            Authorization: `Bearer ${token}`,
           },
         }
       );
