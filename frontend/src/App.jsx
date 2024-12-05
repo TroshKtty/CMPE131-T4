@@ -1,4 +1,9 @@
-import { Route, BrowserRouter as Router, Routes, Navigate } from "react-router-dom";
+import {
+  Route,
+  BrowserRouter as Router,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import LoginPage from "@/pages/login/page";
 import RegistrationPage from "@/pages/registration/page";
 import HomePage from "@/pages/home/page";
@@ -96,20 +101,53 @@ export default function App() {
                     {/* Route for an individual product */}
                     <Route path="/product/:product" element={<ProductPage />} />
 
-                    <Route path="/cart" element={<CartPage />} />
-                    <Route path="/checkout" element={<CheckoutPage />} />
-                    <Route path="/account" element={<AccountInfoPage />} />
+                    <Route
+                      path="/cart"
+                      element={
+                        <ProtectedRoute required_role="user">
+                          <CartPage />{" "}
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/checkout"
+                      element={
+                        <ProtectedRoute required_role="user">
+                          <CheckoutPage />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/account"
+                      element={
+                        <ProtectedRoute required_role="user">
+                          <AccountInfoPage />
+                        </ProtectedRoute>
+                      }
+                    />
                     <Route
                       path="/accinfo/payment"
-                      element={<PaymentInfoPage />}
+                      element={
+                        <ProtectedRoute required_role="user">
+                          <PaymentInfoPage />
+                        </ProtectedRoute>
+                      }
                     />
                     <Route
                       path="/accinfo/orders"
-                      element={<OrderHistoryPage />}
+                      element={
+                        <ProtectedRoute>
+                          <OrderHistoryPage />
+                        </ProtectedRoute>
+                      }
                     />
                     <Route
                       path="/accinfo/address"
-                      element={<AddressPage />}
+                      element={
+                        <ProtectedRoute required_role="user">
+                          <AddressPage />
+                        </ProtectedRoute>
+                      }
                     />
                     <Route
                       path="/unauthorized"
