@@ -29,7 +29,7 @@ import ProtectedRoute from "@/components/protected-route/protected-route";
 
 import AccountInfoPage from "./pages/accinfo/page";
 import PaymentInfoPage from "./pages/accinfo/payment";
-import OrderHistoryPage from "./pages/accinfo/order";
+import OrderHistoryPage from "./pages/order";
 import AddressPage from "./pages/accinfo/address";
 
 import { CartProvider } from "@/providers/CartProvider";

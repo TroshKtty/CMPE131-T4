@@ -21,7 +21,7 @@ export default function AccountInfoPage() {
             Authorization: `Bearer ${token}`,
           },
         });
-
+        console.log(response);
         setUserInfo({
           name: response.data.name,
           email: response.data.email,
@@ -72,13 +72,7 @@ export default function AccountInfoPage() {
           >
             Billing & Payments
           </Link>
-          <Link
-            component={RouterLink}
-            to="/accinfo/orders"
-            sx={{ color: "black", fontSize: "1.3rem" }}
-          >
-            Order History
-          </Link>
+          
           <Link
             component={RouterLink}
             to="/accinfo/address"
