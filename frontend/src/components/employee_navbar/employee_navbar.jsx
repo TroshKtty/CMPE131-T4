@@ -4,14 +4,13 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import "./employee_navbar.css"; 
 
 export default function EmployeeSidebar() {
-
   const navigate = useNavigate();
 
   const logout = (event) => {
-    event.preventDefault(); // Prevent the default link navigation
+    event.preventDefault();
     sessionStorage.removeItem('token');
     localStorage.removeItem('token');
-    navigate('/'); // Navigate after removing the tokens
+    navigate('/');
   }
 
   return (
@@ -20,11 +19,11 @@ export default function EmployeeSidebar() {
         <Typography className="sidebar-header">Employee Panel</Typography>
         <br />
         <div className="sidebar-links">
-          <Link component={RouterLink} to="/employee/inventory-management" className="sidebar-link">
-            Inventory Management
-          </Link>
           <Link component={RouterLink} to="/employee/approval-requests" className="sidebar-link">
             Approval Requests
+          </Link>
+          <Link component={RouterLink} to="/employee/inventory-management" className="sidebar-link">
+            Inventory Management
           </Link>
         </div>
       </div>
