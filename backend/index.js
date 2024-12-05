@@ -38,6 +38,7 @@ app.use("/products", productRoute);
 app.use('/employees', employeeRoutes);
 app.use("/cart", auth, verifyPermission("customer"), cartRoute);
 app.use("/checkout", auth, verifyPermission("customer"), checkoutRoute);
+app.use("/userInfo", auth, userInfoRoute);
 
 async function startServer() {
   try {
