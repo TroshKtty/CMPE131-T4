@@ -10,7 +10,7 @@ export default function OrderHistoryPage() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const token = localStorage.getItem("token"); // assuming token is stored in localStorage
+        const token = localStorage.getItem("token") || sessionStorage.getItem("token"); // assuming token is stored in localStorage
         if (token) {
           const response = await axios.get("http://localhost:3000/userInfo/orders", {
             headers: {
