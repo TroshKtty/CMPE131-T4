@@ -1,3 +1,5 @@
+import { useAuth } from "@/hooks/useAuth";
+import { useCart } from "@/hooks/useCart";
 import {
   Box,
   Button,
@@ -12,11 +14,18 @@ import {
   Sheet,
   Typography,
 } from "@mui/joy";
-import { Menu as MenuIcon, Search, ShoppingCart, User, X } from "lucide-react";
+import {
+  Clipboard,
+  Menu as MenuIcon,
+  Search,
+  ShoppingCart,
+  User,
+  UserRound,
+  X,
+  ChartBar,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useCart } from "@/hooks/useCart";
-import { useAuth } from "@/hooks/useAuth";
 
 import "./navbar.css";
 
@@ -27,7 +36,7 @@ export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const { cart } = useCart();
-  const { isLoggedIn, logout } = useAuth();
+  const { isLoggedIn, logout, userRole } = useAuth();
 
   // useEffect(() => {
   //   console.log("isLoggedIn", isLoggedIn);
@@ -147,6 +156,28 @@ export default function NavBar() {
                       Account Information
                     </Typography>
                   </MenuItem>
+                  {["employee", "admin"].includes(userRole) && (
+                    <MenuItem
+                      onClick={() => {
+                        if (userRole === "employee") {
+                          navigate("/employee");
+                        } else {
+                          navigate("/admin");
+                        }
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          "&:hover": {
+                            color: "primary.solidBg",
+                          },
+                        }}
+                      >
+                        {userRole.charAt(0).toUpperCase() + userRole.slice(1)}{" "}
+                        Dashboard
+                      </Typography>
+                    </MenuItem>
+                  )}
                   <MenuItem onClick={() => navigate("/accinfo/orders")}>
                     <Typography
                       sx={{
@@ -200,37 +231,56 @@ export default function NavBar() {
             p: 2,
           }}
         >
-          {isLoggedIn && (
-            <Button
-              variant="plain"
-              color="neutral"
-              onClick={() => navigate("/cart")}
-              startDecorator={<ShoppingCart size={20} />}
-              fullWidth
-              sx={{ color: "common.white" }}
-            >
-              Cart {cart.length > 0 ? `(${cart.length})` : ""}
-            </Button>
-          )}
           {isLoggedIn ? (
             <>
               <Button
                 variant="plain"
                 color="neutral"
+                onClick={() => navigate("/cart")}
+                startDecorator={<ShoppingCart size={20} />}
+                fullWidth
+                sx={{ color: "common.white" }}
+              >
+                Cart {cart.length > 0 ? `(${cart.length})` : ""}
+              </Button>
+              <Button
+                variant="plain"
+                color="neutral"
                 onClick={() => navigate("/account")}
+                startDecorator={<UserRound size={20} />}
+                sx={{ color: "common.white" }}
                 fullWidth
               >
-                <Typography textColor="common.white">
-                  Account Information
-                </Typography>
+                Account Information
               </Button>
+              {["employee", "admin"].includes(userRole) && (
+                <Button
+                  variant="plain"
+                  color="neutral"
+                  fullWidth
+                  startDecorator={<ChartBar size={20} />}
+                  sx={{ color: "common.white" }}
+                  onClick={() => {
+                    if (userRole === "employee") {
+                      navigate("/employee");
+                    } else {
+                      navigate("/admin");
+                    }
+                  }}
+                >
+                  {userRole.charAt(0).toUpperCase() + userRole.slice(1)}{" "}
+                  Dashboard
+                </Button>
+              )}
               <Button
                 variant="plain"
                 color="neutral"
                 onClick={() => navigate("/orders")}
                 fullWidth
+                startDecorator={<Clipboard size={20} />}
+                sx={{ color: "common.white" }}
               >
-                <Typography textColor="common.white">Order History</Typography>
+                Order History
               </Button>
               <Button
                 variant="plain"
