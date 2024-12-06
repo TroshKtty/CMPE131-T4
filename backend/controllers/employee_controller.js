@@ -1,5 +1,7 @@
 const Users = require("../models/auth_model"); 
 const Requests = require("../models/approval_model");
+const Order = require("../models/order_model");
+const OrderItem = require("../models/order_items_model");
 
 const employeePendingAll = async (req, res) => {
     try {
@@ -88,4 +90,68 @@ const employeeRevokeAccess = async (req, res) => {
   }
 };
 
-module.exports = { employeePendingAll, employeeDecision, employeeApprovedUsers, employeeRevokeAccess };
+// get all orders ever placed
+const getOrders = async (req, res) => {
+  try {
+    const orders = await Order.findAll({
+      include: [
+        {
+          model: OrderItem, 
+          attributes: ['product_id', 'price', 'quantity'],
+        },
+        {
+          model: Users,
+          attributes: ['name'],
+        },
+      ],
+    });
+
+    // data for frontend
+    const formattedOrders = orders.map((order) => ({
+      orderId: order.id,
+      placedAt: order.createdAt,
+      totalPrice: order.totalPrice,
+      status: order.status,
+      items: order.OrderItems,
+    }));
+
+    res.status(200).json(formattedOrders);
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    res.status(500).json({ message: 'Error fetching orders' });
+  }
+};
+
+// Update order status
+const updateOrderStatus = async (req, res) => {
+  const { orderId, status } = req.body;
+
+  try {
+    // Validate status
+    if (status !== 'Completed') {
+      return res.status(400).json({ message: 'Invalid status update' });
+    }
+
+    const order = await Order.findByPk(orderId);
+
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    if (order.status !== 'Placed') {
+      return res.status(400).json({ message: 'Only "placed" orders can be updated' });
+    }
+
+    // Update the status
+    order.status = status;
+    await order.save();
+
+    res.status(200).json({ message: 'Order status updated successfully' });
+  } catch (error) {
+    console.error('Error updating order status:', error);
+    res.status(500).json({ message: 'Error updating order status' });
+  }
+};
+
+
+module.exports = { employeePendingAll, employeeDecision, employeeApprovedUsers, employeeRevokeAccess, getOrders, updateOrderStatus, };

@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config'); // Import sequelize instance
 
 const Requests = sequelize.define('Requests', {
-    
+
     /*id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -43,6 +43,6 @@ const Requests = sequelize.define('Requests', {
     timestamps: false
 });
 
-Requests.sync()
+// Requests.sync()
 
 module.exports = Requests;

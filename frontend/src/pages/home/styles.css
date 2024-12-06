@@ -24,7 +24,7 @@ body {
 
 /* Banner section */
 .banner {
-  background-image: url("grocerystore1.jpg");
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.908), rgba(0, 0, 0, 0.497)), url("grocerystore1.jpg");
   background-size: cover;
   background-position: center;
   color: white;
@@ -41,7 +41,7 @@ body {
 }
 
 .banner p {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   margin-bottom: 30px;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
 }

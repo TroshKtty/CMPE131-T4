@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import "./styles.css";
 
-import CategorySidebar from "@/category-sidebar/category-sidebar";
+import CategorySidebar from "@/components/category-sidebar/category-sidebar";
 import Loader from "@/components/loader/loader";
 import ProductGrid from "@/components/product-grid/product-grid";
 
@@ -24,15 +24,17 @@ const SORT_OPTIONS = [
   { value: "price_desc", label: "Price: High to Low" },
   { value: "weight_asc", label: "Weight: Low to High" },
   { value: "weight_desc", label: "Weight: High to Low" },
+  { value: "most_popular", label: "Most Popular" },
 ];
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState({});
   const [loading, setLoading] = useState(true);
-  const [sortBy, setSortBy] = useState("price_asc");
+  const [sortBy, setSortBy] = useState("most_popular");
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const query = searchParams.get("q")?.toLowerCase() || "";
@@ -43,6 +45,7 @@ export default function SearchPage() {
     const fetchProducts = async () => {
       try {
         const response = await axios.get("http://localhost:3000/products/all");
+
         setProducts(response.data);
         setFilteredProducts(response.data);
 
@@ -129,7 +132,6 @@ export default function SearchPage() {
           <Grid item xs={12} md={9}>
             {/* Upper section */}
             <Sheet
-              variant="outlined"
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -149,10 +151,10 @@ export default function SearchPage() {
 
               <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                 <Select
+                  defaultValue={"Most Popular"}
                   value={sortBy}
                   onChange={(_, value) => setSortBy(value)}
-                  size="sm"
-                  sx={{ display: { xs: "none", sm: "inline-flex" } }}
+                  sx={{ display: { xs: "none", md: "inline-flex" } }}
                 >
                   {SORT_OPTIONS.map((option) => (
                     <Option key={option.value} value={option.value}>
@@ -162,7 +164,7 @@ export default function SearchPage() {
                 </Select>
                 <IconButton
                   onClick={() => setDrawerOpen(true)}
-                  sx={{ display: { sm: "none" } }}
+                  sx={{ display: { xs: "inline-flex", md: "none" } }}
                 >
                   <SlidersHorizontalIcon />
                 </IconButton>
@@ -173,7 +175,7 @@ export default function SearchPage() {
             {filteredProducts.length > 0 ? (
               <ProductGrid products={filteredProducts} />
             ) : (
-              <Typography level="h3" sx={{ textAlign: "center", mt: 4 }}>
+              <Typography level="h3" textAlign="center" mt={4}>
                 No products found
               </Typography>
             )}

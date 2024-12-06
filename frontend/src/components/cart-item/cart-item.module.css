@@ -1,0 +1,17 @@
+.cartItemCard {
+  width: "100%";
+  overflow: "hidden";
+}
+
+.cartItemImage {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.detailsContainer {
+  flex-grow: 1;
+  min-width: 0px;
+}

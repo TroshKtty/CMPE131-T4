@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
-  Accordion as MUIAccordion,
   AccordionDetails,
   AccordionSummary,
   Box,
@@ -20,61 +19,70 @@ import Product from "@/components/product/Product";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import "./styles.css";
-import PropTypes from "prop-types";
+import styles from "./styles.module.css";
 import NotFound from "@/components/404/not-found";
 import axios from "axios";
 import Loader from "@/components/loader/loader";
+import { useCart } from "@/hooks/useCart";
+import Accordion from "@/components/accordion/accordion";
+import { useNavigate } from "react-router-dom";
 
 // k;v|k;v| -> [[k, v], [k, v], ...]
 function decomposeString(str) {
   return str.split("|").map((pair) => pair.split(";"));
 }
 
-// Hacky fix for accordion wrapper to remove accordion hover bg and when it's clicked
-function Accordion({ children }) {
-  return (
-    <MUIAccordion
-      sx={{
-        "--joy-palette-neutral-plainHoverBg": "transparent", // Hover bg
-        "--joy-palette-neutral-plainActiveBg": "transparent", // Click bg
-      }}
-    >
-      {children}
-    </MUIAccordion>
-  );
-}
-
-Accordion.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
 // TODO: refactor
 export default function ProductPage() {
+  const navigate = useNavigate();
   const { product: productParam } = useParams();
+  const { cart, addToCart, updateCount, removeFromCart, hasCartInit } =
+    useCart();
+  const isLoggedIn =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
 
-  const [product, setProduct] = useState("");
+  const [product, setProduct] = useState(null);
   const [productImages, setProductImages] = useState([]);
   const [productData, setProductData] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+
+  useEffect(() => {
+    if (productParam && hasCartInit) {
+      // Try and find in cart, updating state too
+      const item = cart.find(
+        (item) => item.id === Number.parseInt(productParam, 10)
+      );
+      if (item) {
+        const ogCount = item.count;
+        const quantity = !Number.isNaN(ogCount) ? ogCount : 1;
+        setQuantity(quantity);
+        // console.log(`${item.name} found in cart with quantity ${quantity}`);
+      } else {
+        // console.log("Item was not found in cart");
+      }
+    }
+  }, [productParam, hasCartInit, cart]);
 
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
 
       if (productParam) {
-        console.log("productParam", productParam);
+        console.log("productParam:", productParam);
 
         try {
           const resp = await axios.get(
             `http://localhost:3000/products/${productParam}`
           );
 
-          console.log("resp", resp);
+          // console.log("resp", resp);
 
           if (resp?.data) {
-            console.log("resp.data", resp.data);
+            console.log("Got the data, setting it now");
+            // console.log("resp.data", resp.data);
 
             setProduct(resp.data);
             setProductData({
@@ -82,17 +90,19 @@ export default function ProductPage() {
               price: Number.parseFloat(resp.data.price, 10),
               weight: Number.parseFloat(resp.data.weight, 10),
               descriptions: resp.data.descriptions.split(";"),
+              quantity: Number.parseInt(resp.data.quantity, 10),
+              count: 0,
               specifications: decomposeString(resp.data.specifications),
               nutritionInfo: decomposeString(resp.data.nutritionInfo),
             });
             setProductImages(resp.data.images.split(";"));
           } else {
-            console.log("product not found?", resp);
+            console.log("Product not found?", resp);
             setProductData(null);
           }
         } catch (error) {
           console.log(
-            `An error occured while trying to fetch product ${productParam}:`,
+            `An error occured while trying to fetch product '${productParam}':`,
             error
           );
           setProductData(null);
@@ -105,29 +115,45 @@ export default function ProductPage() {
     fetchProduct();
   }, [productParam]);
 
+  useEffect(() => {
+    console.log("productData:", productData);
+    console.log("productImages:", productImages);
+  }, [productData, productImages]);
+
+  useEffect(() => {
+    if (hasCartInit && productData !== null) {
+      updateCount(productData.id, quantity);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [quantity]);
+
   if (loading) {
     return <Loader />;
   }
 
-  if (!loading && (!productData || product === "")) {
+  if (!loading && (!productData || product === null)) {
     return <NotFound />;
   }
 
-  const handleAddToCart = (ev) => {
-    ev.preventDefault();
-    alert(`Added ${quantity}x ${productData.name} to cart`);
+  const handleAddToCart = () => {
+    addToCart({ ...product, quantity });
+  };
+
+  const handleRemoveFromCart = () => {
+    removeFromCart(product.id, token);
+    setQuantity(1);
   };
 
   const handleIncrement = () => {
-    setQuantity((prev) => prev + 1);
+    updateCount(product.id, quantity + 1);
   };
 
   const handleDecrement = () => {
-    setQuantity((prev) => Math.max(1, prev - 1));
+    updateCount(product.id, quantity - 1);
   };
 
   return (
-    <Sheet sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
+    <Sheet className={styles.wrapper}>
       <Box
         sx={{
           width: "100%",
@@ -155,7 +181,7 @@ export default function ProductPage() {
             <List sx={{ my: 2 }}>
               <ListItem>
                 <Typography level="h3">
-                  ${productData.price?.toFixed(2)}
+                  ${productData.price.toFixed(2)}
                 </Typography>
               </ListItem>
               <ListItem>
@@ -190,34 +216,61 @@ export default function ProductPage() {
               alignItems="center"
               sx={{ mb: 2 }}
             >
-              <Sheet
-                variant="outlined"
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  borderRadius: "sm",
-                }}
-              >
-                <IconButton
-                  onClick={handleDecrement}
-                  disabled={quantity === 1}
-                  variant="plain"
+              {isLoggedIn && (
+                <Sheet
+                  variant="outlined"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    borderRadius: "sm",
+                  }}
                 >
-                  <Minus />
-                </IconButton>
-                <Typography
-                  level="body1"
-                  sx={{ mx: 2, minWidth: "2rem", textAlign: "center" }}
+                  <IconButton
+                    onClick={handleDecrement}
+                    disabled={quantity === 1}
+                    variant="plain"
+                  >
+                    <Minus />
+                  </IconButton>
+                  <Typography
+                    level="body1"
+                    sx={{ mx: 2, minWidth: "2rem", textAlign: "center" }}
+                  >
+                    {quantity}
+                  </Typography>
+                  <IconButton onClick={handleIncrement} variant="plain">
+                    <Plus />
+                  </IconButton>
+                </Sheet>
+              )}
+              {isLoggedIn ? (
+                cart.find((item) => item.id === product.id) ? (
+                  <Button
+                    color="danger"
+                    size="md"
+                    sx={{ flexGrow: 1 }}
+                    onClick={handleRemoveFromCart}
+                  >
+                    Remove From Cart
+                  </Button>
+                ) : (
+                  <Button
+                    size="md"
+                    sx={{ flexGrow: 1 }}
+                    onClick={handleAddToCart}
+                  >
+                    Add To Cart
+                  </Button>
+                )
+              ) : (
+                <Button
+                  variant="soft"
+                  fullWidth
+                  onClick={() => navigate("/login")}
                 >
-                  {quantity}
-                </Typography>
-                <IconButton onClick={handleIncrement} variant="plain">
-                  <Plus />
-                </IconButton>
-              </Sheet>
-              <Button size="lg" sx={{ flexGrow: 1 }} onClick={handleAddToCart}>
-                Add To Cart
-              </Button>
+                  Sign In To Add
+                </Button>
+              )}
             </Stack>
           </Box>
         </Stack>
