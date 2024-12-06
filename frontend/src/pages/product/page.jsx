@@ -122,7 +122,11 @@ export default function ProductPage() {
 
   useEffect(() => {
     if (hasCartInit && productData !== null) {
-      updateCount(productData.id, quantity);
+      updateCount(
+        productData.id,
+        quantity,
+        localStorage.getItem("token") || sessionStorage.getItem("token")
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quantity]);
@@ -136,7 +140,7 @@ export default function ProductPage() {
   }
 
   const handleAddToCart = () => {
-    addToCart({ ...product, quantity });
+    addToCart({ ...product, quantity }, token);
   };
 
   const handleRemoveFromCart = () => {
@@ -145,11 +149,11 @@ export default function ProductPage() {
   };
 
   const handleIncrement = () => {
-    updateCount(product.id, quantity + 1);
+    updateCount(product.id, quantity + 1, token);
   };
 
   const handleDecrement = () => {
-    updateCount(product.id, quantity - 1);
+    updateCount(product.id, quantity - 1, token);
   };
 
   return (

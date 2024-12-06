@@ -88,12 +88,14 @@ export default function CheckoutPage() {
           },
         }
       );
-      console.log("resp",response.data);
-      if (response.data.message === 'Order created successfully.') {
+      console.log("resp", response.data);
+      if (response.data.message === "Order created successfully.") {
         setOrderPlaced(true);
         localStorage.setItem("cart", []);
-        window.location.reload();
-        navigateTo("/");
+        setTimeout(() => {
+          window.location.reload();
+          navigateTo("/");
+        }, 500);
       }
     } catch (err) {
       console.error("error while checking out", err);
