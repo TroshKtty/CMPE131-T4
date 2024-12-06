@@ -93,9 +93,8 @@ export default function CheckoutPage() {
         setOrderPlaced(true);
         localStorage.setItem("cart", []);
         setTimeout(() => {
-          window.location.reload();
           navigateTo("/");
-        }, 500);
+        }, 1000);
       }
     } catch (err) {
       console.error("error while checking out", err);
