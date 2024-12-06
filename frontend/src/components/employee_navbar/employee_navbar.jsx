@@ -38,7 +38,7 @@ export default function EmployeeSidebar() {
             to="/employee/orders"
             className="sidebar-link"
           >
-            Orders
+            Order History
           </Link>
         </div>
       </div>
