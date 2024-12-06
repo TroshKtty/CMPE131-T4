@@ -21,6 +21,11 @@ export default function CheckoutPage() {
   const navigateTo = useNavigate();
 
   useEffect(() => {
+    console.log("selectedCard=", selectedCard);
+    console.log("selectedAddress=", selectedAddress);
+  }, [selectedCard, selectedAddress]);
+
+  useEffect(() => {
     // fetch saved cards and addresses from the backend
     if (subtotal === 0) navigateTo("/cart");
 
@@ -45,6 +50,12 @@ export default function CheckoutPage() {
 
         const cardsData = cardsResponse.data;
         const addressesData = addressesResponse.data;
+        if (Array.isArray(cardsData) && cardsData.length > 0) {
+          setSelectedCard(cardsData[0].id);
+        }
+        if (Array.isArray(addressesData) && addressesData.length > 0) {
+          setSelectedAddress(addressesData[0].id);
+        }
         // Ensure cardsData is an array before setting it else make it empty - shouldnt happen
         setSavedCards(Array.isArray(cardsData) ? cardsData : []);
         setSavedAddresses(addressesData || []);
@@ -57,13 +68,15 @@ export default function CheckoutPage() {
   }, [token, subtotal, navigateTo]);
 
   const handlePlaceOrder = async () => {
-    if (!selectedCard) {
+    if (selectedCard === "") {
       alert("Please select a payment method.");
+      return;
     }
     if (!selectedAddress) {
       alert("Please select a delivery address.");
+      return;
     }
-    else{
+    // console.log(selectedAddress.id + " " + selectedCard.id);
     try {
       //create the order in the backend
       const response = await axios.post(
@@ -75,16 +88,15 @@ export default function CheckoutPage() {
           },
         }
       );
-      console.log(response.data);
+      console.log("resp",response.data);
+      if (response.data.message === 'Order created successfully.') {
+        setOrderPlaced(true);
+      }
     } catch (err) {
-      console.log(err);
+      console.error("error while checking out", err);
       //alert(err.response);
     }
-    setOrderPlaced(true); // Show success message
-    localStorage.setItem("cart", []);
-    window.location.reload();
-    navigateTo("/");
-    }
+    // setOrderPlaced(true); // Show success message
   };
 
   return (
@@ -107,9 +119,11 @@ export default function CheckoutPage() {
               <select
                 required
                 value={selectedCard}
-                onChange={(e) => setSelectedCard(e.target.value)}
+                onChange={(e) => {
+                  console.log("selectedcard e.target.value", e.target.value);
+                  setSelectedCard(e.target.value);
+                }}
               >
-                <option>Select Card</option>
                 {Array.isArray(savedCards) && savedCards.length > 0 ? (
                   savedCards.map((card) => (
                     <option key={card.id} value={card.id}>
@@ -146,9 +160,11 @@ export default function CheckoutPage() {
             <div className={styles.collapsibleContent}>
               <select
                 value={selectedAddress}
-                onChange={(e) => setSelectedAddress(e.target.value)}
+                onChange={(e) => {
+                  console.log("selectedaddress e.target.value", e.target.value);
+                  setSelectedAddress(e.target.value);
+                }}
               >
-                <option>Select Address</option>
                 {savedAddresses.map((address) => (
                   <option key={address.id} value={address.id}>
                     {address.street}, {address.city}, {address.state},{" "}
