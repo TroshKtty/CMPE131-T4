@@ -1,3 +1,5 @@
+//model to store all the products
+
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config.js");
 

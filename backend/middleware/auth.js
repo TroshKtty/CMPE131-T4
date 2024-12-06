@@ -21,6 +21,7 @@ const auth = (req, res, next) => {
 };
 
 
+//to verify if the user has permission to access the particular endpoint
 const verifyPermission = (role) => async (req, res, next) => {
     const userRole = req.user.role;
     if (role != userRole) {

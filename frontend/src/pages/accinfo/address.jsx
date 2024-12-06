@@ -23,9 +23,9 @@ const AddressPage = () => {
     state: "",
     zipcode: "",
   });
-  const token =
-    localStorage.getItem("token") || sessionStorage.getItem("token");
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
+  //get all the address on mount
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
@@ -48,6 +48,7 @@ const AddressPage = () => {
     setNewAddress({ ...newAddress, [name]: value });
   };
 
+  //backend call to add new address
   const handleAddAddress = async (e) => {
     e.preventDefault();
     try {
@@ -63,6 +64,7 @@ const AddressPage = () => {
     }
   };
 
+  //backend call to remove an address
   const handleDeleteAddress = async (id) => {
     try {
       await axios.post(
@@ -76,6 +78,7 @@ const AddressPage = () => {
     }
   };
 
+  //pretty page
   return (
     <Box sx={{ display: "flex", height: "100vh", bgcolor: "#f4f5f7" }}>
       {/* Sidebar */}
@@ -114,13 +117,6 @@ const AddressPage = () => {
           </Link>
           <Link
             component={RouterLink}
-            to="/accinfo/orders"
-            sx={{ color: "black", fontSize: "1.3rem" }}
-          >
-            Order History
-          </Link>
-          <Link
-            component={RouterLink}
             to="/accinfo/address"
             sx={{ color: "#5271ff", fontSize: "1.3rem" }}
           >
@@ -129,8 +125,8 @@ const AddressPage = () => {
         </Box>
       </Box>
 
-      {/* Main Content */}
-      <Box sx={{ flexGrow: 1, padding: 4 }}>
+      {/* Addresses from the backend */}
+      <Box sx={{ flexGrow: 1, padding: 4, overflowY: "scroll" }}>
         <Typography level="h4" sx={{ mb: 2 }}>
           Your Addresses
         </Typography>
@@ -172,6 +168,7 @@ const AddressPage = () => {
 
         <Divider sx={{ mb: 3 }} />
 
+        {/* form to add a new address */}
         <Typography level="h5" sx={{ mb: 3 }}>
           Add New Address
         </Typography>

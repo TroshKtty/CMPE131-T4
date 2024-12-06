@@ -1,8 +1,11 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config.js');
+//to store all the items in the cart
 
-// Define the Cart model (corresponds to the 'cart' table)
-const CartItem = sequelize.define('CartItem', {
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config.js");
+
+const CartItem = sequelize.define(
+  "CartItem",
+  {
     cart_item_id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -21,9 +24,11 @@ const CartItem = sequelize.define('CartItem', {
       allowNull: false,
       defaultValue: 1,
     },
- }, {
-  tableName: 'cart_items',
-});
+  },
+  {
+    tableName: "cart_items",
+  }
+);
 
 // CartItem.sync({ alter: true });
 

@@ -1,3 +1,4 @@
+//model to store order info, total price,weight, delviery, add., card used to make payment, customer, status, and date of order
 const { DataTypes } = require("sequelize");
 const sequelize = require('../config.js');
 

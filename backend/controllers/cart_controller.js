@@ -3,28 +3,29 @@ const Cart = require("../models/cart_model");
 const CartItem = require("../models/cart_items_model");
 const Product = require("../models/product");
 
+//get cart info
 const getCart = async (req, res) => {
   try {
-    const userId = req.user.user_id; // Assuming `req.user` is populated by middleware after verifying JWT or session
+    const userId = req.user.user_id;  //get userId of requester
 
-    // Fetch the user's cart
+    //get cart_id which will provide all the items in that cart
     const cart = await Cart.findOne({
       where: { customer_id: userId },
       include: {
         model: CartItem,
         include: {
           model: Product,
-          attributes: ["id", "category", "price", "weight", "images", "name", "quantity"], // Product attributes
+          attributes: ["id", "category", "price", "weight", "images", "name", "quantity"],
         },
       },
     });
 
-    // If cart doesn't exist, return an empty cart
+    // if cart doesn't exist, return an empty cart
     if (!cart) {
       return res.status(200).json({ cart: [], message: "Cart is empty" });
     }
 
-    // Return cart items
+    //set all the data to be returned to the frontend
     const cartItems = cart.CartItems.map((cartItem) => ({
         id: cartItem.Product.id,
         category: cartItem.Product.category,
@@ -48,7 +49,7 @@ const addToCart = async (req, res) => {
     const userId = req.user.user_id;
     const { itemId } = req.body;
 
-    console.log(`${userId} is trying to add ${itemId} to their cart`);
+    //console.log(`${userId} is trying to add ${itemId} to their cart`);
 
     if (!itemId) {
       return res
@@ -56,23 +57,23 @@ const addToCart = async (req, res) => {
         .json({ message: "Product ID and quantity are required." });
     }
 
-    // Check if the cart exists for the user
+    // check if user has associated cart
     let cart = await Cart.findOne({ where: { customer_id: userId } });
     if (!cart) {
       cart = await Cart.create({ customer_id: userId });
     }
 
-    // Check if the item already exists in the cart
+    // check if item trying to be added exists
     const existingItem = await CartItem.findOne({
       where: { cart_id: cart.id, product_id: itemId },
     });
 
     if (existingItem) {
-      // Update quantity if the item exists
+      // if exists update quantity in the users cart
       existingItem.quantity += 1;
       await existingItem.save();
     } else {
-      // Add new item to the cart
+      // add the item if it doesnt already exist aka quantity in cart = 0
       await CartItem.create({
         cart_id: cart.id,
         product_id: itemId,
@@ -81,12 +82,13 @@ const addToCart = async (req, res) => {
     }
 
     res.status(200).json({ message: "Item added to cart successfully." });
-  } catch (error) {
+  } catch (error) { //error handling
     console.error("Error adding item to cart:", error);
     res.status(500).json({ message: "Internal server error." });
   }
 };
 
+//remove items from cart
 const removeFromCart = async(req,res) => {
     try {
         const userId = req.user.user_id; //The User
@@ -100,10 +102,10 @@ const removeFromCart = async(req,res) => {
         const userCart = await Cart.findOne({ where: { customer_id: userId } });
 
         if (!userCart) {
-          return res.status(404).json({ message: "Cart not found for user." }); //User doesn't have a cart to remove items from
+          return res.status(404).json({ message: "Cart not found for user." }); //user doesn't have a cart to remove items from
         }
 
-        // Remove the specific product from the cart
+        // remove the ite m from the cart
         const deletedItem = await CartItem.destroy({
           where: {
             cart_id: userCart.id,
@@ -132,14 +134,14 @@ const updateCount = async(req,res) => {
           return res.status(400).json({ message: "Invalid product ID or quantity." });
         }
 
-        // Find the user's cart
+        // find the user's cart
         const userCart = await Cart.findOne({ where: { customer_id: userId } });
 
         if (!userCart) {
           return res.status(404).json({ message: "Cart not found for user." });
         }
 
-        // Find the cart item to update
+        // find the cart item to update
         const cartItem = await CartItem.findOne({
           where: {
             cart_id: userCart.id,
@@ -151,7 +153,7 @@ const updateCount = async(req,res) => {
           return res.status(404).json({ message: "Item not found in cart." });
         }
 
-        //Make sure there is enough inventory to give to the user
+        //make sure there is enough inventory to give to the user
         const product = await Product.findByPk(itemId);
 
         if (product.quantity < itemCount)

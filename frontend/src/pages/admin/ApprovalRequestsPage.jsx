@@ -18,18 +18,20 @@ const ApprovalRequestsPage = () => {
   const [tabValue, setTabValue] = useState(0);
   const [error, setError] = useState(null);
   const [showDetails, setShowDetails] = useState({});
-  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
   const getCurrentDate = () => {
     const today = new Date();
     return today.toISOString().split("T")[0];
   };
 
+  //get pending approvals and past approval info
   useEffect(() => {
     const fetchRequests = async () => {
       try {
         const response = await axios.get(
           "http://localhost:3000/users/pendingAll",
-          {headers: { Authorization: `Bearer ${token}` }}
+          { headers: { Authorization: `Bearer ${token}` } }
         );
         //const data = await response.json();
         setRequests(response.data.pending_users);
@@ -42,40 +44,49 @@ const ApprovalRequestsPage = () => {
       try {
         const response = await axios.get(
           "http://localhost:3000/users/approved_users",
-          {headers: { Authorization: `Bearer ${token}` }}
+          { headers: { Authorization: `Bearer ${token}` } }
         );
         setHistory(response.data.user_history);
       } catch (error) {
         setError(error.message);
       }
     };
-
     fetchHistory();
     fetchRequests();
+
+    console.log(error);
   }, []);
 
-  const handleDecision = async(user_id, decision) => {
+  //approve or deny function
+  const handleDecision = async (user_id, decision) => {
     const user = requests.find((request) => request.user_id === user_id);
     if (user) {
       const decision_date = getCurrentDate();
       const requester_id = user_id;
-      await axios.post("http://localhost:3000/users/decision",{
-        requester_id,
-        decision,
-        decision_date,
-      },
-      {headers: { Authorization: `Bearer ${token}` }}
-    );
+      await axios.post(
+        "http://localhost:3000/users/decision",
+        {
+          requester_id,
+          decision,
+          decision_date,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       setRequests(requests.filter((request) => request.user_id !== user_id));
     }
   };
 
+  //revoke access function
   const handleRevoke = (id) => {
     const entry = history.find((entry) => entry.id === id);
     if (entry) {
       setHistory(history.filter((entry) => entry.id !== id));
     }
-    axios.post("http://localhost:3000/users/revoke_access", {id}, {headers: { Authorization: `Bearer ${token}` }});
+    axios.post(
+      "http://localhost:3000/users/revoke_access",
+      { id },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
   };
 
   const toggleDetails = (entryId) => {
@@ -212,7 +223,7 @@ const ApprovalRequestsPage = () => {
                           backgroundColor: "#c4d9ed",
                           borderRadius: "6px",
                           mb: 2,
-                          boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)"
+                          boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
                         }}
                       >
                         {/* Basic Info */}
@@ -240,11 +251,12 @@ const ApprovalRequestsPage = () => {
                           <Box sx={{ mt: 1 }}>
                             <Typography variant="body2" sx={{ color: "black" }}>
                               <b>Approved by: </b>
-                              {entry.approved_by} (user id - {entry.approved_by_id})
+                              {entry.approved_by} (user id -{" "}
+                              {entry.approved_by_id})
                             </Typography>
                             <Typography variant="body2" sx={{ color: "black" }}>
-                            <b>Approved on: </b>
-                            {entry.approved_at}
+                              <b>Approved on: </b>
+                              {entry.approved_at}
                             </Typography>
                           </Box>
                         )}
@@ -266,7 +278,7 @@ const ApprovalRequestsPage = () => {
                           </Button>
                           <Button
                             variant="solid"
-                            color= {"danger"}
+                            color={"danger"}
                             onClick={() => handleRevoke(entry.id)}
                             sx={{ ml: 2 }}
                           >

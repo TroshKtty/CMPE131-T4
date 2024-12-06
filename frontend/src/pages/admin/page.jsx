@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Typography, Card, CardContent } from "@mui/joy";
 import Chart from "react-apexcharts";
 import AdminSidebar from "@/components/admin_navbar/admin_navbar"; // Ensure this path is correct

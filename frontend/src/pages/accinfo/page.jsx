@@ -72,7 +72,7 @@ export default function AccountInfoPage() {
           >
             Billing & Payments
           </Link>
-          
+
           <Link
             component={RouterLink}
             to="/accinfo/address"
@@ -97,7 +97,6 @@ export default function AccountInfoPage() {
         <Divider />
 
         <Box sx={{ justifyContent: "space-between", mt: 4 }}>
-          {/* Info Cards */}
           <Card sx={{ flexGrow: 1, m: 1 }}>
             <CardContent>
               <Typography fontSize="1.3rem" fontWeight="bold">
@@ -105,7 +104,7 @@ export default function AccountInfoPage() {
               </Typography>
               <Divider />
               <Typography fontSize="1.25rem" level="body-sm">
-                {userInfo.name || "Loading..."}
+                {userInfo.name || "Not Entered"}
               </Typography>
             </CardContent>
           </Card>
@@ -116,7 +115,7 @@ export default function AccountInfoPage() {
               </Typography>
               <Divider />
               <Typography fontSize="1.25rem" fontWeight="body-sm">
-                {userInfo.email || "Loading..."}
+                {userInfo.email || "Not Entered"}
               </Typography>
             </CardContent>
           </Card>
@@ -130,7 +129,7 @@ export default function AccountInfoPage() {
               </Typography>
               <Divider />
               <Typography fontSize="1.25rem" fontWeight="body-sm">
-                {userInfo.phone || "Loading..."}
+                {userInfo.phone || "Not Entered"}
               </Typography>
             </CardContent>
           </Card>
@@ -141,7 +140,7 @@ export default function AccountInfoPage() {
               </Typography>
               <Divider />
               <Typography fontSize="1.25rem" fontWeight="body-sm">
-                {userInfo.createdAt || "Loading..."}
+                {userInfo.createdAt || "Not Entered"}
               </Typography>
             </CardContent>
           </Card>
