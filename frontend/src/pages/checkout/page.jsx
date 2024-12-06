@@ -91,6 +91,9 @@ export default function CheckoutPage() {
       console.log("resp",response.data);
       if (response.data.message === 'Order created successfully.') {
         setOrderPlaced(true);
+        localStorage.setItem("cart", []);
+        window.location.reload();
+        navigateTo("/");
       }
     } catch (err) {
       console.error("error while checking out", err);
