@@ -7,40 +7,41 @@ const OrderItems = require("../models/order_items_model");
 
 const createOrder = async (req, res) => {
   try {
-    const userId = req.user.user_id; // Assume JWT middleware sets req.user
+    const userId = req.user.user_id;
     const { addressId, cardId } = req.body;
 
-    // Validate required fields
     if (!addressId || !cardId) {
-      return res.status(400).json({ error: "Shipping address and payment method are required." });
+      return res
+        .status(400)
+        .json({ error: "Shipping address and payment method are required." });
     }
 
-    // Fetch cart items for the user
+    // get the items in the cart
     const cart = await Cart.findOne({
       where: { customer_id: userId },
       include: {
         model: CartItem,
         include: {
           model: Product,
-          attributes: ["id", "price", "weight", "quantity"], // Product attributes
+          attributes: ["id", "price", "weight", "quantity"],
         },
       },
     });
 
-    // Check if cart exists
+    //mak e sure that the cart exists for that user and there are itmes in that cart
     if (!cart || !cart.CartItems || cart.CartItems.length === 0) {
       return res.status(400).json({ error: "Your cart is empty." });
     }
 
-    // Validate product availability and update quantities
+    // check availability and update stock info
     let subtotal = 0;
     let totalWeight = 0;
-    for (const item of cart.CartItems) { // Accessing CartItems here
+    for (const item of cart.CartItems) {
       if (item.Product.quantity < item.quantity) {
         return res.status(400).json({ message: "Some items are out of stock" });
       } else {
         item.Product.quantity -= item.quantity;
-        await item.Product.save(); // Update product quantity
+        await item.Product.save();
       }
 
       subtotal += item.quantity * item.Product.price;
@@ -51,35 +52,32 @@ const createOrder = async (req, res) => {
     const shippingFee = totalWeight >= 20 ? 5 : 0;
     const total = subtotal + tax + shippingFee;
 
-    // Create the order
+    // create the order entry
     const newOrder = await Order.create({
       customer_id: userId,
       totalWeight: totalWeight,
       totalPrice: total,
       deliveryCharge: shippingFee,
-      deliveryAddressId: addressId, // Use addressId from request body
-      createdAt: new Date(), // Set current timestamp
-      status: "Placed", // Initial status
-      cardId, // Save the selected card's ID
+      deliveryAddressId: addressId,
+      createdAt: new Date(),
+      status: "Placed", // order placed but not completed
+      cardId,
     });
 
-    // Create order items
+    // items in that order
     const orderItems = cart.CartItems.map((item) => ({
       order_id: newOrder.id,
-      product_id: item.Product.id, // Access product's id here
+      product_id: item.Product.id,
       quantity: item.quantity,
       price: item.Product.price,
       weight: item.Product.weight,
     }));
 
-    
-    // Save order items
     await OrderItems.bulkCreate(orderItems);
 
-    // Clear the cart after placing the order
+    // clear the items in the cart
     await Cart.destroy({ where: { customer_id: userId } });
 
-    // Return success response
     res.status(201).json({
       message: "Order created successfully.",
       order: {
@@ -90,7 +88,9 @@ const createOrder = async (req, res) => {
     });
   } catch (error) {
     console.error("Error creating order:", error);
-    res.status(500).json({ error: "An error occurred while creating the order." });
+    res
+      .status(500)
+      .json({ error: "An error occurred while creating the order." });
   }
 };
 

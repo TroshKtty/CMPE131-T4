@@ -25,7 +25,7 @@ export default function PaymentInfoPage() {
   const token =
     localStorage.getItem("token") || sessionStorage.getItem("token");
 
-  // Fetch user's saved cards
+  //user's saved cards
   useEffect(() => {
     const fetchCards = async () => {
       try {
@@ -99,7 +99,7 @@ export default function PaymentInfoPage() {
   };
 
   return (
-    <Box sx={{ display: "flex", height: "100vh", bgcolor: "#f4f5f7" }}>
+    <Box sx={{ display: "flex", height: "100vh", bgcolor: "#f4f5f7" , overflow:"hidden"}}>
       {/* Sidebar */}
       <Box
         sx={{
@@ -136,13 +136,6 @@ export default function PaymentInfoPage() {
           </Link>
           <Link
             component={RouterLink}
-            to="/accinfo/orders"
-            sx={{ color: "black", fontSize: "1.3rem" }}
-          >
-            Order History
-          </Link>
-          <Link
-            component={RouterLink}
             to="/accinfo/address"
             sx={{ color: "black", fontSize: "1.3rem" }}
           >
@@ -151,8 +144,7 @@ export default function PaymentInfoPage() {
         </Box>
       </Box>
 
-      {/* Main Content */}
-      <Box sx={{ flexGrow: 1, padding: 4 }}>
+      <Box sx={{ flexGrow: 1, padding: 4, overflowY: "scroll"}}>
         <Typography
           fontSize="2.5rem"
           fontWeight="bold"

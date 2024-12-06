@@ -7,7 +7,7 @@ const Order = require("../models/order_model");
 const OrderItem = require("../models/order_items_model");
 const Product = require("../models/product");
 
-// Get the user's card information
+// user's card information
 const cardInfo = async (req, res) => {
   try {
     const userId = req.user.user_id;
@@ -32,10 +32,10 @@ const cardInfo = async (req, res) => {
           return card.CardItems.map((cardItem) => {
             if (!cardItem) return;
 
-            const lastFourDigits = cardItem.card_number.slice(-4); // Get the last 4 digits
-            const cardType = cardItem.type; // Card type (Visa, MasterCard, etc.)
-            const expiry = cardItem.expiry; // Card expiry
-            const id = cardItem.card_item_id; // Card ID
+            const lastFourDigits = cardItem.card_number.slice(-4);
+            const cardType = cardItem.type;
+            const expiry = cardItem.expiry;
+            const id = cardItem.card_item_id;
 
             return {
               lastFourDigits,
@@ -71,10 +71,10 @@ const detectCardType = (cardNumber) => {
   const discoverRegex = /^6(?:011|5[0-9]{2})[0-9]{12}/;
 
   if (visaRegex.test(cardNumber)) return "Visa";
-  if (masterCardRegex.test(cardNumber)) return "MasterCard";
-  if (amexRegex.test(cardNumber)) return "American Express";
-  if (discoverRegex.test(cardNumber)) return "Discover";
-  return "Unknown"; // If no match is found
+  else if (masterCardRegex.test(cardNumber)) return "MasterCard";
+  else if (amexRegex.test(cardNumber)) return "American Express";
+  else if (discoverRegex.test(cardNumber)) return "Discover";
+  else return "Unknown";
 };
 
 const addCard = async (req, res) => {
@@ -94,9 +94,7 @@ const addCard = async (req, res) => {
     // detect the card type
     const cardType = detectCardType(cardNumber);
 
-    // Insert the basic card info into the `Card` table (only customer_id)
-
-    // Insert the full card info into the `CardItem` table
+    // add the card itself into the cards table
     await CardItem.create({
       card_id: card.id,
       card_number: cardNumber,
@@ -207,11 +205,11 @@ const removeAddress = async (req, res) => {
   }
 };
 
+// get all addresses for user
 const addressInfo = async (req, res) => {
   try {
     const userId = req.user.user_id;
 
-    // get all addresses for user
     const addresses = await Address.findAll({
       where: { customer_id: userId },
       include: {
@@ -243,6 +241,7 @@ const addressInfo = async (req, res) => {
   }
 };
 
+//general user info like email, phone, etc.
 const userInfo = async (req, res) => {
   try {
     const userId = req.user.user_id;
@@ -250,104 +249,99 @@ const userInfo = async (req, res) => {
 
     if (!user) return res.status(400).json({ message: "User not found" });
 
-    return res
-      .status(200)
-      .json({
-        name: user.name,
-        email: user.email,
-        phone: user.phone_no,
-        createdAt: user.created_at,
-      });
+    return res.status(200).json({
+      name: user.name,
+      email: user.email,
+      phone: user.phone_no,
+      createdAt: user.created_at,
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Error" });
   }
 };
 
+//get orders and all related info - items in order and their details, card used, address, date, total price, wieght, shipping, tax
 const orderInfo = async (req, res) => {
-    const userId = req.user.user_id; // Assumes user ID is available in the request object
-  
-    try {
-      // Fetch all orders for the user with related order items, products, card, and address
-      const orders = await Order.findAll({
-        where: { customer_id: userId },
-        include: [
-          {
-            model: OrderItem,
-            include: [
-              {
-                model: Product,
-                attributes: ["id", "name", "price"], // Include product details
-              },
-            ],
-          },
-          {
-            model: CardItem,
-            attributes: ["card_number", "expiry", "type"], // Include card item details
-          },
-          {
-            model: AddressItem,
-            attributes: ["street", "city", "state", "zipcode"], // Include address item details
-          },
-        ],
-      });
-  
-      if (!orders || !orders.length) {
-        return res.status(404).json({ message: "No orders found." });
-      }
-  
-      // Format the orders for a clean API response
-      const formattedOrders = orders.map((order) => {
-        // Ensure OrderItems exist before mapping
-        const items = order.OrderItems?.map((item) => ({
-          productName: item.Product?.name || "Unknown",
-          price: item.Product?.price || 0,
-          quantity: item.quantity || 0,
-          totalPrice: (item.Product?.price || 0) * (item.quantity || 0),
-        })) || [];
-  
-        // Ensure CardItem exists
-        const cardDetails = order.CardItem
-          ? {
-              cardNumber: (order.CardItem.card_number).slice(-4) || "N/A",
-              type: order.CardItem.type || "N/A",
-            }
-          : null;
-  
-        // Ensure AddressItem exists
-        const addressDetails = order.AddressItem
-          ? {
-              street: order.AddressItem.street || "N/A",
-              city: order.AddressItem.city || "N/A",
-              state: order.AddressItem.state || "N/A",
-              zipcode: order.AddressItem.zipcode || "N/A",
-            }
-          : null;
-            const subtotal = (order.totalPrice - order.deliveryCharge) * 0.92;
-        return {
-          orderId: order.id,
-          status: order.status,
-          placedAt: order.createdAt,
-          subtotal: subtotal.toFixed(2),
-          totalPrice: order.totalPrice,
-          shippingFee: order.deliveryCharge,
-          totalWeight: order.totalWeight,
-          taxes: ( subtotal * 0.08).toFixed(2),
-          cardDetails,
-          deliveryAddress: addressDetails,
-          items,
-        };
-      });
-  
-      res.status(200).json(formattedOrders);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal Server Error" });
-    }
-  };
-  
+  const userId = req.user.user_id;
 
-// get all addresses for user
+  try {
+    const orders = await Order.findAll({
+      where: { customer_id: userId },
+      include: [
+        {
+          model: OrderItem,
+          include: [
+            {
+              model: Product,
+              attributes: ["id", "name", "price"],
+            },
+          ],
+        },
+        {
+          model: CardItem,
+          attributes: ["card_number", "expiry", "type"],
+        },
+        {
+          model: AddressItem,
+          attributes: ["street", "city", "state", "zipcode"],
+        },
+      ],
+    });
+
+    if (!orders || !orders.length) {
+      return res.status(404).json({ message: "No orders found." });
+    }
+
+    const formattedOrders = orders.map((order) => {
+      const items =
+        order.OrderItems?.map((item) => ({
+          productName: item.Product?.name || "Unknown",
+          price: item.price || 0,
+          quantity: item.quantity || 0,
+          totalPrice: (item.price || 0) * (item.quantity || 0),
+        })) || [];
+
+      const cardDetails = order.CardItem
+        ? {
+            cardNumber: order.CardItem.card_number.slice(-4) || "N/A",
+            type: order.CardItem.type || "N/A",
+          }
+        : null;
+
+      const addressDetails = order.AddressItem
+        ? {
+            street: order.AddressItem.street || "N/A",
+            city: order.AddressItem.city || "N/A",
+            state: order.AddressItem.state || "N/A",
+            zipcode: order.AddressItem.zipcode || "N/A",
+          }
+        : null;
+
+      const subtotal = (order.totalPrice - order.deliveryCharge) * 0.92;
+
+      return {
+        orderId: order.id,
+        status: order.status,
+        placedAt: order.createdAt,
+        subtotal: subtotal.toFixed(2),
+        totalPrice: order.totalPrice,
+        shippingFee: order.deliveryCharge,
+        totalWeight: order.totalWeight,
+        taxes: (subtotal * 0.08).toFixed(2),
+        cardDetails,
+        deliveryAddress: addressDetails,
+        items,
+      };
+    });
+
+    res.status(200).json(formattedOrders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   cardInfo,
   addCard,

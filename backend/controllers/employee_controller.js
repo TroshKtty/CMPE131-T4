@@ -1,54 +1,56 @@
-const Users = require("../models/auth_model"); 
+const Users = require("../models/auth_model");
 const Requests = require("../models/approval_model");
 const Order = require("../models/order_model");
 const OrderItem = require("../models/order_items_model");
 
+//employees pending approval
 const employeePendingAll = async (req, res) => {
-    try {
-        const pendingEmployees = await Users.findAll({
-            where: {
-                approved: false,
-                role: 'employee' 
-            },
-            attributes: ["user_id", "name", "email", "role", "created_at"],
-        });
-        res.status(200).json({ pending_users: pendingEmployees });
-    } catch (err) {
-        res.status(500).json({ message: "Something went wrong" });
-    }
-};
-  
-
-const employeeApprovedUsers = async (req, res) => {
   try {
-    const user_history = await Requests.findAll({
+    const pendingEmployees = await Users.findAll({
       where: {
-        decision: true,
-        role: 'employee' 
-      }
+        approved: false,
+        role: "employee",
+      },
+      attributes: ["user_id", "name", "email", "role", "created_at"],
     });
-    res.status(200).json({ employee_history: user_history }); 
+    res.status(200).json({ pending_users: pendingEmployees });
   } catch (err) {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
 
+//employees approved in the past
+const employeeApprovedUsers = async (req, res) => {
+  try {
+    const user_history = await Requests.findAll({
+      where: {
+        decision: true,
+        role: "employee",
+      },
+    });
+    res.status(200).json({ employee_history: user_history });
+  } catch (err) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+//function to approve or deny employees access requests
 const employeeDecision = async (req, res) => {
   const { requester_id, decision, decision_date, user_id_approver } = req.body;
   try {
     const approver = await Users.findOne({
       where: { user_id: user_id_approver },
-      attributes: ["name"]
+      attributes: ["name"],
     });
     const requester = await Users.findOne({
       where: { user_id: requester_id },
-      attributes: ["user_id", "role", "name"]
+      attributes: ["user_id", "role", "name"],
     });
     requester.approved = decision;
     await requester.save();
 
     const existingRequest = await Requests.findOne({
-      where: { user_id: requester_id }
+      where: { user_id: requester_id },
     });
 
     if (existingRequest) {
@@ -77,6 +79,7 @@ const employeeDecision = async (req, res) => {
   }
 };
 
+//take away employees access post approval
 const employeeRevokeAccess = async (req, res) => {
   try {
     const { id } = req.body;
@@ -96,12 +99,12 @@ const getOrders = async (req, res) => {
     const orders = await Order.findAll({
       include: [
         {
-          model: OrderItem, 
-          attributes: ['product_id', 'price', 'quantity'],
+          model: OrderItem,
+          attributes: ["product_id", "price", "quantity"],
         },
         {
           model: Users,
-          attributes: ['name'],
+          attributes: ["name"],
         },
       ],
     });
@@ -117,41 +120,48 @@ const getOrders = async (req, res) => {
 
     res.status(200).json(formattedOrders);
   } catch (error) {
-    console.error('Error fetching orders:', error);
-    res.status(500).json({ message: 'Error fetching orders' });
+    console.error("Error fetching orders:", error);
+    res.status(500).json({ message: "Error fetching orders" });
   }
 };
 
-// Update order status
+// function to signify a completed/delivered order
 const updateOrderStatus = async (req, res) => {
   const { orderId, status } = req.body;
 
   try {
-    // Validate status
-    if (status !== 'Completed') {
-      return res.status(400).json({ message: 'Invalid status update' });
+    if (status !== "Completed") {
+      return res.status(400).json({ message: "Invalid status update" });
     }
 
     const order = await Order.findByPk(orderId);
 
     if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
+      return res.status(404).json({ message: "Order not found" });
     }
 
-    if (order.status !== 'Placed') {
-      return res.status(400).json({ message: 'Only "placed" orders can be updated' });
+    if (order.status !== "Placed") {
+      return res
+        .status(400)
+        .json({ message: 'Only "placed" orders can be updated' });
     }
 
-    // Update the status
+    // update the status
     order.status = status;
     await order.save();
 
-    res.status(200).json({ message: 'Order status updated successfully' });
+    res.status(200).json({ message: "Order status updated successfully" });
   } catch (error) {
-    console.error('Error updating order status:', error);
-    res.status(500).json({ message: 'Error updating order status' });
+    console.error("Error updating order status:", error);
+    res.status(500).json({ message: "Error updating order status" });
   }
 };
 
-
-module.exports = { employeePendingAll, employeeDecision, employeeApprovedUsers, employeeRevokeAccess, getOrders, updateOrderStatus, };
+module.exports = {
+  employeePendingAll,
+  employeeDecision,
+  employeeApprovedUsers,
+  employeeRevokeAccess,
+  getOrders,
+  updateOrderStatus,
+};

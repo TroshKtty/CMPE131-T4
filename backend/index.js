@@ -1,20 +1,26 @@
 require("dotenv").config();
 
+//database
 const sequelize = require("./config");
 const express = require("express");
+
 const cors = require("cors");
 
+//routes
 const auth_route = require("./routes/auth_routes");
 const pending_route = require("./routes/pending_routes");
 const employeeRoutes = require('./routes/employee_routes');
 const productRoute = require("./routes/product");
 const cartRoute = require("./routes/cart_route");
-const Product = require("./models/product");
 const checkoutRoute = require("./routes/checkout_route");
-const { auth, verifyPermission } = require("./middleware/auth");
-const cookieParser = require('cookie-parser');
 const userInfoRoute = require("./routes/userInfo_route");
 
+const cookieParser = require('cookie-parser');
+
+//middleware
+const { auth, verifyPermission } = require("./middleware/auth");
+
+//model associations + syncing
 const { setupAssociations } = require("./models/index");
 
 
@@ -40,6 +46,7 @@ app.use("/cart", auth, verifyPermission("customer"), cartRoute);
 app.use("/checkout", auth, verifyPermission("customer"), checkoutRoute);
 app.use("/userInfo", auth, userInfoRoute);
 
+//start the server
 async function startServer() {
   try {
     await sequelize.authenticate();
