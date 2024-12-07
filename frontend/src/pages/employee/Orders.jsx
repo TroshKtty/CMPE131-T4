@@ -101,7 +101,7 @@ const EmployeeOrderPage = () => {
                       <Typography>Items:</Typography>
                       {order.items.map((item, index) => (
                         <Typography key={index}>
-                          {item.product_id} - ${item.price} x {item.quantity}
+                          {item?.product_id || null} - ${item?.price || null} x {item?.quantity || null}
                         </Typography>
                       ))}
                       {order.status === "Placed" && (
