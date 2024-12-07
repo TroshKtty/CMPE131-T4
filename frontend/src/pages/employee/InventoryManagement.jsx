@@ -177,16 +177,17 @@ const InventoryManagement = () => {
     }
   };
 
-  const handleNumberInput = (e, fn, item, field) => {
+  const handleNumberInput = (e, fn, obj, field) => {
     let value = Number.parseFloat(e.target.value) || 0;
     if (field === "quantity") {
       value = Number.parseInt(e.target.value, 10) || 0;
     }
 
     if (value >= 0) {
-      fn({ ...item, [field]: value });
+      fn({ ...obj, [field]: value });
       setError("");
     } else {
+      // Titlecase the field name
       setError(
         `${
           field.charAt(0).toUpperCase() + field.slice(1).toLowerCase()
